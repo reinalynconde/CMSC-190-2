@@ -1,0 +1,48 @@
+<div>
+  <sui-progress class="indicating" [value]=100 [showProgress]=true [maximum]=100 [precision]=0>
+    Image analysis done.
+  </sui-progress>
+
+  <div class="ui segment">
+    <sui-progress class="indicating" [value]=100 [showProgress]=true [maximum]=100 [precision]=0>
+      Feature extraction done.
+    </sui-progress>
+
+    <sui-progress class="indicating" [value]=100 [showProgress]=true [maximum]=100 [precision]=0>
+      Matching done.
+    </sui-progress>
+  </div>
+
+  <sui-progress class="indicating" [value]=100 [showProgress]=true [maximum]=100 [precision]=0>
+    Reconstruction done.
+  </sui-progress>
+
+  <div class="ui segment">
+    <sui-progress class="indicating" [value]="add_mesh_value" [showProgress]=true [maximum]=100 [precision]=0>
+        {{add_mesh}}
+    </sui-progress>
+
+    <div class="ui small form">
+        <div class="field">
+            <label>Value</label>
+            <div class="ui action input">
+                <input type="number" [(ngModel)]="add_mesh_value">
+
+                <button class="ui green icon button" (click)="add(10)">
+                    <i class="plus icon"></i>
+                </button>
+                <!-- <button class="ui red icon button" (click)="subtract(10)">
+                    <i class="minus icon"></i>
+                </button> -->
+            </div>
+        </div>
+    </div>
+  </div>
+
+</div>
+
+<sui-dimmer class="inverted page" [(isDimmed)]="dim_for_load">
+  <h2 class="ui header">
+    <div class="ui text loader">Finishing up...</div>
+  </h2>
+</sui-dimmer>

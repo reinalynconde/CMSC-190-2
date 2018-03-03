@@ -1,0 +1,33 @@
+<div *ngIf="input_page; else processing">
+  <div>
+    <form class="ui form">
+      <div class="two fields">
+        <div class="field">
+          <label>Focal_Length</label>
+          <input [(ngModel)]="focal_length" name="focal_length" placeholder="EXIF Focal Length of Images" type="number">
+        </div>
+        <div class="field">
+          <label>Sensor_Size</label>
+          <input [(ngModel)]="sensor_size" name="sensor_size" placeholder="Camera's Sensor Size" type="number">
+        </div>
+      </div>
+      <!-- <div class="ui centered grid">
+        <div class="ui teal button" tabindex="0" (click)="button_click()">{{button_label}}</div>
+
+      </div> -->
+    </form>
+  </div>
+  
+  <div class="ui tertiary inverted yellow segment">
+    <div class="tips">
+      <br>
+      <p-fileUpload name="myfile[]" previewWidth=200 multiple="multiple"
+      accept="image/*" customUpload="true" (uploadHandler)="onUpload($event)"></p-fileUpload>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #processing>
+  <router-outlet></router-outlet>
+</ng-template>
