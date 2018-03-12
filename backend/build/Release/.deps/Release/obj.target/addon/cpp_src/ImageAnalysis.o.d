@@ -1,4 +1,4 @@
-cmd_Release/obj.target/addon/cpp_src/ImageAnalysis.o := g++ '-DNODE_GYP_MODULE_NAME=addon' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DBUILDING_NODE_EXTENSION' -I/home/joy/.node-gyp/6.13.1/include/node -I/home/joy/.node-gyp/6.13.1/src -I/home/joy/.node-gyp/6.13.1/deps/uv/include -I/home/joy/.node-gyp/6.13.1/deps/v8/include -I/home/joy/Documents/openMVG_Build/openMVG_install/include -I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG_dependencies -I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG_dependencies/cereal/include -I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen -I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/flann/src/cpp -I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -std=c++11 -O3 -fno-omit-frame-pointer -std=gnu++0x -MMD -MF ./Release/.deps/Release/obj.target/addon/cpp_src/ImageAnalysis.o.d.raw   -c -o Release/obj.target/addon/cpp_src/ImageAnalysis.o ../cpp_src/ImageAnalysis.cpp
+cmd_Release/obj.target/addon/cpp_src/ImageAnalysis.o := g++ '-DNODE_GYP_MODULE_NAME=addon' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DBUILDING_NODE_EXTENSION' -I/home/joy/.node-gyp/6.13.1/include/node -I/home/joy/.node-gyp/6.13.1/src -I/home/joy/.node-gyp/6.13.1/deps/uv/include -I/home/joy/.node-gyp/6.13.1/deps/v8/include -I/usr/include -I/home/joy/Documents/openMVG_Build/openMVG_install/include -I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG_dependencies -I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG_dependencies/cereal/include -I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen -I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/flann/src/cpp -I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -std=c++11 -O3 -fno-omit-frame-pointer -std=gnu++0x -MMD -MF ./Release/.deps/Release/obj.target/addon/cpp_src/ImageAnalysis.o.d.raw   -c -o Release/obj.target/addon/cpp_src/ImageAnalysis.o ../cpp_src/ImageAnalysis.cpp
 Release/obj.target/addon/cpp_src/ImageAnalysis.o: \
  ../cpp_src/ImageAnalysis.cpp \
  /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/image/image_io.hpp \
@@ -182,59 +182,6 @@ Release/obj.target/addon/cpp_src/ImageAnalysis.o: \
  /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/exif/exif_IO_EasyExif.hpp \
  /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/exif/exif_IO.hpp \
  /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/easyexif/exif.h \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/cameras/Camera_Common.hpp \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/cameras/Camera_Pinhole.hpp \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/cameras/Camera_Intrinsics.hpp \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/geometry/pose3.hpp \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/multiview/projection.hpp \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/numeric/eigen_alias_definition.hpp \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/SparseCore \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseUtil.h \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseMatrixBase.h \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/../plugins/CommonCwiseUnaryOps.h \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/../plugins/CommonCwiseBinaryOps.h \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/../plugins/MatrixCwiseUnaryOps.h \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/../plugins/MatrixCwiseBinaryOps.h \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/../plugins/BlockMethods.h \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseAssign.h \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/CompressedStorage.h \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/AmbiVector.h \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseCompressedBase.h \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseMatrix.h \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseMap.h \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/MappedSparseMatrix.h \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseVector.h \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseRef.h \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseCwiseUnaryOp.h \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseCwiseBinaryOp.h \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseTranspose.h \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseBlock.h \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseDot.h \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseRedux.h \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseView.h \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseDiagonalProduct.h \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/ConservativeSparseSparseProduct.h \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseSparseProductWithPruning.h \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseProduct.h \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseDenseProduct.h \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseSelfAdjointView.h \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseTriangularView.h \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/TriangularSolver.h \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparsePermutation.h \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseFuzzy.h \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseSolverBase.h \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/StdVector \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/StlSupport/StdVector.h \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/StlSupport/details.h \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/numeric/numeric.h \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/stl/hash.hpp \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/cameras/cameras.hpp \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/cameras/Camera_Pinhole_Radial.hpp \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/cameras/Camera_Pinhole_Brown.hpp \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/cameras/Camera_Pinhole_Fisheye.hpp \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/cameras/Camera_Spherical.hpp \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/cameras/Camera_undistort_image.hpp \
- /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/image/sample.hpp \
  /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/stlplus3/filesystemSimplified/file_system.hpp \
  /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/stlplus3/filesystemSimplified/./portability_fixes.hpp \
  /home/joy/.node-gyp/6.13.1/include/node/node.h \
@@ -424,59 +371,6 @@ Release/obj.target/addon/cpp_src/ImageAnalysis.o: \
 /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/exif/exif_IO_EasyExif.hpp:
 /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/exif/exif_IO.hpp:
 /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/easyexif/exif.h:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/cameras/Camera_Common.hpp:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/cameras/Camera_Pinhole.hpp:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/cameras/Camera_Intrinsics.hpp:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/geometry/pose3.hpp:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/multiview/projection.hpp:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/numeric/eigen_alias_definition.hpp:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/SparseCore:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseUtil.h:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseMatrixBase.h:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/../plugins/CommonCwiseUnaryOps.h:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/../plugins/CommonCwiseBinaryOps.h:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/../plugins/MatrixCwiseUnaryOps.h:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/../plugins/MatrixCwiseBinaryOps.h:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/../plugins/BlockMethods.h:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseAssign.h:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/CompressedStorage.h:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/AmbiVector.h:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseCompressedBase.h:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseMatrix.h:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseMap.h:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/MappedSparseMatrix.h:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseVector.h:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseRef.h:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseCwiseUnaryOp.h:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseCwiseBinaryOp.h:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseTranspose.h:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseBlock.h:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseDot.h:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseRedux.h:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseView.h:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseDiagonalProduct.h:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/ConservativeSparseSparseProduct.h:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseSparseProductWithPruning.h:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseProduct.h:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseDenseProduct.h:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseSelfAdjointView.h:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseTriangularView.h:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/TriangularSolver.h:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparsePermutation.h:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseFuzzy.h:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/SparseCore/SparseSolverBase.h:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/StdVector:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/StlSupport/StdVector.h:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/src/StlSupport/details.h:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/numeric/numeric.h:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/stl/hash.hpp:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/cameras/cameras.hpp:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/cameras/Camera_Pinhole_Radial.hpp:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/cameras/Camera_Pinhole_Brown.hpp:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/cameras/Camera_Pinhole_Fisheye.hpp:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/cameras/Camera_Spherical.hpp:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/cameras/Camera_undistort_image.hpp:
-/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/image/sample.hpp:
 /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/stlplus3/filesystemSimplified/file_system.hpp:
 /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/stlplus3/filesystemSimplified/./portability_fixes.hpp:
 /home/joy/.node-gyp/6.13.1/include/node/node.h:

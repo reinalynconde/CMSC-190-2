@@ -13,8 +13,8 @@ var users = require('./routes/users');
 //C++ thing trial
 const addon = require('./build/Release/addon');
 
-console.log(addon.analyze("/home/joy/Documents/cmsc190.1/Trials/images/pattern",
-  "/home/joy/Documents/cmsc190.1/Trials/images/pattern/output", 3.7, 4.7));
+addon.preprocess("/home/joy/Documents/cmsc190.1/Trials/images/pattern",
+  "/home/joy/Documents/cmsc190.1/Trials/images/pattern/output", 3.7, 4.7);
 /*const { spawn } = require('child_process');
 const reconstruct = spawn('/home/joy/openMVG_Build/Linux-x86_64-RELEASE/combined', []);
 

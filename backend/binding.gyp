@@ -29,12 +29,14 @@
           # "<@(OPENMVG_LIBRARIES)"
         ],
         "ldflags": [
+          "-L/usr/local/lib",
           "-L/home/joy/Documents/openMVG_Build/openMVG_install/lib",
           "-Wl,-rpath,/home/joy/Documents/openMVG_Build/openMVG_install/lib"
         ]
       },
       "include_dirs": [
         # "<@(OPENMVG_INCLUDE_DIRS)"
+        "/usr/include",
         "/home/joy/Documents/openMVG_Build/openMVG_install/include",
         "/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG_dependencies",
         "/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG_dependencies/cereal/include",

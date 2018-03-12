@@ -5,9 +5,6 @@
 
 #include "openMVG/image/image_io.hpp"
 #include "openMVG/exif/exif_IO_EasyExif.hpp"
-#include "openMVG/cameras/Camera_Common.hpp"
-#include "openMVG/cameras/Camera_Pinhole.hpp"
-#include "openMVG/cameras/cameras.hpp"
 
 #include "third_party/stlplus3/filesystemSimplified/file_system.hpp"
 
@@ -20,11 +17,14 @@
 #include <node.h>
 
 using namespace cv;
+using namespace openMVG::image;
+using namespace openMVG::exif;
 using namespace std;
+using namespace stlplus;
 using namespace v8;
 
 int checkFolders(string input, string output) {
-  if (!stlplus::folder_exists(input)) {
+  if (!folder_exists(input)) {
       cerr << "\nThe input directory does not exist" << endl;
       return EXIT_FAILURE;
   }
@@ -34,10 +34,10 @@ int checkFolders(string input, string output) {
       return EXIT_FAILURE;
   }
 
-  if (!stlplus::folder_exists(output)) {
+  if (!folder_exists(output)) {
     cout << "Output directory does not exist. Will try to create now..."
       << endl;
-    if (!stlplus::folder_create(output)) {
+    if (!folder_create(output)) {
         cerr << "\nCannot create output directory" << endl;
         return EXIT_FAILURE;
     }
@@ -46,7 +46,7 @@ int checkFolders(string input, string output) {
   return EXIT_SUCCESS;
 }
 
-void analyze(const FunctionCallbackInfo<Value>& args) {
+void preprocess(const FunctionCallbackInfo<Value>& args) {
   //process input arguments
   Isolate* isolate = args.GetIsolate();
 
@@ -69,7 +69,7 @@ void analyze(const FunctionCallbackInfo<Value>& args) {
     return;
 
   //get images
-  vector<string> images = stlplus::folder_files(inputDir);
+  vector<string> images = folder_files(inputDir);
   sort(images.begin(), images.end());
 
   // double width, height, ppx, ppy, focal;
@@ -80,27 +80,25 @@ void analyze(const FunctionCallbackInfo<Value>& args) {
     iter_image = images.begin();
     iter_image != images.end(); iter_image++) {
 
-    const string fullFilename = stlplus::create_filespec(inputDir, 
+    const string fullFilename = create_filespec(inputDir, 
       *iter_image);
-    const string filenamePart = stlplus::filename_part(fullFilename);
+    const string filenamePart = filename_part(fullFilename);
 
     //check validity of image format
-    if(openMVG::image::GetFormat(fullFilename.c_str()) == 
-      openMVG::image::Unknown) {
+    if(GetFormat(fullFilename.c_str()) == Unknown) {
       error_report_stream << filenamePart << ": Unkown image file format." 
         << "\n";
       continue;
     }
 
     //read image header
-    openMVG::image::ImageHeader imgHeader;
+    ImageHeader imgHeader;
 
-    if(!openMVG::image::ReadImageHeader(fullFilename.c_str(), &imgHeader))
+    if(!ReadImageHeader(fullFilename.c_str(), &imgHeader))
       continue;
 
     //parse EXIF data of the image
-    unique_ptr<openMVG::exif::Exif_IO>
-      exifReader(new openMVG::exif::Exif_IO_EasyExif);
+    unique_ptr<Exif_IO> exifReader(new Exif_IO_EasyExif);
     exifReader->open(fullFilename);
 
     const bool hasValidExifMetadata = exifReader->doesHaveExifInfo()
@@ -117,41 +115,34 @@ void analyze(const FunctionCallbackInfo<Value>& args) {
         cerr << "Image is empty." << endl;
         return;
     }
-    cout << "a" << endl;
+    
     vector<Mat> channels;
-    cout << "a" << endl;
-    Mat conv(image);
-    cout << "a" << endl;
-    Mat output(image);
-    cout << "a" << endl;
+    Mat conv;
+    Mat output;
+
     cvtColor(image, conv, COLOR_BGR2Lab);
-    cout << "b" << endl;
     split(conv, channels);
 
-    cout << "Applying CLAHE..." << endl;
-    Ptr<CLAHE> clahe = createCLAHE(2.0, Size(8,8));
-    cout << "c" << endl;
+    std::cout << "Applying CLAHE..." << std::endl;
+    Ptr<CLAHE> clahe = createCLAHE(2.0, cv::Size(8,8));
     clahe->apply(channels[0], channels[0]);
-    cout << "d" << endl;
+
     merge(channels, conv);
-    cout << "e" << endl;
     cvtColor(conv, conv, COLOR_Lab2BGR);
 
-    cout << "Applying bilateral filter..." << endl;
+    std::cout << "Applying bilateral filter..." << std::endl;
     //bilateral filter is used to remove unwanted noise while preserving edges
     bilateralFilter(conv, output, 5, 50.0, 50.0, BORDER_DEFAULT);
-    cout << "f" << endl;
 
     cout << "Writing image: " << outputDir << "/" << *iter_image << "...\n" << endl;
     imwrite(outputDir + "/" + *iter_image, output);
-    cout << "g" << endl;
   }
   
   return;
 }
 
 void init(Local<Object> exports) {
-  NODE_SET_METHOD(exports, "analyze", analyze);
+  NODE_SET_METHOD(exports, "preprocess", preprocess);
 }
 
 NODE_MODULE(NODE_GYP_MODULE_NAME, init)

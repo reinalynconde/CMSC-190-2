@@ -37,6 +37,7 @@ INCS_Debug := \
 	-I/home/joy/.node-gyp/6.13.1/src \
 	-I/home/joy/.node-gyp/6.13.1/deps/uv/include \
 	-I/home/joy/.node-gyp/6.13.1/deps/v8/include \
+	-I/usr/include \
 	-I/home/joy/Documents/openMVG_Build/openMVG_install/include \
 	-I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG_dependencies \
 	-I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG_dependencies/cereal/include \
@@ -77,6 +78,7 @@ INCS_Release := \
 	-I/home/joy/.node-gyp/6.13.1/src \
 	-I/home/joy/.node-gyp/6.13.1/deps/uv/include \
 	-I/home/joy/.node-gyp/6.13.1/deps/v8/include \
+	-I/usr/include \
 	-I/home/joy/Documents/openMVG_Build/openMVG_install/include \
 	-I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG_dependencies \
 	-I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG_dependencies/cereal/include \
@@ -115,6 +117,7 @@ LDFLAGS_Debug := \
 	-pthread \
 	-rdynamic \
 	-m64 \
+	-L/usr/local/lib \
 	-L/home/joy/Documents/openMVG_Build/openMVG_install/lib \
 	-Wl,-rpath,/home/joy/Documents/openMVG_Build/openMVG_install/lib
 
@@ -122,6 +125,7 @@ LDFLAGS_Release := \
 	-pthread \
 	-rdynamic \
 	-m64 \
+	-L/usr/local/lib \
 	-L/home/joy/Documents/openMVG_Build/openMVG_install/lib \
 	-Wl,-rpath,/home/joy/Documents/openMVG_Build/openMVG_install/lib
 
