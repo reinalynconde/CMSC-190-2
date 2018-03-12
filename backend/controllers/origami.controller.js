@@ -1,7 +1,7 @@
 // Accessing the Service that we just created
 
 var OrigamiService = require('../services/origami.service');
-var FileSaver = require('file-saver');
+var fs = require('fs');
 
 // Saving the context of this module inside the _the variable
 
@@ -44,21 +44,18 @@ exports.addData = function(req, res, next){
 
 exports.upload = function(req, res, next) {
   try {
-
-    var files = req.body;
+    var files = req.files;
 
     for(var i = 0; i < files.length; i++) {
-      var image = files[i].objectURL.changingThisBreaksApplicationSecurity;
-      console.log(image);
-      FileSaver.saveAs(image, "../controllers/uploads/" + i + ".png");
+      var image = files[i];
+
+      fs.rename(image.path, "uploads/" + image.originalname, function(err) {
+        if (err) res.status(400).json({status: 400, message: "Upload failed"});
+      });
     }
 
-    return res.status(201).json({status: 201, data: "hiii", message: "Succesfully uploaded image"});
-  } catch (e) {
-      
-//Return an Error Response Message with Code and the Error Message.
-      
-   return res.status(400).json({status: 400, message: e.message});
-      
+    res.status(201).json({status: 201, message: "Succesfully uploaded image"});
+  } catch (e) {      
+    return res.status(400).json({status: 400, message: e.message});
   }
 }
