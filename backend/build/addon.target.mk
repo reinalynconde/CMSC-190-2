@@ -87,7 +87,7 @@ INCS_Release := \
 	-I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG
 
 OBJS := \
-	$(obj).target/$(TARGET)/cpp_src/ImageAnalysis.o
+	$(obj).target/$(TARGET)/cpp_src/Reconstruction.o
 
 # Add to the list of files we specially track dependencies for.
 all_deps += $(OBJS)
@@ -130,10 +130,19 @@ LDFLAGS_Release := \
 	-Wl,-rpath,/home/joy/Documents/openMVG_Build/openMVG_install/lib
 
 LIBS := \
+	-lopencv_calib3d \
 	-lopencv_core \
+	-lopencv_contrib \
+	-lopencv_features2d \
+	-lopencv_flann \
+	-lopencv_gpu \
+	-lopencv_highgui \
 	-lopencv_imgproc \
 	-lopencv_imgcodecs \
-	-lopencv_highgui \
+	-lopencv_legacy \
+	-lopencv_ml \
+	-lopencv_objdetect \
+	-lopencv_xfeatures2d \
 	-lopenMVG_image \
 	-lopenMVG_features \
 	-lopenMVG_geometry \
@@ -146,6 +155,7 @@ LIBS := \
 	-lopenMVG_sfm \
 	-llemon \
 	-lstlplus \
+	-lvlsift \
 	-leasyexif
 
 $(obj).target/addon.node: GYP_LDFLAGS := $(LDFLAGS_$(BUILDTYPE))

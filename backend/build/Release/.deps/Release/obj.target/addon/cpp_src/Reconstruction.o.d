@@ -1,6 +1,6 @@
-cmd_Release/obj.target/addon/cpp_src/ImageAnalysis.o := g++ '-DNODE_GYP_MODULE_NAME=addon' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DBUILDING_NODE_EXTENSION' -I/home/joy/.node-gyp/6.13.1/include/node -I/home/joy/.node-gyp/6.13.1/src -I/home/joy/.node-gyp/6.13.1/deps/uv/include -I/home/joy/.node-gyp/6.13.1/deps/v8/include -I/usr/include -I/home/joy/Documents/openMVG_Build/openMVG_install/include -I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG_dependencies -I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG_dependencies/cereal/include -I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen -I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/flann/src/cpp -I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -std=c++11 -O3 -fno-omit-frame-pointer -std=gnu++0x -MMD -MF ./Release/.deps/Release/obj.target/addon/cpp_src/ImageAnalysis.o.d.raw   -c -o Release/obj.target/addon/cpp_src/ImageAnalysis.o ../cpp_src/ImageAnalysis.cpp
-Release/obj.target/addon/cpp_src/ImageAnalysis.o: \
- ../cpp_src/ImageAnalysis.cpp \
+cmd_Release/obj.target/addon/cpp_src/Reconstruction.o := g++ '-DNODE_GYP_MODULE_NAME=addon' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DBUILDING_NODE_EXTENSION' -I/home/joy/.node-gyp/6.13.1/include/node -I/home/joy/.node-gyp/6.13.1/src -I/home/joy/.node-gyp/6.13.1/deps/uv/include -I/home/joy/.node-gyp/6.13.1/deps/v8/include -I/usr/include -I/home/joy/Documents/openMVG_Build/openMVG_install/include -I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG_dependencies -I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG_dependencies/cereal/include -I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen -I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/flann/src/cpp -I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -std=c++11 -O3 -fno-omit-frame-pointer -std=gnu++0x -MMD -MF ./Release/.deps/Release/obj.target/addon/cpp_src/Reconstruction.o.d.raw   -c -o Release/obj.target/addon/cpp_src/Reconstruction.o ../cpp_src/Reconstruction.cpp
+Release/obj.target/addon/cpp_src/Reconstruction.o: \
+ ../cpp_src/Reconstruction.cpp \
  /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/image/image_io.hpp \
  /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/image/image_container.hpp \
  /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/Dense \
@@ -189,7 +189,7 @@ Release/obj.target/addon/cpp_src/ImageAnalysis.o: \
  /home/joy/.node-gyp/6.13.1/include/node/v8-version.h \
  /home/joy/.node-gyp/6.13.1/include/node/v8config.h \
  /home/joy/.node-gyp/6.13.1/include/node/node_version.h
-../cpp_src/ImageAnalysis.cpp:
+../cpp_src/Reconstruction.cpp:
 /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/image/image_io.hpp:
 /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/image/image_container.hpp:
 /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/Dense:

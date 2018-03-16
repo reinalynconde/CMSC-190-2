@@ -6,13 +6,22 @@
   "targets": [
     {
       "target_name": "addon",
-      "sources": [ "cpp_src/ImageAnalysis.cpp" ],
+      "sources": [ "cpp_src/Reconstruction.cpp" ],
       "link_settings": {
         "libraries": [
+          "-lopencv_calib3d",
           "-lopencv_core",
+          "-lopencv_contrib",
+          "-lopencv_features2d",
+          "-lopencv_flann",
+          "-lopencv_gpu",
+          "-lopencv_highgui",
           "-lopencv_imgproc",
           "-lopencv_imgcodecs",
-          "-lopencv_highgui",
+          "-lopencv_legacy",
+          "-lopencv_ml",
+          "-lopencv_objdetect",
+          "-lopencv_xfeatures2d",
           "-lopenMVG_image",
           "-lopenMVG_features",
           "-lopenMVG_geometry",
@@ -25,6 +34,7 @@
           "-lopenMVG_sfm",
           "-llemon",
           "-lstlplus",
+          "-lvlsift",
           "-leasyexif"
           # "<@(OPENMVG_LIBRARIES)"
         ],
