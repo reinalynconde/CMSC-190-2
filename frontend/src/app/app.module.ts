@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { NgIf } from '@angular/common';
 // import { Editor3DModule } from 'ng2-3d-editor';
 import { CommonModule } from '@angular/common';
-// import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { FormsModule } from '@angular/forms';
 import { SuiModule } from 'ng2-semantic-ui';
 import { AppRoutingModule } from './/app-routing.module';
@@ -40,4 +40,4 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 })
 export class AppModule { }
  
-// platformBrowserDynamic().bootstrapModule(AppModule);
+platformBrowserDynamic().bootstrapModule(AppModule);

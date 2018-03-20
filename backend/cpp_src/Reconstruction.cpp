@@ -12,6 +12,7 @@
 #include "openMVG/matching/regions_matcher.hpp"
 #include "openMVG/exif/exif_IO_EasyExif.hpp"
 #include "openMVG/multiview/solver_fundamental_kernel.hpp"
+#include "openMVG/multiview/triangulation.hpp"
 #include "openMVG/numeric/eigen_alias_definition.hpp"
 #include "openMVG/robust_estimation/robust_estimator_ACRansac.hpp"
 #include "openMVG/robust_estimation/robust_estimator_ACRansacKernelAdaptator.hpp"
@@ -62,7 +63,8 @@ int checkFolders(string input, string output) {
   return EXIT_SUCCESS;
 }
 
-cv::Mat preprocess(string fullFilename, string outputDir, vector<string>::const_iterator iter_image) {
+cv::Mat preprocess(string fullFilename, string outputDir,
+  vector<string>::const_iterator iter_image) {
   //read image
   std::cout << "Reading image: " << fullFilename << "..." << endl;
   cv::Mat image = imread(fullFilename, CV_LOAD_IMAGE_COLOR);
@@ -96,7 +98,8 @@ cv::Mat preprocess(string fullFilename, string outputDir, vector<string>::const_
   return output;
 }
 
-void detectFeatures(Ptr<Feature2D> sift, cv::Mat img, vector<vector<KeyPoint>> &kps, vector<cv::Mat> &dss) {
+void detectFeatures(Ptr<Feature2D> sift, cv::Mat img, 
+  vector<vector<KeyPoint>> &kps, vector<cv::Mat> &dss) {
   std::cout << "Detecting features..." << endl;
   vector<KeyPoint> kp;
   cv::Mat ds;
@@ -111,7 +114,9 @@ void detectFeatures(Ptr<Feature2D> sift, cv::Mat img, vector<vector<KeyPoint>> &
   std::cout << "features exit" << endl;
 }
 
-openMVG::Mat robust_fundamental(Image<unsigned char> img1, Image<unsigned char> img2) {
+vector<matching::IndMatch> robust_fundamental(Image<unsigned char> img1, 
+  Image<unsigned char> img2) {
+
   unique_ptr<Image_describer> img_desc(new SIFT_Anatomy_Image_describer);
   map<IndexT, unique_ptr<Regions>> regions_per_img;
   img_desc->Describe(img1, regions_per_img[0]);
@@ -126,7 +131,7 @@ openMVG::Mat robust_fundamental(Image<unsigned char> img1, Image<unsigned char> 
     feats_i = regions_per_img.at(0)->GetRegionsPositions(),
     feats_j = regions_per_img.at(1)->GetRegionsPositions();
 
-  vector<IndMatch> putative_matches;
+  vector<matching::IndMatch> putative_matches;
   DistanceRatioMatch(0.8, ANN_L2, *regions_per_img.at(0).get(),
     *regions_per_img.at(1).get(), putative_matches);
 
@@ -149,7 +154,7 @@ openMVG::Mat robust_fundamental(Image<unsigned char> img1, Image<unsigned char> 
   ACKernelAdaptor<
     fundamental::kernel::SevenPointSolver,
     fundamental::kernel::SymmetricEpipolarDistanceError,
-    UnnormalizerT,
+    openMVG::UnnormalizerT,
     Mat3>;
 
   KernelType kernel(
@@ -157,7 +162,7 @@ openMVG::Mat robust_fundamental(Image<unsigned char> img1, Image<unsigned char> 
   second, img2.Width(), img2.Height(),
   true); // configure as point to line error model.
 
-  openMVG::Mat F;
+  /* openMVG::Mat F;
   const pair<double,double> ACRansacOut = ACRANSAC(kernel, inliers, 1024, &F,
   Square(4.0), // Upper bound of authorized threshold
   true);
@@ -198,12 +203,12 @@ openMVG::Mat robust_fundamental(Image<unsigned char> img1, Image<unsigned char> 
     << "\t-- Residual min:\t" << dMin << endl
     << "\t-- Residual median:\t" << dMedian << endl
     << "\t-- Residual max:\t "  << dMax << endl
-    << "\t-- Residual mean:\t " << dMean << endl;
+    << "\t-- Residual mean:\t " << dMean << endl; */
 
-  return F;
+  return putative_matches;
 }
 
-vector<openMVG::Mat> match(vector<Image<unsigned char>> imgs) {
+PairWiseMatches match(vector<Image<unsigned char>> imgs) {
   //vector<vector<DMatch>> match(vector<Mat> dss) {
   std::cout << "Mathing images..." << endl;
   /* vector<vector<DMatch>> m;
@@ -215,15 +220,32 @@ vector<openMVG::Mat> match(vector<Image<unsigned char>> imgs) {
   }
    */
 
-  vector<openMVG::Mat> f_matrices;
-  for(int i = 0; i < imgs.size(); i++) {
-    for(int j = 0; j < imgs.size(); j++) {
-      f_matrices.push_back(robust_fundamental(imgs.at(i), imgs.at(j)));
+  Pair_Set pairs = exhaustivePairs(imgs.size());
+
+  using Map_vectorT = std::map<IndexT, std::vector<IndexT>>;
+  Map_vectorT map_Pairs;
+  for (Pair_Set::const_iterator iter = pairs.begin();
+    iter != pairs.end(); ++iter) {
+    map_Pairs[iter->first].push_back(iter->second);
+  }
+
+  PairWiseMatches p_putative_matches;
+  int i = 0;
+  for(Map_vectorT::const_iterator iter = map_Pairs.begin(); 
+    iter != map_Pairs.end(); ++iter) {
+    const IndexT I = iter->first;
+    const auto & indexToCompare = iter->second;
+
+    for(int j = 0; j < (int)indexToCompare.size(); ++j) {
+      const IndexT J = indexToCompare[j];
+      p_putative_matches.insert({{I,J}, move(
+        robust_fundamental(imgs.at(i), imgs.at(j)))});
     }
+    i++;
   }
 
   std::cout << "All matches acquired!" << endl;
-  return f_matrices;
+  return p_putative_matches;
 }
 
 vector<DMatch> matchPairs(cv::Mat ds1, cv::Mat ds2) {
@@ -258,6 +280,46 @@ vector<DMatch> matchPairs(cv::Mat ds1, cv::Mat ds2) {
 
   std::cout << "Matching done!" << endl;
   return good_matches;
+}
+
+tracks::STLMAPTracks build_tracks(PairWiseMatches matches) {
+  TracksBuilder tracksBuilder;
+  tracks::STLMAPTracks map_tracks; // The track container
+  tracksBuilder.Build(matches); // Build: Efficient fusion of correspondences
+  tracksBuilder.Filter(); // Filter: Remove track that have conflict
+  tracksBuilder.ExportToSTL(map_tracks); // Build tracks with STL compliant type
+
+  //visit all the tracks
+  /* for(tracks::STLMAPTracks::const_iterator iterT = map_tracks.begin();
+    iterT != map_tracks.end(); ++ iterT) {
+    const IndexT trackId = iterT->first;
+    const tracks::submapTrack & track = iterT->second;
+    
+    for(tracks::submapTrack::const_iterator iterTrack = track.begin();
+      iterTrack != track.end(); ++iterTrack) {
+      const IndexT imageId = iterTrack->first;
+      const IndexT featId = iterTrack->second; // Get the feature point
+    }
+  } */
+  return map_tracks;
+}
+
+void select_initial_pair(vector<vector<uint32_t>> v_inliers, tracks::STLMAPTracks tracks) {
+  vector<pair<int, int>> candidates;
+  for(int i = 0; i < v_inliers.size(); i++) {
+    for(int j = i + 1; j < v_inliers.size(); j++) {
+      if (i != j && v_inliers[i].size() / v_inliers[j].size() < 0.7)
+        candidates.push_back(make_pair(i, j));
+    }
+  }
+
+  if(candidates.size() > 1) {
+    
+  }
+  
+}
+void init_reconstruction() {
+  //select initial pair
 }
 
 void reconstruct(const FunctionCallbackInfo<Value>& args) {
@@ -340,7 +402,13 @@ void reconstruct(const FunctionCallbackInfo<Value>& args) {
   }
 
   // match(vector<Mat> dss);
-  vector<openMVG::Mat> f_matrices = match(imgs);
+  PairWiseMatches putative_matches = match(imgs);
+
+  //build tracks
+  tracks::STLMAPTracks tracks = build_tracks(putative_matches);
+
+  //init reconstruction
+
   
   return;
 }

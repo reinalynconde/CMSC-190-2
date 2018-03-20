@@ -55,7 +55,7 @@ export class OrigamiService {
   readURL(len:number, file: File, imeg, div) {
     return new Promise((resolve, reject) => {
       var reader = new FileReader();
-      reader.onload = function(e) {
+      reader.onload = function(e:any) {
 
         imeg = document.createElement("img");
         imeg.setAttribute("class", "ui image");
