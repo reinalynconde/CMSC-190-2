@@ -18,7 +18,7 @@ export class LandComponent implements AfterViewInit {
 
   constructor() {
     this.scene = new THREE.Scene();
-    this.camera = new THREE.PerspectiveCamera(75, 600 / 400, 1, 10000);
+    this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
     this.camera.position.z = 1000;
 
     this.createRubixMaterial();
@@ -52,7 +52,7 @@ export class LandComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.renderer.setSize(600, 400);
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.rendererContainer.nativeElement.appendChild(this.renderer.domElement);
 
     this.animate();
@@ -60,8 +60,8 @@ export class LandComponent implements AfterViewInit {
 
   animate() {
     window.requestAnimationFrame(() => this.animate());
-      this.cube.rotation.x += 0.01;
-      this.cube.rotation.y += 0.02;
+      this.cube.rotation.x += 0.009;
+      this.cube.rotation.y += 0.008;
       this.renderer.render(this.scene, this.camera);
   }
 }
