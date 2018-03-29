@@ -1,4 +1,5 @@
 var express = require('express')
+var multer = require('multer')
 
 var router = express.Router()
 
@@ -12,7 +13,7 @@ var OrigamiController = require('../../controllers/origami.controller');
 router.get('/', OrigamiController.getOrigami)
 
 router.post('/add', OrigamiController.addData)
-router.post('/upload', OrigamiController.upload)
+router.post('/upload', multer({dest: '../../uploads'}).array("uploads"), OrigamiController.upload)
 /*
 router.post('/', ToDoController.createTodo)
 

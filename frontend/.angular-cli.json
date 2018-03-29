@@ -24,7 +24,11 @@
       ],
       "scripts": [
         "assets/semantic/dist/semantic.min.js",
-        "assets/webgl/bundle.js"
+        "assets/webgl/webgl-init.js",
+        "assets/webgl/webgl-utils.js",
+        "assets/webgl/webgl-debug.js",
+        "assets/webgl/gl-matrix-min.js",
+        "assets/js/three.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

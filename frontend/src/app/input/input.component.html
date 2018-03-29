@@ -11,21 +11,42 @@
           <input [(ngModel)]="sensor_size" name="sensor_size" placeholder="Camera's Sensor Size" type="number">
         </div>
       </div>
-      <!-- <div class="ui centered grid">
-        <div class="ui teal button" tabindex="0" (click)="button_click()">{{button_label}}</div>
-
-      </div> -->
     </form>
   </div>
   
   <div class="ui tertiary inverted yellow segment">
     <div class="tips">
-      <br>
-      <p-fileUpload name="myfile[]" previewWidth=200 multiple="multiple"
-      accept="image/*" customUpload="true" (uploadHandler)="onUpload($event)"></p-fileUpload>
+      <label class="fileContainer">
+        <input type="file" (change)="fileChangeEvent($event)" accept="image/jpg, image/png" placeholder="Upload file..." multiple />
+        <div class="ui teal button">Browse</div>
+        {{filesToUpload.length}} images selected.
+      </label>
+      <br><br>
+      <div class="ui buttons">
+        <!-- <div class="ui positive button" (click)="upload()">Upload</div> -->
+        <div class="ui positive button" (click)="upload()">Upload</div>
+        <div class="or"></div>
+        <div class="ui button" (click)="removeAll()">Cancel</div>
+      </div>
+      <br><br>
+      <div id="parent">
+        <div class="ui small images" id="images"></div>
+      </div>
     </div>
   </div>
 </div>
+
+<sui-dimmer class="inverted page" [(isDimmed)]="dim_for_load">
+  <h2 class="ui header">
+    <div class="ui text loader">Uploading...</div>
+  </h2>
+</sui-dimmer>
+
+<sui-dimmer class="inverted page" [(isDimmed)]="dim_for_add">
+  <h2 class="ui header">
+    <div class="ui indeterminate text active loader">Preparing Images...</div>
+  </h2>
+</sui-dimmer>
 
 
 <ng-template #processing>

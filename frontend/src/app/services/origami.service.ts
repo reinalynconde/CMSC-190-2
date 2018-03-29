@@ -31,8 +31,52 @@ export class OrigamiService {
     return this.http.post(`${this.origami_url}/add`, input);
   }
 
-  upload(uploaded_files: any[]) {
+  makeFileRequest(url: string, params: Array<string>, files: Array<File>) {
+    return new Promise((resolve, reject) => {
+      var formData: any = new FormData();
+      var xhr = new XMLHttpRequest();
+      for(var i = 0; i < files.length; i++) {
+        formData.append("uploads", files[i], files[i].name);
+      }
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+          if (xhr.status == 200) {
+           resolve(JSON.parse(xhr.response));
+          } else {
+            reject(xhr.response);
+          }
+        }
+      }
+      xhr.open("POST", url, true);
+      xhr.send(formData);
+    });
+  }
+
+  readURL(len:number, file: File, imeg, div) {
+    return new Promise((resolve, reject) => {
+      var reader = new FileReader();
+      reader.onload = function(e:any) {
+
+        imeg = document.createElement("img");
+        imeg.setAttribute("class", "ui image");
+        imeg.setAttribute("src", e.target.result);
+        imeg.setAttribute("alt", file.name);
+
+        div.appendChild(imeg);
+        console.log(div.childNodes.length + " hi " + len);
+        if(div.childNodes.length >= len)
+          return resolve(false);
+        else          
+          return reject(true);
+      }
+
+      reader.readAsDataURL(file);
+    });
+  }
+
+  upload(uploaded_files: File[]) {
     console.log("@ origami.service.ts");
+    console.log(uploaded_files);
     return this.http.post(`${this.origami_url}` + '/upload', uploaded_files);
   }
 
