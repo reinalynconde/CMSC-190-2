@@ -33,6 +33,11 @@
         "tuple": "cpp",
         "type_traits": "cpp",
         "typeinfo": "cpp",
-        "utility": "cpp"
-    }
+        "utility": "cpp",
+        "*.ipp": "cpp",
+        "condition_variable": "cpp",
+        "iostream": "cpp",
+        "set": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "Enabled"
 }

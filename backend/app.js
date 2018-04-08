@@ -1,37 +1,35 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var multer = require("multer");
-var fs = require('fs');
+const express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const multer = require("multer");
+const fs = require('fs');
+/* const sqlite3 = require('sqlite3').verbose();
+
+//fun fact: if an error occurs where smth in sqlite3/lib is not found,
+  //try `npm i sqlite --unsafe-perm`
+var db = new sqlite3.Database('db/origami.db', sqlite3.OPEN_READWRITE,
+  (err) => {
+
+  if(err) {
+    return console.log("Error has occured!\n" + err.message);
+  }
+
+  console.log("Connected to the in-memory SQlite database");
+});
+
+db.close((err) => {
+  if(err) {
+    return console.error(err.message);
+  }
+
+  console.log("Database connection successfully closed.");
+}); */
 
 var index = require('./routes/index');
 var users = require('./routes/users');
-
-//C++ thing trial
-const addon = require('./build/Release/addon');
-
-// addon.reconstruct("/home/joy/Documents/cmsc190.1/Trials/images/two",
-//   "/home/joy/Documents/cmsc190.1/Trials/images/two/output", 3.7, 4.7);
-/*const { spawn } = require('child_process');
-const reconstruct = spawn('/home/joy/openMVG_Build/Linux-x86_64-RELEASE/combined', []);
-
-reconstruct.stdout.on('data', (data) => {
-  console.log(`stdout: ${data}`);
-});
-
-reconstruct.stderr.on('data', (data) => {
-  console.log(`stderr: ${data}`);
-});
-
-reconstruct.on('close', (code) => {
-  console.log(`child process exited with code ${code}`);
-});*/
-
-
-//C++ thing trial (end)
 
 // Get the API route ...
 

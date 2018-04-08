@@ -32,13 +32,15 @@ exports.addData = function(data) {
 
   var focal_length = data.focal_length;
   var sensor_size = data.sensor_size;
+  var id = data.id;
 
   console.log("data: " + focal_length + " " + sensor_size);
 
   try {
     var comb = {
       focal_length,
-      sensor_size
+      sensor_size,
+      id
     }
 
     console.log("service: " + comb.focal_length);

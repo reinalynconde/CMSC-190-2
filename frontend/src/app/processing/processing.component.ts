@@ -1,4 +1,6 @@
+import { Response } from '@angular/http';
 import { Component, OnInit } from '@angular/core';
+import { OrigamiService } from '../services/origami.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -11,7 +13,27 @@ export class ProcessingComponent implements OnInit {
   add_mesh = "Mesh not done yet.";
   dim_for_load = false;
 
-  constructor(private router: Router) { }
+  constructor(private origamiService: OrigamiService, private router: Router) {
+    var p = 10;
+    while(p > 0) {
+      console.log("Processing...");
+      this.process();
+      --p;
+    }
+  }
+
+  process(): any {
+    this.origamiService.process()
+      .subscribe(res => {
+        console.log(res.data);
+        return res.data;
+      })
+      /* .then((err) => {
+        console.log(err);
+      }, (res) => {
+        console.log(res);
+      }); */
+  }
 
   start_load() {
     this.dim_for_load = true;

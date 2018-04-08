@@ -1,5 +1,5 @@
 <div *ngIf="input_page; else processing">
-  <div>
+  <!-- <div>
     <form class="ui form">
       <div class="two fields">
         <div class="field">
@@ -12,7 +12,7 @@
         </div>
       </div>
     </form>
-  </div>
+  </div> -->
   
   <div class="ui tertiary inverted yellow segment">
     <div class="tips">
@@ -23,7 +23,6 @@
       </label>
       <br><br>
       <div class="ui buttons">
-        <!-- <div class="ui positive button" (click)="upload()">Upload</div> -->
         <div class="ui positive button" (click)="upload()">Upload</div>
         <div class="or"></div>
         <div class="ui button" (click)="removeAll()">Cancel</div>
@@ -38,7 +37,7 @@
 
 <sui-dimmer class="inverted page" [(isDimmed)]="dim_for_load">
   <h2 class="ui header">
-    <div class="ui text loader">Uploading...</div>
+    <div class="ui text loader">Processing...</div>
   </h2>
 </sui-dimmer>
 

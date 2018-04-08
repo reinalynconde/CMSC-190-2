@@ -26,8 +26,8 @@ export class OrigamiService {
   }
 
   addData(input: OrigamiInput): Observable<any> {
-    //returns the observable of http post request 
-    console.log("at origami.service.ts: " + input.focal_length + " " + input.sensor_size);
+    //returns the observable of http post request
+    console.log("at"+ input.id +": " + input.focal_length + " " + input.sensor_size);
     return this.http.post(`${this.origami_url}/add`, input);
   }
 
@@ -35,6 +35,9 @@ export class OrigamiService {
     return new Promise((resolve, reject) => {
       var formData: any = new FormData();
       var xhr = new XMLHttpRequest();
+
+      console.log("hi: " + params[0])
+      
       for(var i = 0; i < files.length; i++) {
         formData.append("uploads", files[i], files[i].name);
       }
@@ -78,6 +81,28 @@ export class OrigamiService {
     console.log("@ origami.service.ts");
     console.log(uploaded_files);
     return this.http.post(`${this.origami_url}` + '/upload', uploaded_files);
+  }
+
+  process(): Observable<any> {
+    console.log("p@ origami.service.ts");
+    return this.http.post(`${this.origami_url}` + '/process', []);
+    /* return new Promise((resolve, reject) => {
+      var xhr = new XMLHttpRequest();
+      var formData: any = new FormData();
+
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+          if (xhr.status == 200) {
+           resolve(JSON.parse(xhr.response));
+          } else {
+            reject(xhr.response);
+          }
+        }
+      }
+      
+      xhr.open("POST", url, true);
+      xhr.send(formData);
+    }); */
   }
 
   private handleError(error: any): Promise<any> {
