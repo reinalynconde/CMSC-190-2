@@ -1,37 +1,14 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var multer = require("multer");
-var fs = require('fs');
+const express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const multer = require("multer");
+const fs = require('fs');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
-
-//C++ thing trial
-const addon = require('./build/Release/addon');
-
-// addon.reconstruct("/home/joy/Documents/cmsc190.1/Trials/images/two",
-//   "/home/joy/Documents/cmsc190.1/Trials/images/two/output", 3.7, 4.7);
-/*const { spawn } = require('child_process');
-const reconstruct = spawn('/home/joy/openMVG_Build/Linux-x86_64-RELEASE/combined', []);
-
-reconstruct.stdout.on('data', (data) => {
-  console.log(`stdout: ${data}`);
-});
-
-reconstruct.stderr.on('data', (data) => {
-  console.log(`stderr: ${data}`);
-});
-
-reconstruct.on('close', (code) => {
-  console.log(`child process exited with code ${code}`);
-});*/
-
-
-//C++ thing trial (end)
 
 // Get the API route ...
 
@@ -79,7 +56,8 @@ app.use(function(err, req, res, next) {
 //CORS
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "http://localhost:4200");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept");
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
   next();
 });

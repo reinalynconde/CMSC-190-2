@@ -1,36 +1,43 @@
 <div *ngIf="input_page; else processing">
-  <div>
-    <form class="ui form">
-      <div class="two fields">
-        <div class="field">
-          <label>Focal_Length</label>
-          <input [(ngModel)]="focal_length" name="focal_length" placeholder="EXIF Focal Length of Images" type="number">
-        </div>
-        <div class="field">
-          <label>Sensor_Size</label>
-          <input [(ngModel)]="sensor_size" name="sensor_size" placeholder="Camera's Sensor Size" type="number">
-        </div>
-      </div>
-    </form>
-  </div>
   
   <div class="ui tertiary inverted yellow segment">
     <div class="tips">
       <label class="fileContainer">
         <input type="file" (change)="fileChangeEvent($event)" accept="image/jpg, image/png" placeholder="Upload file..." multiple />
         <div class="ui teal button">Browse</div>
-        {{filesToUpload.length}} images selected.
+        {{uploaded.length}} images selected.
       </label>
       <br><br>
       <div class="ui buttons">
-        <!-- <div class="ui positive button" (click)="upload()">Upload</div> -->
-        <div class="ui positive button" (click)="upload()">Upload</div>
+        <button class="ui positive button" id="up" (click)="upload()">
+          Upload</button>
         <div class="or"></div>
-        <div class="ui button" (click)="removeAll()">Cancel</div>
+        <button class="ui button" id="can" (click)="removeAll()">Cancel</button>
       </div>
       <br><br>
       <div id="parent">
-        <div class="ui small images" id="images"></div>
+        <div class="ui stackable six column grid" id="images">
+
+          <div class="column"
+          *ngFor="let image of uploaded">
+            <div class="ui compact segment"
+              [@imageState]="image.state"
+              (mouseenter)="image.overlay()"
+              (mouseleave)="image.no_overlay()"
+            >
+              <img class="ui small image"
+                *ngIf="!image.hidden" [src]="image.data">
+    
+              <sui-dimmer [(isDimmed)]="image.dimmed"
+                (click)="image.toggleState(); removeOne(image)">
+                <div>
+                  <i class="trash alternate icon"><br></i>Remove?
+                </div>
+              </sui-dimmer>
+            </div>
+          </div>
+
+        </div>
       </div>
     </div>
   </div>

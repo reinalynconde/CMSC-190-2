@@ -1,12 +1,9 @@
 {
-  # "variables": {
-  #   "OPENMVG_INCLUDE_DIRS%": "/home/joy/Documents/openMVG_Build/openMVG_install/include;/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG_dependencies;/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG_dependencies/cereal/include;/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen;/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/flann/src/cpp;/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG",
-  #   "OPENMVG_LIBRARIES%": "openMVG_image;openMVG_features;openMVG_geometry;openMVG_matching;openMVG_matching_image_collection;openMVG_kvld;openMVG_multiview;openMVG_lInftyComputerVision;openMVG_system;openMVG_sfm;lemon"
-  # },
+  #   "sources": [ "cpp_src/EvenOdd.cpp" ],
   "targets": [
     {
       "target_name": "addon",
-      "sources": [ "cpp_src/Reconstruction.cpp" ],
+      "sources": [ "cpp_src/StructureFromMotion.cpp" ],
       "link_settings": {
         "libraries": [
           "-lopencv_calib3d",
@@ -35,8 +32,8 @@
           "-llemon",
           "-lstlplus",
           "-lvlsift",
-          "-leasyexif"
-          # "<@(OPENMVG_LIBRARIES)"
+          "-leasyexif",
+          "-lsqlite3"
         ],
         "ldflags": [
           "-L/usr/local/lib",
@@ -45,14 +42,16 @@
         ]
       },
       "include_dirs": [
-        # "<@(OPENMVG_INCLUDE_DIRS)"
+        "<!(node -e \"require('nan')\")", 
+        "<!(node -e \"require('streaming-worker-sdk')\")",
         "/usr/include",
         "/home/joy/Documents/openMVG_Build/openMVG_install/include",
         "/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG_dependencies",
         "/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG_dependencies/cereal/include",
         "/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen",
         "/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/flann/src/cpp",
-        "/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG"
+        "/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG",
+        "/home/joy/Documents/sp/backend/cpp_src"
       ],
       "cflags": [
         "-std=c++11"

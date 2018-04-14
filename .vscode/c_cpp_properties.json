@@ -44,7 +44,9 @@
                 "/home/joy/.node-gyp/6.13.1/src",
                 "/home/joy/.node-gyp/6.13.1/deps/uv/include",
                 "/home/joy/.node-gyp/6.13.1/deps/v8/include",
-                "${workspaceRoot}"
+                "${workspaceRoot}",
+                "${workspaceFolder}/backend/node_modules/nan",
+                "${workspaceFolder}/backend/node_modules/streaming-worker-sdk"
             ],
             "defines": [],
             "intelliSenseMode": "clang-x64",
@@ -62,7 +64,10 @@
                 ],
                 "limitSymbolsToIncludedHeaders": true,
                 "databaseFilename": ""
-            }
+            },
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c11",
+            "cppStandard": "c++14"
         },
         {
             "name": "Win32",
