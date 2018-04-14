@@ -6,27 +6,6 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const multer = require("multer");
 const fs = require('fs');
-/* const sqlite3 = require('sqlite3').verbose();
-
-//fun fact: if an error occurs where smth in sqlite3/lib is not found,
-  //try `npm i sqlite --unsafe-perm`
-var db = new sqlite3.Database('db/origami.db', sqlite3.OPEN_READWRITE,
-  (err) => {
-
-  if(err) {
-    return console.log("Error has occured!\n" + err.message);
-  }
-
-  console.log("Connected to the in-memory SQlite database");
-});
-
-db.close((err) => {
-  if(err) {
-    return console.error(err.message);
-  }
-
-  console.log("Database connection successfully closed.");
-}); */
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -77,7 +56,8 @@ app.use(function(err, req, res, next) {
 //CORS
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "http://localhost:4200");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept");
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
   next();
 });

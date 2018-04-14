@@ -1,18 +1,38 @@
 import { Response } from '@angular/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit } from '@angular/core';
 import { OrigamiService } from '../services/origami.service';
 import { Router } from '@angular/router';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition
+} from '@angular/animations';
 // import { ViewChild } from '@angular/core';
 
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/delay';
 
 import OrigamiInput from '../models/origami.model';
+import UploadedImage from '../models/uploaded-image.model';
 
 @Component({
   selector: 'app-input',
   templateUrl: './input.component.html',
-  styleUrls: ['./input.component.css']
+  styleUrls: ['./input.component.css'],
+  animations: [
+    trigger('imageState', [
+      state('inactive', style({
+        opacity: 1
+      })),
+      state('active',   style({
+        opacity: 0
+      })),
+      transition('inactive => active', animate('100ms ease-in')),
+      transition('active => inactive', animate('100ms ease-out'))
+    ])
+  ]
 })
 export class InputComponent implements OnInit {
   input_page: Boolean;
@@ -23,8 +43,10 @@ export class InputComponent implements OnInit {
   sensor_size: number;
   button_label: String;
   filesToUpload: Array<File>;
+  files: Array<File>;
 
   public in: OrigamiInput = new OrigamiInput();
+  public uploaded: Array<UploadedImage> = [];
 
   constructor(private origamiService: OrigamiService, private router: Router) {
     this.input_page = true;
@@ -35,8 +57,9 @@ export class InputComponent implements OnInit {
     this.sensor_size;
     this.button_label = "Upload";
     this.filesToUpload = [];
+    this.files = [];
+    
   }
-
 
   getUploadUrl() {
     return (this.origamiService.getUrl() + "/upload");
@@ -50,38 +73,15 @@ export class InputComponent implements OnInit {
       })
   }
 
-/*   addData(focal_length, sensor_size, id): void {
-    console.log("at input.component.ts " + this.in);
-    this.in.focal_length = focal_length;
-    this.in.sensor_size = sensor_size;
-    this.in.id = id;
-
-    this.origamiService.addData(this.in)
-      .subscribe((res) => {
-        console.log("Data successfully added!");
-      })
-  } */
-
   removeImage() {
     // console.log(this);
   }
 
   fileChangeEvent(fileInput: any){
+    console.log("Detected change!");
     this.dim_for_add = true;
 
-    if(this.filesToUpload.length > 0) {
-      for(var k = 0; k < this.filesToUpload.length; k++) {
-        this.filesToUpload[this.filesToUpload.length + k] = fileInput.target.files[k];
-      }
-    } else
-      this.filesToUpload = <Array<File>> fileInput.target.files;
-
-    var div = document.getElementById("images");
-    var imeg;
-    var wrap;
-    var close;
-    var icon;
-    var reader;
+    this.filesToUpload = <Array<File>> fileInput.target.files;
 
     if (!(File && FileList && FileReader)) {
       var spann = document.createElement("span");
@@ -89,12 +89,24 @@ export class InputComponent implements OnInit {
     }
 
     var len = this.filesToUpload.length;
+    console.log(len);
     for(var j = 0; j < len; j++) {
-      this.origamiService.readURL(len, this.filesToUpload[j], imeg, div)
+      this.origamiService.readURL(len, this.filesToUpload[j], this.uploaded)
         .then((res) => {
           console.log(res);
-          if(res == false)
+          if(res == false){
             this.dim_for_add = false;
+
+            for(var i = 0; i < this.uploaded.length; i++) {
+              if(this.files.indexOf(this.uploaded[i].file) === -1)
+                this.files.push(this.uploaded[i].file);
+            }
+            console.log("u = " + this.uploaded.length);
+            console.log("f = " + this.files.length);
+
+            document.getElementById("up").removeAttribute("disabled");
+            document.getElementById("can").removeAttribute("disabled");
+          }
           console.log(this.dim_for_add);
         }, (err) => {
           console.log(err);
@@ -119,9 +131,12 @@ export class InputComponent implements OnInit {
       .subscribe((res) => {
         console.log("Data successfully added!");
         
-        this.origamiService.makeFileRequest(this.getUploadUrl(), [id], this.filesToUpload)
+        this.origamiService.makeFileRequest(this.getUploadUrl(), [id],
+          this.files)
           .then((err) => {
             console.log(err);
+            this.dim_for_load = false;
+            console.log(":(");
           }, (res) => {
             console.log(res);
             this.input_page = false;
@@ -129,11 +144,26 @@ export class InputComponent implements OnInit {
             console.log(this.dim_for_load);
             this.router.navigateByUrl('/processing');
           });
-      })
+      });
     
   }
 
+  removeOne(img) {
+    var index: number = this.uploaded.indexOf(img);
+    var index2: number = this.files.indexOf(img.file);
+    if (index !== -1 && index2 !== -1) {
+      this.uploaded.splice(index, 1);
+      this.files.splice(index2, 1);
+    }
+
+    console.log("u = " + this.uploaded.length);
+    console.log("f = " + this.files.length);
+  }
+
   removeAll() {
+    document.getElementById("up").setAttribute("disabled", "disabled");
+    document.getElementById("can").setAttribute("disabled", "disabled");
+
     var parent = document.getElementById("parent");
     var div = document.getElementById("images");
     parent.removeChild(div);
@@ -144,10 +174,17 @@ export class InputComponent implements OnInit {
 
     parent.appendChild(neww);
     this.filesToUpload = [];
+    this.uploaded = [];
+    this.files = [];
   }
 
   ngOnInit() {
-
+    
+  }
+  
+  ngAfterViewInit() {
+    document.getElementById("up").setAttribute("disabled", "disabled");
+    document.getElementById("can").setAttribute("disabled", "disabled");
   }
 
 }

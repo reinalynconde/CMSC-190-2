@@ -4,7 +4,7 @@
 }
 
 #images {
-	padding-left: 15px;
+	/* padding-left: 15px; */
 	text-align: left;
 }
 
@@ -27,15 +27,4 @@
   right: 0;
   text-align: right;
   top: 0;*/
-}
-
-.img-wrap {
-  position: relative;
-}
-
-.img-wrap .close-button {
-  /*position: absolute;*/
-  top: 2px;
-  right: 2px;
-  z-index: 100;
 }
