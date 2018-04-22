@@ -1,8 +1,0 @@
-{
-  "files.associations": {
-    "array": "cpp",
-    "thread": "cpp",
-    "functional": "cpp"
-  },
-  "python.linting.pylintEnabled": false
-}

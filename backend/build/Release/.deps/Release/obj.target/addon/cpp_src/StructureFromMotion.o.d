@@ -1,4 +1,4 @@
-cmd_Release/obj.target/addon/cpp_src/StructureFromMotion.o := g++ '-DNODE_GYP_MODULE_NAME=addon' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DBUILDING_NODE_EXTENSION' -I/home/joy/.node-gyp/6.14.0/include/node -I/home/joy/.node-gyp/6.14.0/src -I/home/joy/.node-gyp/6.14.0/deps/uv/include -I/home/joy/.node-gyp/6.14.0/deps/v8/include -I../node_modules/nan -I../node_modules/streaming-worker-sdk -I/usr/include -I/home/joy/Documents/openMVG_Build/openMVG_install/include -I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG_dependencies -I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG_dependencies/cereal/include -I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen -I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/flann/src/cpp -I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG -I/home/joy/Documents/sp/backend/cpp_src  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -std=c++11 -O3 -fno-omit-frame-pointer -std=gnu++0x -MMD -MF ./Release/.deps/Release/obj.target/addon/cpp_src/StructureFromMotion.o.d.raw   -c -o Release/obj.target/addon/cpp_src/StructureFromMotion.o ../cpp_src/StructureFromMotion.cpp
+cmd_Release/obj.target/addon/cpp_src/StructureFromMotion.o := g++ '-DNODE_GYP_MODULE_NAME=addon' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DBUILDING_NODE_EXTENSION' -I/home/joy/.node-gyp/6.14.1/include/node -I/home/joy/.node-gyp/6.14.1/src -I/home/joy/.node-gyp/6.14.1/deps/uv/include -I/home/joy/.node-gyp/6.14.1/deps/v8/include -I../node_modules/nan -I../node_modules/streaming-worker-sdk -I/usr/include -I/home/joy/Documents/openMVG_Build/openMVG_install/include -I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG_dependencies -I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG_dependencies/cereal/include -I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen -I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/flann/src/cpp -I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG -I/home/joy/Documents/sp/backend/cpp_src -I/home/joy/Documents/sp/backend/socket.io/socket.io-client-cpp/src -I/home/joy/Documents/sp/backend/socket.io/socket.io-client-cpp/lib/rapidjson/include -I/home/joy/Documents/sp/backend/socket.io/socket.io-client-cpp/lib/websocketpp -I/home/joy/Documents/sp/backend/socket.io/boost_install/include  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -Wall -std=c++11 -O3 -fno-omit-frame-pointer -std=gnu++0x -MMD -MF ./Release/.deps/Release/obj.target/addon/cpp_src/StructureFromMotion.o.d.raw   -c -o Release/obj.target/addon/cpp_src/StructureFromMotion.o ../cpp_src/StructureFromMotion.cpp
 Release/obj.target/addon/cpp_src/StructureFromMotion.o: \
  ../cpp_src/StructureFromMotion.cpp \
  /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG_dependencies/cereal/include/cereal/archives/json.hpp \
@@ -45,6 +45,10 @@ Release/obj.target/addon/cpp_src/StructureFromMotion.o: \
  /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG_dependencies/cereal/include/cereal/external/rapidjson/error/../rapidjson.h \
  /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG_dependencies/cereal/include/cereal/external/base64.hpp \
  ../cpp_src/StructureFromMotion.hpp \
+ /home/joy/Documents/sp/backend/socket.io/socket.io-client-cpp/src/sio_client.h \
+ /home/joy/Documents/sp/backend/socket.io/socket.io-client-cpp/src/sio_message.h \
+ /home/joy/Documents/sp/backend/socket.io/socket.io-client-cpp/src/sio_socket.h \
+ /home/joy/Documents/sp/backend/socket.io/socket.io-client-cpp/src/sio_message.h \
  /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/features/feature.hpp \
  /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/numeric/eigen_alias_definition.hpp \
  /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/Dense \
@@ -305,6 +309,35 @@ Release/obj.target/addon/cpp_src/StructureFromMotion.o: \
  /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/sfm/sfm_data_io.hpp \
  /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/stlplus3/filesystemSimplified/file_system.hpp \
  /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/stlplus3/filesystemSimplified/./portability_fixes.hpp \
+ ../node_modules/streaming-worker-sdk/streaming-worker.h \
+ ../node_modules/nan/nan.h \
+ /home/joy/.node-gyp/6.14.1/include/node/node_version.h \
+ /home/joy/.node-gyp/6.14.1/include/node/uv.h \
+ /home/joy/.node-gyp/6.14.1/include/node/uv-errno.h \
+ /home/joy/.node-gyp/6.14.1/include/node/uv-version.h \
+ /home/joy/.node-gyp/6.14.1/include/node/uv-unix.h \
+ /home/joy/.node-gyp/6.14.1/include/node/uv-threadpool.h \
+ /home/joy/.node-gyp/6.14.1/include/node/uv-linux.h \
+ /home/joy/.node-gyp/6.14.1/include/node/node.h \
+ /home/joy/.node-gyp/6.14.1/include/node/v8.h \
+ /home/joy/.node-gyp/6.14.1/include/node/v8-version.h \
+ /home/joy/.node-gyp/6.14.1/include/node/v8config.h \
+ /home/joy/.node-gyp/6.14.1/include/node/node_version.h \
+ /home/joy/.node-gyp/6.14.1/include/node/node_buffer.h \
+ /home/joy/.node-gyp/6.14.1/include/node/node.h \
+ /home/joy/.node-gyp/6.14.1/include/node/node_object_wrap.h \
+ ../node_modules/nan/nan_callbacks.h \
+ ../node_modules/nan/nan_callbacks_12_inl.h \
+ ../node_modules/nan/nan_maybe_43_inl.h \
+ ../node_modules/nan/nan_converters.h \
+ ../node_modules/nan/nan_converters_43_inl.h \
+ ../node_modules/nan/nan_new.h \
+ ../node_modules/nan/nan_implementation_12_inl.h \
+ ../node_modules/nan/nan_persistent_12_inl.h \
+ ../node_modules/nan/nan_weak.h ../node_modules/nan/nan_object_wrap.h \
+ ../node_modules/nan/nan_private.h \
+ ../node_modules/nan/nan_typedarray_contents.h \
+ ../node_modules/nan/nan_json.h \
  /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/cameras/Camera_Pinhole.hpp \
  /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/image/image_concat.hpp \
  /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/features/regions_factory_io.hpp \
@@ -372,17 +405,7 @@ Release/obj.target/addon/cpp_src/StructureFromMotion.o: \
  /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/robust_estimation/robust_estimator_ACRansac.hpp \
  /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/robust_estimation/rand_sampling.hpp \
  /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/robust_estimation/robust_estimator_ACRansacKernelAdaptator.hpp \
- /home/joy/.node-gyp/6.14.0/include/node/node.h \
- /home/joy/.node-gyp/6.14.0/include/node/v8.h \
- /home/joy/.node-gyp/6.14.0/include/node/v8-version.h \
- /home/joy/.node-gyp/6.14.0/include/node/v8config.h \
- /home/joy/.node-gyp/6.14.0/include/node/node_version.h \
- /home/joy/.node-gyp/6.14.0/include/node/uv.h \
- /home/joy/.node-gyp/6.14.0/include/node/uv-errno.h \
- /home/joy/.node-gyp/6.14.0/include/node/uv-version.h \
- /home/joy/.node-gyp/6.14.0/include/node/uv-unix.h \
- /home/joy/.node-gyp/6.14.0/include/node/uv-threadpool.h \
- /home/joy/.node-gyp/6.14.0/include/node/uv-linux.h
+ ../cpp_src/json.hpp
 ../cpp_src/StructureFromMotion.cpp:
 /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG_dependencies/cereal/include/cereal/archives/json.hpp:
 /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG_dependencies/cereal/include/cereal/cereal.hpp:
@@ -428,6 +451,10 @@ Release/obj.target/addon/cpp_src/StructureFromMotion.o: \
 /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG_dependencies/cereal/include/cereal/external/rapidjson/error/../rapidjson.h:
 /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG_dependencies/cereal/include/cereal/external/base64.hpp:
 ../cpp_src/StructureFromMotion.hpp:
+/home/joy/Documents/sp/backend/socket.io/socket.io-client-cpp/src/sio_client.h:
+/home/joy/Documents/sp/backend/socket.io/socket.io-client-cpp/src/sio_message.h:
+/home/joy/Documents/sp/backend/socket.io/socket.io-client-cpp/src/sio_socket.h:
+/home/joy/Documents/sp/backend/socket.io/socket.io-client-cpp/src/sio_message.h:
 /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/features/feature.hpp:
 /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/numeric/eigen_alias_definition.hpp:
 /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen/Eigen/Dense:
@@ -688,6 +715,36 @@ Release/obj.target/addon/cpp_src/StructureFromMotion.o: \
 /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/sfm/sfm_data_io.hpp:
 /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/stlplus3/filesystemSimplified/file_system.hpp:
 /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/stlplus3/filesystemSimplified/./portability_fixes.hpp:
+../node_modules/streaming-worker-sdk/streaming-worker.h:
+../node_modules/nan/nan.h:
+/home/joy/.node-gyp/6.14.1/include/node/node_version.h:
+/home/joy/.node-gyp/6.14.1/include/node/uv.h:
+/home/joy/.node-gyp/6.14.1/include/node/uv-errno.h:
+/home/joy/.node-gyp/6.14.1/include/node/uv-version.h:
+/home/joy/.node-gyp/6.14.1/include/node/uv-unix.h:
+/home/joy/.node-gyp/6.14.1/include/node/uv-threadpool.h:
+/home/joy/.node-gyp/6.14.1/include/node/uv-linux.h:
+/home/joy/.node-gyp/6.14.1/include/node/node.h:
+/home/joy/.node-gyp/6.14.1/include/node/v8.h:
+/home/joy/.node-gyp/6.14.1/include/node/v8-version.h:
+/home/joy/.node-gyp/6.14.1/include/node/v8config.h:
+/home/joy/.node-gyp/6.14.1/include/node/node_version.h:
+/home/joy/.node-gyp/6.14.1/include/node/node_buffer.h:
+/home/joy/.node-gyp/6.14.1/include/node/node.h:
+/home/joy/.node-gyp/6.14.1/include/node/node_object_wrap.h:
+../node_modules/nan/nan_callbacks.h:
+../node_modules/nan/nan_callbacks_12_inl.h:
+../node_modules/nan/nan_maybe_43_inl.h:
+../node_modules/nan/nan_converters.h:
+../node_modules/nan/nan_converters_43_inl.h:
+../node_modules/nan/nan_new.h:
+../node_modules/nan/nan_implementation_12_inl.h:
+../node_modules/nan/nan_persistent_12_inl.h:
+../node_modules/nan/nan_weak.h:
+../node_modules/nan/nan_object_wrap.h:
+../node_modules/nan/nan_private.h:
+../node_modules/nan/nan_typedarray_contents.h:
+../node_modules/nan/nan_json.h:
 /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/cameras/Camera_Pinhole.hpp:
 /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/image/image_concat.hpp:
 /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/features/regions_factory_io.hpp:
@@ -755,14 +812,4 @@ Release/obj.target/addon/cpp_src/StructureFromMotion.o: \
 /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/robust_estimation/robust_estimator_ACRansac.hpp:
 /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/robust_estimation/rand_sampling.hpp:
 /home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/robust_estimation/robust_estimator_ACRansacKernelAdaptator.hpp:
-/home/joy/.node-gyp/6.14.0/include/node/node.h:
-/home/joy/.node-gyp/6.14.0/include/node/v8.h:
-/home/joy/.node-gyp/6.14.0/include/node/v8-version.h:
-/home/joy/.node-gyp/6.14.0/include/node/v8config.h:
-/home/joy/.node-gyp/6.14.0/include/node/node_version.h:
-/home/joy/.node-gyp/6.14.0/include/node/uv.h:
-/home/joy/.node-gyp/6.14.0/include/node/uv-errno.h:
-/home/joy/.node-gyp/6.14.0/include/node/uv-version.h:
-/home/joy/.node-gyp/6.14.0/include/node/uv-unix.h:
-/home/joy/.node-gyp/6.14.0/include/node/uv-threadpool.h:
-/home/joy/.node-gyp/6.14.0/include/node/uv-linux.h:
+../cpp_src/json.hpp:

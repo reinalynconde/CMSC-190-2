@@ -1,4 +1,5 @@
 import { Component, ViewChild, ElementRef, AfterViewInit, OnInit, Renderer2, Input } from '@angular/core';
+import { OrigamiService } from '../services/origami.service';
 import * as THREE from 'three';
 var OrbitControls = require('three-orbit-controls')(THREE)
 var OBJLoader = require('three-obj-loader')(THREE)
@@ -38,9 +39,11 @@ export class ModelComponent implements OnInit {
     this.init3D();
   }
 
-  constructor(private render: Renderer2){
+  constructor(private render: Renderer2, private origamiService: OrigamiService){
+    this.origamiService.sendMsg("dc");
     this.path = "assets/webgl/scene_mesh_texture.obj";
     this.r = 20;
+
   }
 
   init3D(){

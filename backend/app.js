@@ -6,8 +6,26 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const multer = require("multer");
 const fs = require('fs');
+const cors = require('cors');
 
-var index = require('./routes/index');
+var originsWhitelist = [
+  'http://localhost:4200',  //dev
+  'http:127.0.0.1:4200',
+  'http:192.168.1.7:4200',
+  'http:192.168.43.136:4200',
+  'http://www.hehe.com' //prod
+]
+
+var cors_opt = {
+  origin: function(origin, callback) {
+    console.log(origin);
+    var isWhitelisted = originsWhitelist.indexOf(origin) !== -1;
+    callback(null, isWhitelisted);
+  },
+  credentials: true
+}
+
+var index = require('./routes/api/origami.route');//'./routes/index');
 var users = require('./routes/users');
 
 // Get the API route ...
@@ -26,10 +44,34 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
+// app.use('/books', express.static(path.join(__dirname, 'dist')));
 
+// app.use(cors(cors_opt));
+app.use(function(req, res, next) {
+  /*console.log("ASDASDASDASD");
+  var allowedOrigins = [
+    'http://localhost:4200',  //dev
+    'http://127.0.0.1:4200',
+    'http://192.168.1.7:4200',
+    'http://192.168.43.136:4200',
+    'http://www.hehe.com' //prod
+  ];
+
+  var origin = req.headers.origin;
+  if(allowedOrigins.indexOf(origin) > -1){
+    console.log(origin);
+  }
+  res.setHeader('Access-Control-Allow-Origin', origin);*/
+  res.header("Access-Control-Allow-Origin", "http://localhost:4200");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.header("Access-Control-Allow-Credentials", true);
+  res.header("Access-Control-Allow-Headers", "Content-Type");
+  next();
+});
 app.use('/', index);
-app.use('/users', users);
+// app.use('/users', users);
 
 //Use the API routes for all routes matching /api
 
@@ -54,12 +96,13 @@ app.use(function(err, req, res, next) {
 });
 
 //CORS
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "http://localhost:4200");
-  res.header("Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept");
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  next();
-});
+// app.use(function(req, res, next) {
+//   console.log("ASDASDASDASD")
+//   res.header("Access-Control-Allow-Origin", "http://localhost:4200");
+//   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+//   res.header("Access-Control-Allow-Credentials", true);
+//   res.header("Access-Control-Allow-Headers", "Content-Type");
+//   next();
+// });
 
 module.exports = app;

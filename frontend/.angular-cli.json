@@ -28,7 +28,8 @@
         "assets/webgl/webgl-utils.js",
         "assets/webgl/webgl-debug.js",
         "assets/webgl/gl-matrix-min.js",
-        "assets/js/three.min.js"
+        "assets/js/three.min.js",
+        "../node_modules/pusher-js/dist/web/pusher.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

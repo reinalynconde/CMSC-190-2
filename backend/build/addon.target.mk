@@ -21,6 +21,7 @@ CFLAGS_Debug := \
 	-Wextra \
 	-Wno-unused-parameter \
 	-m64 \
+	-Wall \
 	-std=c++11 \
 	-g \
 	-O0
@@ -33,10 +34,10 @@ CFLAGS_CC_Debug := \
 	-std=gnu++0x
 
 INCS_Debug := \
-	-I/home/joy/.node-gyp/6.14.0/include/node \
-	-I/home/joy/.node-gyp/6.14.0/src \
-	-I/home/joy/.node-gyp/6.14.0/deps/uv/include \
-	-I/home/joy/.node-gyp/6.14.0/deps/v8/include \
+	-I/home/joy/.node-gyp/6.14.1/include/node \
+	-I/home/joy/.node-gyp/6.14.1/src \
+	-I/home/joy/.node-gyp/6.14.1/deps/uv/include \
+	-I/home/joy/.node-gyp/6.14.1/deps/v8/include \
 	-I$(srcdir)/node_modules/nan \
 	-I$(srcdir)/node_modules/streaming-worker-sdk \
 	-I/usr/include \
@@ -46,7 +47,11 @@ INCS_Debug := \
 	-I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen \
 	-I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/flann/src/cpp \
 	-I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG \
-	-I/home/joy/Documents/sp/backend/cpp_src
+	-I/home/joy/Documents/sp/backend/cpp_src \
+	-I/home/joy/Documents/sp/backend/socket.io/socket.io-client-cpp/src \
+	-I/home/joy/Documents/sp/backend/socket.io/socket.io-client-cpp/lib/rapidjson/include \
+	-I/home/joy/Documents/sp/backend/socket.io/socket.io-client-cpp/lib/websocketpp \
+	-I/home/joy/Documents/sp/backend/socket.io/boost_install/include
 
 DEFS_Release := \
 	'-DNODE_GYP_MODULE_NAME=addon' \
@@ -65,6 +70,7 @@ CFLAGS_Release := \
 	-Wextra \
 	-Wno-unused-parameter \
 	-m64 \
+	-Wall \
 	-std=c++11 \
 	-O3 \
 	-fno-omit-frame-pointer
@@ -77,10 +83,10 @@ CFLAGS_CC_Release := \
 	-std=gnu++0x
 
 INCS_Release := \
-	-I/home/joy/.node-gyp/6.14.0/include/node \
-	-I/home/joy/.node-gyp/6.14.0/src \
-	-I/home/joy/.node-gyp/6.14.0/deps/uv/include \
-	-I/home/joy/.node-gyp/6.14.0/deps/v8/include \
+	-I/home/joy/.node-gyp/6.14.1/include/node \
+	-I/home/joy/.node-gyp/6.14.1/src \
+	-I/home/joy/.node-gyp/6.14.1/deps/uv/include \
+	-I/home/joy/.node-gyp/6.14.1/deps/v8/include \
 	-I$(srcdir)/node_modules/nan \
 	-I$(srcdir)/node_modules/streaming-worker-sdk \
 	-I/usr/include \
@@ -90,10 +96,16 @@ INCS_Release := \
 	-I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen \
 	-I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/flann/src/cpp \
 	-I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG \
-	-I/home/joy/Documents/sp/backend/cpp_src
+	-I/home/joy/Documents/sp/backend/cpp_src \
+	-I/home/joy/Documents/sp/backend/socket.io/socket.io-client-cpp/src \
+	-I/home/joy/Documents/sp/backend/socket.io/socket.io-client-cpp/lib/rapidjson/include \
+	-I/home/joy/Documents/sp/backend/socket.io/socket.io-client-cpp/lib/websocketpp \
+	-I/home/joy/Documents/sp/backend/socket.io/boost_install/include
 
 OBJS := \
-	$(obj).target/$(TARGET)/cpp_src/StructureFromMotion.o
+	$(obj).target/$(TARGET)/cpp_src/StructureFromMotion.o \
+	$(obj).target/$(TARGET)/socket.io/socket.io-client-cpp/src/sio_client.o \
+	$(obj).target/$(TARGET)/socket.io/socket.io-client-cpp/src/sio_socket.o
 
 # Add to the list of files we specially track dependencies for.
 all_deps += $(OBJS)
@@ -123,6 +135,10 @@ LDFLAGS_Debug := \
 	-pthread \
 	-rdynamic \
 	-m64 \
+	-L/home/joy/Documents/sp/backend/socket.io/socket.io-client-cpp/build/lib/Release \
+	-Wl,-rpath,/home/joy/Documents/sp/backend/socket.io/socket.io-client-cpp/build/lib/Release \
+	-L/home/joy/Documents/sp/backend/socket.io/boost_install/lib \
+	-Wl,-rpath,/home/joy/Documents/sp/backend/socket.io/boost_install/lib \
 	-L/usr/local/lib \
 	-L/home/joy/Documents/openMVG_Build/openMVG_install/lib \
 	-Wl,-rpath,/home/joy/Documents/openMVG_Build/openMVG_install/lib
@@ -131,6 +147,10 @@ LDFLAGS_Release := \
 	-pthread \
 	-rdynamic \
 	-m64 \
+	-L/home/joy/Documents/sp/backend/socket.io/socket.io-client-cpp/build/lib/Release \
+	-Wl,-rpath,/home/joy/Documents/sp/backend/socket.io/socket.io-client-cpp/build/lib/Release \
+	-L/home/joy/Documents/sp/backend/socket.io/boost_install/lib \
+	-Wl,-rpath,/home/joy/Documents/sp/backend/socket.io/boost_install/lib \
 	-L/usr/local/lib \
 	-L/home/joy/Documents/openMVG_Build/openMVG_install/lib \
 	-Wl,-rpath,/home/joy/Documents/openMVG_Build/openMVG_install/lib
@@ -163,7 +183,11 @@ LIBS := \
 	-lstlplus \
 	-lvlsift \
 	-leasyexif \
-	-lsqlite3
+	-lsqlite3 \
+	-lboost_date_time \
+	-lboost_random \
+	-lboost_system \
+	-lsioclient
 
 $(obj).target/addon.node: GYP_LDFLAGS := $(LDFLAGS_$(BUILDTYPE))
 $(obj).target/addon.node: LIBS := $(LIBS)

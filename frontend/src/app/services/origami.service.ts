@@ -1,17 +1,35 @@
 import OrigamiInput from '../models/origami.model';
-import { Observable } from 'rxjs/Rx';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, Subject } from 'rxjs/Rx';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Response } from '@angular/http';
 import { Injectable } from '@angular/core';
+import { WebSocketService } from './web-socket.service';
 
 import 'rxjs/add/operator/map';
+
+import UploadedImage from '../models/uploaded-image.model'
 
 @Injectable()
 export class OrigamiService {
   api_url = 'http://localhost:8080';
   origami_url = `${this.api_url}/api/origami`;
+  messages: Subject<any>;
+  id: String
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private ws: WebSocketService) {
+    this.messages = <Subject<any>>ws
+      .connect()
+      .map((res: any): any => {
+        console.log(res);
+        return res;
+      })
+  }
+
+  sendMsg(msg) {
+    console.log("ah pota");
+    this.messages.next(msg);
+    this.id = msg;
+  }
 
   getUrl() {
     return this.origami_url;
@@ -50,31 +68,30 @@ export class OrigamiService {
           }
         }
       }
+      
       xhr.open("POST", url, true);
       xhr.send(formData);
     });
   }
 
-  readURL(len:number, file: File, imeg, div) {
+  readURL(len:number, file: File, uploaded: Array<UploadedImage>) {
     return new Promise((resolve, reject) => {
       var reader = new FileReader();
       reader.onload = function(e:any) {
 
-        imeg = document.createElement("img");
-        imeg.setAttribute("class", "ui image");
-        imeg.setAttribute("src", e.target.result);
-        imeg.setAttribute("alt", file.name);
-
-        div.appendChild(imeg);
-        console.log(div.childNodes.length + " hi " + len);
-        if(div.childNodes.length >= len)
+        var ima:UploadedImage = new UploadedImage();
+        ima.data = e.target.result;
+        ima.name = file.name;
+        ima.file = file;
+        uploaded.push(ima);
+        if(uploaded.length >= len)
           return resolve(false);
         else          
           return reject(true);
+        
       }
-
-      reader.readAsDataURL(file);
-    });
+        reader.readAsDataURL(file);
+      });
   }
 
   upload(uploaded_files: File[]) {
@@ -83,26 +100,14 @@ export class OrigamiService {
     return this.http.post(`${this.origami_url}` + '/upload', uploaded_files);
   }
 
+  commence(): Observable<any> {
+    console.log("Trying to run...");
+    return this.http.post(`${this.origami_url}` + '/commence', []);
+  }
+
   process(): Observable<any> {
     console.log("p@ origami.service.ts");
     return this.http.post(`${this.origami_url}` + '/process', []);
-    /* return new Promise((resolve, reject) => {
-      var xhr = new XMLHttpRequest();
-      var formData: any = new FormData();
-
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4) {
-          if (xhr.status == 200) {
-           resolve(JSON.parse(xhr.response));
-          } else {
-            reject(xhr.response);
-          }
-        }
-      }
-      
-      xhr.open("POST", url, true);
-      xhr.send(formData);
-    }); */
   }
 
   private handleError(error: any): Promise<any> {

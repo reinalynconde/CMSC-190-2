@@ -1,5 +1,5 @@
-// #include <nan.h>
-// #include "streaming-worker.h"
+#include "sio_client.h"
+#include "sio_message.h"
 
 #include "opencv2/core.hpp"
 #include "opencv2/imgproc.hpp"
@@ -21,15 +21,21 @@
 #include <ceres/rotation.h>
 
 #include <cstdlib>
-#include <iostream>
+// #include <iostream>
 #include <map>
 #include <set>
 #include <stdio.h>
 #include <string>
 #include <utility>
-// #include <node.h>
-#include <chrono>
+// #include <chrono>
 #include <thread>
+#include <iostream>
+#include <chrono>
+#include <random>
+#include <thread>
+#include "streaming-worker.h"
+// #include <condition_variable>
+#include <mutex>
 
 using namespace cv;
 using namespace openMVG;
@@ -37,7 +43,7 @@ using namespace openMVG::features;
 using namespace openMVG::matching;
 using namespace std;
 
-namespace SFM {
+// namespace SFM {
   typedef vector<KeyPoint> KeyPoints;
   typedef vector<Point2f>  Points2f;
   typedef vector<Point3f>  Points3f;
@@ -64,7 +70,7 @@ namespace SFM {
     cv::Mat K, K_inv, distortion;
   };
 
-  struct Pair {
+  struct APair {
     size_t first, second;
   };
 
@@ -124,25 +130,29 @@ namespace SFM {
   typedef map<int, Image2D3D> Image2D3Ds;
   typedef vector<Point3D> PointCloud;
 
-  class SfmData {
+  class SfmData : public StreamingWorker{
     public:
-      SfmData(); 
+      SfmData(Callback *data, Callback *complete, Callback *error_callback,  v8::Local<v8::Object> & options); 
       virtual ~SfmData();
 
-      bool set_dir(const string input_dir, const string output_dir,
+      string uname;
+
+
+      void Execute (const AsyncProgressWorker::ExecutionProgress& progress);
+      bool set_dir(const AsyncProgressWorker::ExecutionProgress& prog, const string input_dir, const string output_dir,
         const string user);
-      bool reconstruct();
+      bool reconstruct(const AsyncProgressWorker::ExecutionProgress& prog);
 
     private:
-      map<float, Pair> rank_matches();
+      map<float, APair> rank_matches();
       Image2D3Ds match_2D_3D();
-      map<float, Pair> pipeline();
-      void detect_features();
-      bool feature_match();
+      void detect_features(const AsyncProgressWorker::ExecutionProgress& prog);
+      bool feature_match(const AsyncProgressWorker::ExecutionProgress& prog);
       void select_initial_pair();
       void adj_bundle();
-      void add_camera();
+      void add_camera(const AsyncProgressWorker::ExecutionProgress& prog);
       void merge_cloud(const PointCloud &cloud);
+      void send_progress(const AsyncProgressWorker::ExecutionProgress& progress, string message, double percent, int step);
 
       vector<Image_data> images;
       vector<Describer> describer;
@@ -154,7 +164,41 @@ namespace SFM {
       PointCloud cloud;
       string output_dir;
       string input_dirr;
-      string uname;
   };
 
-}
+  class connection_listener {
+    sio::client &handler;
+
+    public:
+      bool connect_finish;
+      // std::mutex _lock;
+      // std::condition_variable_any _cond;
+      
+      connection_listener(sio::client& h):
+      handler(h)
+      {
+      }   
+
+      void on_connected()
+      {
+        std::cout<< "Connected!" << std::endl;
+          // _lock.lock();
+          // _cond.notify_all();
+          connect_finish = true;
+          // _lock.unlock();
+      }
+      void on_close(sio::client::close_reason const& reason)
+      {
+          std::cout<<"sio closed "<<std::endl;
+          exit(0);
+          // return;
+      }
+      
+      void on_fail()
+      {
+          std::cout<<"sio failed "<<std::endl;
+          exit(0);
+          // return;
+      }
+  };
+// }

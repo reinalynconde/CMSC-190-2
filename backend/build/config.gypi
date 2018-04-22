@@ -60,7 +60,7 @@
     "v8_trace_maps": 0,
     "v8_use_snapshot": "true",
     "want_separate_host_toolset": 0,
-    "nodedir": "/home/joy/.node-gyp/6.14.0",
+    "nodedir": "/home/joy/.node-gyp/6.14.1",
     "standalone_static_library": 1
   }
 }
