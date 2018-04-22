@@ -1,0 +1,2 @@
+/home/joy/Documents/sp/backend/socket.io/socket.io-client-cpp/CMakeFiles/sioclient_tls.dir
+/home/joy/Documents/sp/backend/socket.io/socket.io-client-cpp/CMakeFiles/sioclient.dir

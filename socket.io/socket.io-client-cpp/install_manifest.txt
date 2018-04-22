@@ -1,0 +1,12 @@
+/home/joy/Documents/sp/backend/socket.io/socket.io-client-cpp/build/include/sio_message.h
+/home/joy/Documents/sp/backend/socket.io/socket.io-client-cpp/build/include/sio_client.h
+/home/joy/Documents/sp/backend/socket.io/socket.io-client-cpp/build/include/sio_socket.h
+/home/joy/Documents/sp/backend/socket.io/socket.io-client-cpp/build/lib/Release/libsioclient.so.1.6.0
+/home/joy/Documents/sp/backend/socket.io/socket.io-client-cpp/build/lib/Release/libsioclient.so.1
+/home/joy/Documents/sp/backend/socket.io/socket.io-client-cpp/build/lib/Release/libsioclient.so
+/home/joy/Documents/sp/backend/socket.io/socket.io-client-cpp/build/lib/Release/libsioclient_tls.so.1.6.0
+/home/joy/Documents/sp/backend/socket.io/socket.io-client-cpp/build/lib/Release/libsioclient_tls.so.1
+/home/joy/Documents/sp/backend/socket.io/socket.io-client-cpp/build/lib/Release/libsioclient_tls.so
+/home/joy/Documents/sp/backend/socket.io/socket.io-client-cpp/build/lib/Release/libboost_system.so
+/home/joy/Documents/sp/backend/socket.io/socket.io-client-cpp/build/lib/Release/libboost_date_time.so
+/home/joy/Documents/sp/backend/socket.io/socket.io-client-cpp/build/lib/Release/libboost_random.so
