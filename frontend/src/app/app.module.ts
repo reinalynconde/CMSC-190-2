@@ -1,12 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { NgIf } from '@angular/common';
+import { NgIf, LocationStrategy, HashLocationStrategy, CommonModule } from '@angular/common';
+// import { RouterModule, Routes } from '@angular/router';
 // import { Editor3DModule } from 'ng2-3d-editor';
-import { CommonModule } from '@angular/common';
+import { BrowserXhr } from '@angular/http';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { FormsModule } from '@angular/forms';
 import { SuiModule } from 'ng2-semantic-ui';
-import { AppRoutingModule } from './/app-routing.module';
+import { AppRoutingModule } from './app-routing.module';
 
 import { InputService } from './input.service';
 
@@ -17,7 +19,21 @@ import { ProcessingComponent } from './processing/processing.component';
 import { ModelComponent } from './model/model.component';
 import { OrigamiService } from './services/origami.service';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { WebSocketService } from './services/web-socket.service';
+import { CustExtBrowserXhr } from './services/cust-ext-browser-xhr';
 
+/*const appRoutes: Routes = [
+  {
+    path: '/',
+    component: AppComponent,
+    data: { title: 'Origami' }
+  },
+  { path: '',
+    redirectTo: '/',
+    pathMatch: 'full'
+  }
+];
+*/
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,13 +45,20 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
   imports: [
     CommonModule,
     BrowserModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     SuiModule,
     AppRoutingModule,
-    FormsModule//,
-    // Editor3DModule
+    FormsModule/*,
+    RouterModule.forRoot(
+      appRoutes,
+      { enableTracing: true } // <-- debugging purposes only
+    )*/
   ],
-  providers: [HttpClientModule, InputService, OrigamiService],
+  providers: [HttpClientModule, InputService, OrigamiService, WebSocketService,
+    {provide: BrowserXhr, useClass: CustExtBrowserXhr},
+    {provide: LocationStrategy, useClass: HashLocationStrategy}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

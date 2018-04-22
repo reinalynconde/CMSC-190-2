@@ -46,7 +46,8 @@
                 "/home/joy/.node-gyp/6.13.1/deps/v8/include",
                 "${workspaceRoot}",
                 "${workspaceFolder}/backend/node_modules/nan",
-                "${workspaceFolder}/backend/node_modules/streaming-worker-sdk"
+                "${workspaceFolder}/backend/node_modules/streaming-worker-sdk",
+                "${workspaceFolder}/backend/socket.io/socket.io-client-cpp/build/include"
             ],
             "defines": [],
             "intelliSenseMode": "clang-x64",

@@ -20,9 +20,10 @@ export class ProcessingComponent implements OnInit {
   m_val = 0;
   r_val = 0;
   me_val = 0;
+  progress = "";
 
   constructor(private origamiService: OrigamiService, private router: Router) {
-    // this.commence();
+    this.sendMessage();
     /* var p = 10;
     while(p > 0) {
       console.log("Processing...");
@@ -55,7 +56,8 @@ export class ProcessingComponent implements OnInit {
       .subscribe(res => {
         console.log(res.data);
         if(res.data == "ok")
-          this.sendMessage();
+          // this.sendMessage();
+          console.log("ayyy");
       })
   }
 
@@ -78,36 +80,64 @@ export class ProcessingComponent implements OnInit {
   }
 
   ngOnInit() {
-    /* this.origamiService.messages.subscribe(msg => {
+    // this.start_load();
+    this.origamiService.messages.subscribe(msg => {
       console.log(msg);
-    }) */
-    var i;
-    for(i = 0; i <= 100; i+=10) {
-      setTimeout(() => this.ia_val = i, 5000);
-    }
 
-    for(i = 0; i <= 100; i+=10) {
-      setTimeout(() => this.fe_val = i, 5000);
-    }
+      if(msg.step == 1) {
+        this.image_analysis = "Image analysis: " + msg.progress;
+        this.ia_val = msg.percent;
 
-    for(i = 0; i <= 100; i+=10) {
-      setTimeout(() => this.m_val = i, 5000);
-    }
+        if(this.ia_val == 100) {
+          this.image_analysis = "Image analysis done!";
+          this.feature_extraction = "Extracting features: Starting...";
+          this.fe_val = 2;
+        }
+      }
 
-    for(i = 0; i <= 100; i+=10) {
-      setTimeout(() => this.r_val = i, 5000);
-    }
+      if(msg.step == 2) {
+        this.image_analysis = "Image analysis done!";
+        this.ia_val = 100;
+        this.feature_extraction = "Extracting features: " + msg.progress;
 
-    for(i = 0; i <= 100; i+=10) {
-      setTimeout(() => this.me_val = i, 5000);
+        if(this.fe_val < msg.percent)
+          this.fe_val = msg.percent;
+      }
 
-      if(this.me_val >= 100)
-        this.start_load();
-    }
+      if(msg.step == 3) {
+        this.feature_extraction = "Extracting features done!";
+        this.fe_val = 100;
+        this.matching = "Matching features: " + msg.progress;
+        this.m_val = msg.percent;
+      }
+
+      if(msg.step == 4) {
+        if(msg.percent == 100) {
+          this.image_analysis = "Image analysis done!";
+          this.ia_val = 100;
+          this.feature_extraction = "Extracting features done!";
+          this.fe_val = 100;
+          this.matching = "Matching features done!";
+          this.m_val = 100;
+          this.reconstruction = "Reconstructing Sparse Point Cloud done!";
+          this.r_val = 100;
+          
+          console.log("heeey");
+          this.start_load();
+        } else {
+          this.matching = "Matching features done!";
+          this.m_val = 100;
+          this.reconstruction = "Reconstructing Sparse Point Cloud: " + msg.progress;
+          this.r_val = msg.percent;
+        }
+      }
+
+    }) 
     
   }
 
   sendMessage() {
+    "AGAAAIN"
     this.origamiService.sendMsg(localStorage.getItem('now'));
   }
 
