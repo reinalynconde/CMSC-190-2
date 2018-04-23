@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 const delay = require('delay');
-const sqlite3 = require('sqlite3').verbose();
 const worker = require("streaming-worker");
 const through = require('through');
 const path = require("path");

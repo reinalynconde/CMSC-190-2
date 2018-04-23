@@ -2,7 +2,6 @@ var OrigamiService = require('../services/origami.service');
 var fs = require('fs');
 const delay = require('delay');
 const stream = require('stream');
-const SSE = require("sse-node");
 
 const worker = require("streaming-worker");
 const through = require('through');

@@ -1,14 +1,16 @@
 import { NgModule } from '@angular/core';
-import { RouterModule,Routes} from '@angular/router';
+import { RouterModule,Routes } from '@angular/router';
 
 import { InputComponent } from './input/input.component';
 import { ProcessingComponent } from './processing/processing.component';
 import { ModelComponent } from './model/model.component';
+import { AppComponent } from './app.component';
 
 const routes: Routes = [
+  { path: '', component: AppComponent },
   { path: 'input', component: InputComponent },
-  { path: 'processing', component: ProcessingComponent},
-  { path: 'model', component: ModelComponent}
+  { path: 'processing', component: ProcessingComponent },
+  { path: 'model', component: ModelComponent }
 ];
 
 @NgModule({

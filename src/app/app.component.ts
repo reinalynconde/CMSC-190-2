@@ -1,7 +1,4 @@
-import { Response } from '@angular/http';
-import { OrigamiService } from './services/origami.service';
-import OrigamiInput from './models/origami.model';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -9,15 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  constructor(private origamiService: OrigamiService) {}
+  constructor() {}
 
   title = 'app';
-
-  public newOrigami: OrigamiInput = new OrigamiInput() 
-  
-  origamiList: OrigamiInput[];
-
-  ngOnInit() {
-    
-  }
 }
