@@ -27,3 +27,8 @@ canvas {
 .normal {
   padding: 15px;
 }
+
+.site-header {
+  height: 1em;
+  background-color: #63ffb6;
+}

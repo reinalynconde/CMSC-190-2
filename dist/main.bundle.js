@@ -17,6 +17,67 @@ webpackEmptyAsyncContext.id = "../../../../../src/$$_lazy_route_resource lazy re
 
 /***/ }),
 
+/***/ "../../../../../src/app/about/about.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/about/about.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<p>\n  about works!\n</p>\n"
+
+/***/ }),
+
+/***/ "../../../../../src/app/about/about.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AboutComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var AboutComponent = /** @class */ (function () {
+    function AboutComponent() {
+    }
+    AboutComponent.prototype.ngOnInit = function () {
+    };
+    AboutComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'app-about',
+            template: __webpack_require__("../../../../../src/app/about/about.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/about/about.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], AboutComponent);
+    return AboutComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "../../../../../src/app/app-routing.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -24,10 +85,14 @@ webpackEmptyAsyncContext.id = "../../../../../src/$$_lazy_route_resource lazy re
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppRoutingModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__input_input_component__ = __webpack_require__("../../../../../src/app/input/input.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__processing_processing_component__ = __webpack_require__("../../../../../src/app/processing/processing.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__model_model_component__ = __webpack_require__("../../../../../src/app/model/model.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__app_component__ = __webpack_require__("../../../../../src/app/app.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__land_land_component__ = __webpack_require__("../../../../../src/app/land/land.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__input_input_component__ = __webpack_require__("../../../../../src/app/input/input.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__processing_processing_component__ = __webpack_require__("../../../../../src/app/processing/processing.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__model_model_component__ = __webpack_require__("../../../../../src/app/model/model.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__sample_sample_component__ = __webpack_require__("../../../../../src/app/sample/sample.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__about_about_component__ = __webpack_require__("../../../../../src/app/about/about.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__contact_contact_component__ = __webpack_require__("../../../../../src/app/contact/contact.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__app_component__ = __webpack_require__("../../../../../src/app/app.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -40,11 +105,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
+
+
+
 var routes = [
-    { path: '', component: __WEBPACK_IMPORTED_MODULE_5__app_component__["a" /* AppComponent */] },
-    { path: 'input', component: __WEBPACK_IMPORTED_MODULE_2__input_input_component__["a" /* InputComponent */] },
-    { path: 'processing', component: __WEBPACK_IMPORTED_MODULE_3__processing_processing_component__["a" /* ProcessingComponent */] },
-    { path: 'model', component: __WEBPACK_IMPORTED_MODULE_4__model_model_component__["a" /* ModelComponent */] }
+    { path: '', component: __WEBPACK_IMPORTED_MODULE_9__app_component__["a" /* AppComponent */] },
+    { path: 'home', component: __WEBPACK_IMPORTED_MODULE_2__land_land_component__["a" /* LandComponent */] },
+    { path: 'input', component: __WEBPACK_IMPORTED_MODULE_3__input_input_component__["a" /* InputComponent */] },
+    { path: 'processing', component: __WEBPACK_IMPORTED_MODULE_4__processing_processing_component__["a" /* ProcessingComponent */] },
+    { path: 'model', component: __WEBPACK_IMPORTED_MODULE_5__model_model_component__["a" /* ModelComponent */] },
+    { path: 'sample', component: __WEBPACK_IMPORTED_MODULE_6__sample_sample_component__["a" /* SampleComponent */] },
+    { path: 'about', component: __WEBPACK_IMPORTED_MODULE_7__about_about_component__["a" /* AboutComponent */] },
+    { path: 'contact', component: __WEBPACK_IMPORTED_MODULE_8__contact_contact_component__["a" /* ContactComponent */] },
+    { path: '**', component: __WEBPACK_IMPORTED_MODULE_2__land_land_component__["a" /* LandComponent */] }
 ];
 var AppRoutingModule = /** @class */ (function () {
     function AppRoutingModule() {
@@ -83,7 +157,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<sui-tabset>\n  <div class=\"ui secondary pointing menu site-header\">\n    <a class=\"item active\" suiTabHeader=\"home\">\n      Origami\n    </a>\n    <a class=\"item\" suiTabHeader=\"samp\">\n      Samples\n    </a>\n    <a class=\"item\" suiTabHeader=\"abt\">\n      About\n    </a>\n    <a class=\"item\" suiTabHeader=\"contact\">\n      Contact\n    </a>\n  </div>\n\n  <div suiTabContent=\"home\">\n    <app-land></app-land>\n  </div>\n  <div class=\"ui segment\" suiTabContent=\"samp\">This will contain sample results.</div>\n  <div class=\"ui segment\" suiTabContent=\"abt\">secoond</div>\n  <div class=\"ui segment\" suiTabContent=\"contact\">Third tab!</div>\n</sui-tabset>\n"
+module.exports = "<sui-tabset>\n\n<!-- </sui-tabset> *ngIf=\"notHome; else home\"> -->\n  <div class=\"ui secondary pointing menu site-header\">\n    <a class=\"item active\" suiTabHeader=\"home\" (click)=\"set_home()\">\n      Origami\n    </a>\n    <a class=\"item\" suiTabHeader=\"samp\" (click)=\"set_samp()\">\n      Samples\n    </a>\n    <a class=\"item\" suiTabHeader=\"abt\" (click)=\"set_abt()\">\n      About\n    </a>\n    <a class=\"item\" suiTabHeader=\"contact\" (click)=\"set_contact()\">\n      Contact\n    </a>\n  </div>\n\n  <div suiTabContent=\"home\">\n    <div class=\"normal\" *ngIf=\"home\">\n      <router-outlet></router-outlet>\n    </div>\n  </div>\n\n  <div suiTabContent=\"samp\">\n    <div class=\"normal\" *ngIf=\"samp\">\n      <router-outlet></router-outlet>\n    </div>\n  </div>\n\n  <div suiTabContent=\"abt\">\n    <div class=\"normal\" *ngIf=\"abt\">\n      <router-outlet></router-outlet>\n    </div>\n  </div>\n\n  <div suiTabContent=\"contact\">\n    <div class=\"normal\" *ngIf=\"contact\">\n      <router-outlet></router-outlet>\n    </div>\n  </div>\n</sui-tabset>\n\n<!-- <ng-template #home>\n  <router-outlet></router-outlet>\n</ng-template> -->\n"
 
 /***/ }),
 
@@ -93,6 +167,7 @@ module.exports = "<sui-tabset>\n  <div class=\"ui secondary pointing menu site-h
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -103,17 +178,56 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
 var AppComponent = /** @class */ (function () {
-    function AppComponent() {
+    function AppComponent(router) {
+        this.router = router;
         this.title = 'app';
+        localStorage.setItem('home', '/home');
+        this.set_home();
     }
+    AppComponent.prototype.set_home = function () {
+        this.router.navigateByUrl(localStorage.getItem('home'));
+        if (localStorage.getItem('home') != '/home')
+            this.notHome = true;
+        else
+            this.notHome = false;
+        this.home = true;
+        this.samp = false;
+        this.abt = false;
+        this.contact = false;
+    };
+    AppComponent.prototype.set_samp = function () {
+        this.router.navigateByUrl('/sample');
+        this.notHome = false;
+        this.samp = true;
+        this.home = false;
+        this.abt = false;
+        this.contact = false;
+    };
+    AppComponent.prototype.set_abt = function () {
+        this.router.navigateByUrl('/about');
+        this.notHome = false;
+        this.abt = true;
+        this.samp = false;
+        this.home = false;
+        this.contact = false;
+    };
+    AppComponent.prototype.set_contact = function () {
+        this.router.navigateByUrl('/contact');
+        this.notHome = false;
+        this.contact = true;
+        this.samp = false;
+        this.abt = false;
+        this.home = false;
+    };
     AppComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
             selector: 'app-root',
             template: __webpack_require__("../../../../../src/app/app.component.html"),
             styles: [__webpack_require__("../../../../../src/app/app.component.css")]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */]])
     ], AppComponent);
     return AppComponent;
 }());
@@ -146,6 +260,10 @@ var AppComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__angular_common_http__ = __webpack_require__("../../../common/esm5/http.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__services_web_socket_service__ = __webpack_require__("../../../../../src/app/services/web-socket.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__services_cust_ext_browser_xhr__ = __webpack_require__("../../../../../src/app/services/cust-ext-browser-xhr.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__sample_component_sample_component_component__ = __webpack_require__("../../../../../src/app/sample-component/sample-component.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__sample_sample_component__ = __webpack_require__("../../../../../src/app/sample/sample.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__about_about_component__ = __webpack_require__("../../../../../src/app/about/about.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__contact_contact_component__ = __webpack_require__("../../../../../src/app/contact/contact.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -158,6 +276,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 // import { RouterModule, Routes } from '@angular/router';
 // import { Editor3DModule } from 'ng2-3d-editor';
+
+
+
+
 
 
 
@@ -195,7 +317,11 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_11__land_land_component__["a" /* LandComponent */],
                 __WEBPACK_IMPORTED_MODULE_12__input_input_component__["a" /* InputComponent */],
                 __WEBPACK_IMPORTED_MODULE_13__processing_processing_component__["a" /* ProcessingComponent */],
-                __WEBPACK_IMPORTED_MODULE_14__model_model_component__["a" /* ModelComponent */]
+                __WEBPACK_IMPORTED_MODULE_14__model_model_component__["a" /* ModelComponent */],
+                __WEBPACK_IMPORTED_MODULE_19__sample_component_sample_component_component__["a" /* SampleComponentComponent */],
+                __WEBPACK_IMPORTED_MODULE_20__sample_sample_component__["a" /* SampleComponent */],
+                __WEBPACK_IMPORTED_MODULE_21__about_about_component__["a" /* AboutComponent */],
+                __WEBPACK_IMPORTED_MODULE_22__contact_contact_component__["a" /* ContactComponent */]
             ],
             imports: [
                 __WEBPACK_IMPORTED_MODULE_3__angular_common__["b" /* CommonModule */],
@@ -221,6 +347,67 @@ var AppModule = /** @class */ (function () {
 }());
 
 Object(__WEBPACK_IMPORTED_MODULE_5__angular_platform_browser_dynamic__["a" /* platformBrowserDynamic */])().bootstrapModule(AppModule);
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/contact/contact.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/contact/contact.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<p>\n  contact works!\n</p>\n"
+
+/***/ }),
+
+/***/ "../../../../../src/app/contact/contact.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContactComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var ContactComponent = /** @class */ (function () {
+    function ContactComponent() {
+    }
+    ContactComponent.prototype.ngOnInit = function () {
+    };
+    ContactComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'app-contact',
+            template: __webpack_require__("../../../../../src/app/contact/contact.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/contact/contact.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], ContactComponent);
+    return ContactComponent;
+}());
+
 
 
 /***/ }),
@@ -327,17 +514,16 @@ var InputComponent = /** @class */ (function () {
     function InputComponent(origamiService, router) {
         this.origamiService = origamiService;
         this.router = router;
-        this.in = new __WEBPACK_IMPORTED_MODULE_6__models_origami_model__["a" /* default */]();
-        this.uploaded = [];
         this.input_page = true;
         this.not_upload = true;
         this.dim_for_load = false;
         this.dim_for_add = false;
-        this.focal_length;
-        this.sensor_size;
         this.button_label = "Upload";
         this.filesToUpload = [];
         this.files = [];
+        this.in = new __WEBPACK_IMPORTED_MODULE_6__models_origami_model__["a" /* default */]();
+        this.uploaded = [];
+        localStorage.setItem('home', '/input');
     }
     InputComponent.prototype.getUploadUrl = function () {
         return (this.origamiService.getUrl() + "/upload");
@@ -634,6 +820,7 @@ var ModelComponent = /** @class */ (function () {
     function ModelComponent(render, origamiService) {
         this.render = render;
         this.origamiService = origamiService;
+        localStorage.setItem('home', '/model');
         this.origamiService.sendMsg("dc");
         this.path = "assets/webgl/scene_mesh_texture.obj";
         this.r = 20;
@@ -851,6 +1038,7 @@ var ProcessingComponent = /** @class */ (function () {
         this.r_val = 0;
         this.me_val = 0;
         this.progress = "";
+        localStorage.setItem('home', '/processing');
         this.sendMessage();
         /* var p = 10;
         while(p > 0) {
@@ -965,6 +1153,228 @@ var ProcessingComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__services_origami_service__["a" /* OrigamiService */], __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */]])
     ], ProcessingComponent);
     return ProcessingComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/sample-component/sample-component.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/sample-component/sample-component.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<p>\n  sample-component works!\n</p>\n"
+
+/***/ }),
+
+/***/ "../../../../../src/app/sample-component/sample-component.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SampleComponentComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var SampleComponentComponent = /** @class */ (function () {
+    function SampleComponentComponent() {
+    }
+    SampleComponentComponent.prototype.ngOnInit = function () {
+    };
+    SampleComponentComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'app-sample-component',
+            template: __webpack_require__("../../../../../src/app/sample-component/sample-component.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/sample-component/sample-component.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], SampleComponentComponent);
+    return SampleComponentComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/sample/sample.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/sample/sample.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div>\n  <a href=\"assets/webgl/scene_mesh_texture.obj\" download> Download </a>\n  <div #modelContainer></div>\n</div>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/sample/sample.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SampleComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_three__ = __webpack_require__("../../../../three/build/three.module.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var OrbitControls = __webpack_require__("../../../../three-orbit-controls/index.js")(__WEBPACK_IMPORTED_MODULE_1_three__);
+var OBJLoader = __webpack_require__("../../../../three-obj-loader/dist/index.js")(__WEBPACK_IMPORTED_MODULE_1_three__);
+var TrackballControls = __webpack_require__("../../../../three-trackballcontrols/index.js");
+// var DragControls = require('three-dragcontrols')
+var loader = new __WEBPACK_IMPORTED_MODULE_1_three__["OBJLoader"]();
+var SampleComponent = /** @class */ (function () {
+    function SampleComponent(render) {
+        this.render = render;
+        this.path = "assets/webgl/scene_mesh_texture.obj";
+        this.r = 20;
+    }
+    SampleComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        //add listener for the resize of the window - will resize the renderer to fit the window
+        var global = this.render.listen('window', 'resize', function (evt) {
+            _this.onWindowResize();
+        });
+    };
+    SampleComponent.prototype.ngAfterViewInit = function () {
+        this.init3D();
+    };
+    SampleComponent.prototype.init3D = function () {
+        var _this = this;
+        // renderer
+        this.renderer = new __WEBPACK_IMPORTED_MODULE_1_three__["WebGLRenderer"]({ alpha: true });
+        this.rendererContainer.nativeElement.appendChild(this.renderer.domElement);
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
+        // scene
+        this.scene = new __WEBPACK_IMPORTED_MODULE_1_three__["Scene"]();
+        this.scene.background = new __WEBPACK_IMPORTED_MODULE_1_three__["Color"](0xFFFFFF);
+        // camera
+        this.camera = new __WEBPACK_IMPORTED_MODULE_1_three__["PerspectiveCamera"](35, window.innerWidth / window.innerHeight, 0.01, 10000);
+        this.camera.position.set(113, 111, 113);
+        this.camera.aspect = window.innerWidth / window.innerHeight;
+        this.scene.add(new __WEBPACK_IMPORTED_MODULE_1_three__["AmbientLight"](0x222222));
+        this.scene.add(this.camera); // required, because we are adding a light asd a child of the camera
+        // controls
+        // this.controls = new DragControls(this.camera);
+        this.controller = new TrackballControls(this.camera);
+        // lights
+        var light = new __WEBPACK_IMPORTED_MODULE_1_three__["PointLight"](0xffffff, 0.8);
+        this.camera.add(light);
+        loader.load(this.path, function (geometry) {
+            geometry.traverse(function (child) {
+                if (child instanceof __WEBPACK_IMPORTED_MODULE_1_three__["Mesh"]) {
+                    // mesh
+                    var material = new __WEBPACK_IMPORTED_MODULE_1_three__["MeshPhongMaterial"]({
+                        color: 0x0099cc,
+                        polygonOffset: true,
+                        polygonOffsetFactor: 1,
+                        polygonOffsetUnits: 1
+                    });
+                    child.material = material;
+                    // wireframe
+                    var geo = new __WEBPACK_IMPORTED_MODULE_1_three__["WireframeGeometry"](child.geometry); // or WireframeGeometry
+                    var mat = new __WEBPACK_IMPORTED_MODULE_1_three__["LineBasicMaterial"]({ color: 0xa2a276, linewidth: 1 });
+                    var wireframe = new __WEBPACK_IMPORTED_MODULE_1_three__["LineSegments"](geo, mat);
+                    child.add(wireframe);
+                }
+            });
+            geometry.rotateX(90);
+            geometry.rotateY(180);
+            geometry.rotateZ(90);
+            geometry.scale.x = 40;
+            geometry.scale.y = 20;
+            geometry.scale.z = 20;
+            _this.scene.add(geometry);
+        });
+        //request animation
+        this.animate();
+        this.resize();
+    };
+    SampleComponent.prototype.resize = function () {
+        var width = this.renderer.domElement.clientWidth;
+        var height = this.renderer.domElement.clientHeight;
+        this.renderer.setSize(width, height);
+        this.camera.aspect = width / height;
+        this.controller.handleResize();
+        // this.controls.handleResize();
+    };
+    SampleComponent.prototype.animate = function () {
+        var _this = this;
+        window.requestAnimationFrame(function (_) { return _this.animate(); });
+        this.scene.rotation.y += 0.1 * Math.PI / 180;
+        this.controller.update();
+        // this.controls.update();
+        this.renderer.render(this.scene, this.camera);
+    };
+    SampleComponent.prototype.onWindowResize = function () {
+        this.camera.aspect = window.innerWidth / window.innerHeight;
+        this.camera.updateProjectionMatrix();
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
+        this.controller.update();
+        // this.controls.update();
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_11" /* ViewChild */])("modelContainer"),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["u" /* ElementRef */])
+    ], SampleComponent.prototype, "rendererContainer", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+        __metadata("design:type", String)
+    ], SampleComponent.prototype, "path", void 0);
+    SampleComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'app-sample',
+            template: __webpack_require__("../../../../../src/app/sample/sample.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/sample/sample.component.css")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_core__["Y" /* Renderer2 */]])
+    ], SampleComponent);
+    return SampleComponent;
 }());
 
 

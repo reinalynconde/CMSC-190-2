@@ -1,2 +1,0 @@
-/usr/bin/ar cq ../../Linux-x86_64-RELEASE/libeasyexif.a  CMakeFiles/easyexif.dir/exif.cpp.o
-/usr/bin/ranlib ../../Linux-x86_64-RELEASE/libeasyexif.a

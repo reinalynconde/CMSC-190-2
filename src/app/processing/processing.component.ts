@@ -23,6 +23,7 @@ export class ProcessingComponent implements OnInit {
   progress = "";
 
   constructor(private origamiService: OrigamiService, private router: Router) {
+    localStorage.setItem('home', '/processing');
     this.sendMessage();
     /* var p = 10;
     while(p > 0) {

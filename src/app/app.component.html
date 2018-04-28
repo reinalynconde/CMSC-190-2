@@ -1,23 +1,46 @@
 <sui-tabset>
+
+<!-- </sui-tabset> *ngIf="notHome; else home"> -->
   <div class="ui secondary pointing menu site-header">
-    <a class="item active" suiTabHeader="home">
+    <a class="item active" suiTabHeader="home" (click)="set_home()">
       Origami
     </a>
-    <a class="item" suiTabHeader="samp">
+    <a class="item" suiTabHeader="samp" (click)="set_samp()">
       Samples
     </a>
-    <a class="item" suiTabHeader="abt">
+    <a class="item" suiTabHeader="abt" (click)="set_abt()">
       About
     </a>
-    <a class="item" suiTabHeader="contact">
+    <a class="item" suiTabHeader="contact" (click)="set_contact()">
       Contact
     </a>
   </div>
 
   <div suiTabContent="home">
-    <app-land></app-land>
+    <div class="normal" *ngIf="home">
+      <router-outlet></router-outlet>
+    </div>
   </div>
-  <div class="ui segment" suiTabContent="samp">This will contain sample results.</div>
-  <div class="ui segment" suiTabContent="abt">secoond</div>
-  <div class="ui segment" suiTabContent="contact">Third tab!</div>
+
+  <div suiTabContent="samp">
+    <div class="normal" *ngIf="samp">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
+  <div suiTabContent="abt">
+    <div class="normal" *ngIf="abt">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
+  <div suiTabContent="contact">
+    <div class="normal" *ngIf="contact">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
 </sui-tabset>
+
+<!-- <ng-template #home>
+  <router-outlet></router-outlet>
+</ng-template> -->

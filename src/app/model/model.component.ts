@@ -40,6 +40,7 @@ export class ModelComponent implements OnInit {
   }
 
   constructor(private render: Renderer2, private origamiService: OrigamiService){
+    localStorage.setItem('home', '/model');
     this.origamiService.sendMsg("dc");
     this.path = "assets/webgl/scene_mesh_texture.obj";
     this.r = 20;

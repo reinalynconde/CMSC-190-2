@@ -21,6 +21,10 @@ import { OrigamiService } from './services/origami.service';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { WebSocketService } from './services/web-socket.service';
 import { CustExtBrowserXhr } from './services/cust-ext-browser-xhr';
+import { SampleComponentComponent } from './sample-component/sample-component.component';
+import { SampleComponent } from './sample/sample.component';
+import { AboutComponent } from './about/about.component';
+import { ContactComponent } from './contact/contact.component';
 
 /*const appRoutes: Routes = [
   {
@@ -40,7 +44,11 @@ import { CustExtBrowserXhr } from './services/cust-ext-browser-xhr';
     LandComponent,
     InputComponent,
     ProcessingComponent,
-    ModelComponent
+    ModelComponent,
+    SampleComponentComponent,
+    SampleComponent,
+    AboutComponent,
+    ContactComponent
   ],
   imports: [
     CommonModule,

@@ -1,2 +1,0 @@
-/usr/bin/ar cq libSfm.a  CMakeFiles/Sfm.dir/StructureFromMotion.cpp.o
-/usr/bin/ranlib libSfm.a

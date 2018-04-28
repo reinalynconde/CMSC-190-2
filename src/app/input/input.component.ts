@@ -35,29 +35,22 @@ import UploadedImage from '../models/uploaded-image.model';
   ]
 })
 export class InputComponent implements OnInit {
-  input_page: Boolean;
-  not_upload: Boolean;
-  dim_for_load: Boolean;
-  dim_for_add: Boolean;
-  focal_length: number;
-  sensor_size: number;
-  button_label: String;
-  filesToUpload: Array<File>;
-  files: Array<File>;
+  input_page = true;
+  not_upload = true;
+  dim_for_load = false;
+  dim_for_add = false;
+  focal_length;
+  sensor_size;
+  button_label = "Upload";
+  filesToUpload = [];
+  files = [];
 
   public in: OrigamiInput = new OrigamiInput();
   public uploaded: Array<UploadedImage> = [];
 
   constructor(private origamiService: OrigamiService, private router: Router) {
-    this.input_page = true;
-    this.not_upload = true;
-    this.dim_for_load = false;
-    this.dim_for_add = false;
-    this.focal_length;
-    this.sensor_size;
-    this.button_label = "Upload";
-    this.filesToUpload = [];
-    this.files = [];
+    localStorage.setItem('home', '/input');
+
     
   }
 

@@ -47,11 +47,11 @@ INCS_Debug := \
 	-I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen \
 	-I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/flann/src/cpp \
 	-I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG \
-	-I/home/joy/Documents/sp/backend/cpp_src \
-	-I/home/joy/Documents/sp/backend/socket.io/socket.io-client-cpp/src \
-	-I/home/joy/Documents/sp/backend/socket.io/socket.io-client-cpp/lib/rapidjson/include \
-	-I/home/joy/Documents/sp/backend/socket.io/socket.io-client-cpp/lib/websocketpp \
-	-I/home/joy/Documents/sp/backend/socket.io/boost_install/include
+	-I/home/joy/Documents/sp/cpp_src \
+	-I/home/joy/Documents/sp/socket.io/socket.io-client-cpp/src \
+	-I/home/joy/Documents/sp/socket.io/socket.io-client-cpp/lib/rapidjson/include \
+	-I/home/joy/Documents/sp/socket.io/socket.io-client-cpp/lib/websocketpp \
+	-I/home/joy/Documents/sp/socket.io/boost_install/include
 
 DEFS_Release := \
 	'-DNODE_GYP_MODULE_NAME=addon' \
@@ -96,11 +96,11 @@ INCS_Release := \
 	-I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen \
 	-I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/flann/src/cpp \
 	-I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG \
-	-I/home/joy/Documents/sp/backend/cpp_src \
-	-I/home/joy/Documents/sp/backend/socket.io/socket.io-client-cpp/src \
-	-I/home/joy/Documents/sp/backend/socket.io/socket.io-client-cpp/lib/rapidjson/include \
-	-I/home/joy/Documents/sp/backend/socket.io/socket.io-client-cpp/lib/websocketpp \
-	-I/home/joy/Documents/sp/backend/socket.io/boost_install/include
+	-I/home/joy/Documents/sp/cpp_src \
+	-I/home/joy/Documents/sp/socket.io/socket.io-client-cpp/src \
+	-I/home/joy/Documents/sp/socket.io/socket.io-client-cpp/lib/rapidjson/include \
+	-I/home/joy/Documents/sp/socket.io/socket.io-client-cpp/lib/websocketpp \
+	-I/home/joy/Documents/sp/socket.io/boost_install/include
 
 OBJS := \
 	$(obj).target/$(TARGET)/cpp_src/StructureFromMotion.o \
@@ -135,10 +135,10 @@ LDFLAGS_Debug := \
 	-pthread \
 	-rdynamic \
 	-m64 \
-	-L/home/joy/Documents/sp/backend/socket.io/socket.io-client-cpp/build/lib/Release \
-	-Wl,-rpath,/home/joy/Documents/sp/backend/socket.io/socket.io-client-cpp/build/lib/Release \
-	-L/home/joy/Documents/sp/backend/socket.io/boost_install/lib \
-	-Wl,-rpath,/home/joy/Documents/sp/backend/socket.io/boost_install/lib \
+	-L/home/joy/Documents/sp/socket.io/socket.io-client-cpp/build/lib/Release \
+	-Wl,-rpath,/home/joy/Documents/sp/socket.io/socket.io-client-cpp/build/lib/Release \
+	-L/home/joy/Documents/sp/socket.io/boost_install/lib \
+	-Wl,-rpath,/home/joy/Documents/sp/socket.io/boost_install/lib \
 	-L/usr/local/lib \
 	-L/home/joy/Documents/openMVG_Build/openMVG_install/lib \
 	-Wl,-rpath,/home/joy/Documents/openMVG_Build/openMVG_install/lib
@@ -147,10 +147,10 @@ LDFLAGS_Release := \
 	-pthread \
 	-rdynamic \
 	-m64 \
-	-L/home/joy/Documents/sp/backend/socket.io/socket.io-client-cpp/build/lib/Release \
-	-Wl,-rpath,/home/joy/Documents/sp/backend/socket.io/socket.io-client-cpp/build/lib/Release \
-	-L/home/joy/Documents/sp/backend/socket.io/boost_install/lib \
-	-Wl,-rpath,/home/joy/Documents/sp/backend/socket.io/boost_install/lib \
+	-L/home/joy/Documents/sp/socket.io/socket.io-client-cpp/build/lib/Release \
+	-Wl,-rpath,/home/joy/Documents/sp/socket.io/socket.io-client-cpp/build/lib/Release \
+	-L/home/joy/Documents/sp/socket.io/boost_install/lib \
+	-Wl,-rpath,/home/joy/Documents/sp/socket.io/boost_install/lib \
 	-L/usr/local/lib \
 	-L/home/joy/Documents/openMVG_Build/openMVG_install/lib \
 	-Wl,-rpath,/home/joy/Documents/openMVG_Build/openMVG_install/lib
