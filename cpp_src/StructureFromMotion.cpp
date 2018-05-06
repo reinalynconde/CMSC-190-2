@@ -5,7 +5,7 @@
 #include "sio_message.h"
 
 #include <opencv2/opencv.hpp>
-#include "opencv2/core.hpp"
+#include "opencv2/core/core.hpp"
 #include "opencv2/core/eigen.hpp"
 #include "opencv2/imgproc.hpp"
 #include "opencv2/imgcodecs.hpp"
@@ -59,7 +59,6 @@
 #include <utility>
 #include <node.h>
 #include <nan.h>
-#include <sqlite3.h>
 #include <uv.h>
 #include <unistd.h>
 

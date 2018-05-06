@@ -308,8 +308,8 @@ ifeq ($(strip $(foreach prefix,$(NO_LOAD),\
 endif
 
 quiet_cmd_regen_makefile = ACTION Regenerating $@
-cmd_regen_makefile = cd $(srcdir); /usr/lib/node_modules/node-gyp/gyp/gyp_main.py -fmake --ignore-environment "--toplevel-dir=." -I/home/joy/Documents/sp/build/config.gypi -I/usr/lib/node_modules/node-gyp/addon.gypi -I/home/joy/.node-gyp/6.14.1/include/node/common.gypi "--depth=." "-Goutput_dir=." "--generator-output=build" "-Dlibrary=shared_library" "-Dvisibility=default" "-Dnode_root_dir=/home/joy/.node-gyp/6.14.1" "-Dnode_gyp_dir=/usr/lib/node_modules/node-gyp" "-Dnode_lib_file=/home/joy/.node-gyp/6.14.1/<(target_arch)/node.lib" "-Dmodule_root_dir=/home/joy/Documents/sp" "-Dnode_engine=v8" binding.gyp
-Makefile: $(srcdir)/../../.node-gyp/6.14.1/include/node/common.gypi $(srcdir)/build/config.gypi $(srcdir)/binding.gyp $(srcdir)/../../../../usr/lib/node_modules/node-gyp/addon.gypi
+cmd_regen_makefile = cd $(srcdir); /usr/lib/node_modules/node-gyp/gyp/gyp_main.py -fmake --ignore-environment "--toplevel-dir=." -I/home/ubuntu/origami/build/config.gypi -I/usr/lib/node_modules/node-gyp/addon.gypi -I/home/ubuntu/.node-gyp/6.14.2/include/node/common.gypi "--depth=." "-Goutput_dir=." "--generator-output=build" "-Dlibrary=shared_library" "-Dvisibility=default" "-Dnode_root_dir=/home/ubuntu/.node-gyp/6.14.2" "-Dnode_gyp_dir=/usr/lib/node_modules/node-gyp" "-Dnode_lib_file=/home/ubuntu/.node-gyp/6.14.2/<(target_arch)/node.lib" "-Dmodule_root_dir=/home/ubuntu/origami" "-Dnode_engine=v8" binding.gyp
+Makefile: $(srcdir)/../../../usr/lib/node_modules/node-gyp/addon.gypi $(srcdir)/build/config.gypi $(srcdir)/binding.gyp $(srcdir)/../.node-gyp/6.14.2/include/node/common.gypi
 	$(call do_cmd,regen_makefile)
 
 # "all" is a concatenation of the "all" targets from all the included

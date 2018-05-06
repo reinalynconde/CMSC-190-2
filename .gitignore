@@ -6,3 +6,5 @@ node_modules/**/*
 frontend/src/assets/js/.DS_Store
 backend/uploads/*
 docs/*
+binding.gyp
+dist/*
