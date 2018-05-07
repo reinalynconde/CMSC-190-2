@@ -1,0 +1,12 @@
+node_modules/**/*
+*.log
+*.*~
+src/assets/js/.DS_Store
+uploads/*
+docs/*
+Re*
+De*
+depth*
+id:*
+dist/*
+undistorted_images/*

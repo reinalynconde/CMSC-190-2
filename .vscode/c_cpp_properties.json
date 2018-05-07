@@ -1,0 +1,96 @@
+{
+    "configurations": [
+        {
+            "name": "Mac",
+            "includePath": [
+                "/usr/include",
+                "/usr/local/include",
+                "${workspaceRoot}"
+            ],
+            "defines": [],
+            "intelliSenseMode": "clang-x64",
+            "browse": {
+                "path": [
+                    "/usr/include",
+                    "/usr/local/include",
+                    "${workspaceRoot}"
+                ],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": ""
+            },
+            "macFrameworkPath": [
+                "/System/Library/Frameworks",
+                "/Library/Frameworks"
+            ]
+        },
+        {
+            "name": "Linux",
+            "includePath": [
+                "/usr/include/c++/4.8",
+                "/usr/include/x86_64-linux-gnu/c++/4.8",
+                "/usr/include/c++/4.8/backward",
+                "/usr/lib/gcc/x86_64-linux-gnu/4.8/include",
+                "/usr/local/include",
+                "/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed",
+                "/usr/include/x86_64-linux-gnu",
+                "/usr/include",
+                "/home/joy/Documents/openMVG_Build/openMVG_install/include",
+                "/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG_dependencies",
+                "/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG_dependencies/cereal/include",
+                "/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen",
+                "/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/flann/src/cpp",
+                "/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG",
+                "/home/joy/.node-gyp/6.13.1/include/node",
+                "/home/joy/.node-gyp/6.13.1/src",
+                "/home/joy/.node-gyp/6.13.1/deps/uv/include",
+                "/home/joy/.node-gyp/6.13.1/deps/v8/include",
+                "${workspaceRoot}",
+                "${workspaceFolder}/backend/node_modules/nan",
+                "${workspaceFolder}/backend/node_modules/streaming-worker-sdk",
+                "${workspaceFolder}/backend/socket.io/socket.io-client-cpp/build/include"
+            ],
+            "defines": [],
+            "intelliSenseMode": "clang-x64",
+            "browse": {
+                "path": [
+                    "/usr/include/c++/4.8",
+                    "/usr/include/x86_64-linux-gnu/c++/4.8",
+                    "/usr/include/c++/4.8/backward",
+                    "/usr/lib/gcc/x86_64-linux-gnu/4.8/include",
+                    "/usr/local/include",
+                    "/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed",
+                    "/usr/include/x86_64-linux-gnu",
+                    "/usr/include",
+                    "${workspaceRoot}"
+                ],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": ""
+            },
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c11",
+            "cppStandard": "c++14"
+        },
+        {
+            "name": "Win32",
+            "includePath": [
+                "C:/Program Files (x86)/Microsoft Visual Studio 14.0/VC/include",
+                "${workspaceRoot}"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "intelliSenseMode": "msvc-x64",
+            "browse": {
+                "path": [
+                    "C:/Program Files (x86)/Microsoft Visual Studio 14.0/VC/include/*",
+                    "${workspaceRoot}"
+                ],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": ""
+            }
+        }
+    ],
+    "version": 3
+}

@@ -1,0 +1,53 @@
+#inner_content {
+  text-align: center;
+  width: 100% !important;
+}
+
+@media screen and (min-device-width: 1318px)
+{
+  #welcome {
+    font-size: 5em;
+  }
+  
+  #trans {
+    font-size: 3em;
+  }
+}
+
+@media screen and (max-device-width: 1318px)
+{
+  #welcome {
+    font-size: 2em;
+  }
+  
+  #trans {
+    font-size: 1.5em;
+  }
+}
+
+.left,
+.right {
+  position: absolute;
+  /* color: #fff; */
+  font-family: Geneva, sans-serif;
+}
+
+.left {
+  bottom: 1em;
+  left: 1em;
+  text-align: left;
+}
+
+.right {
+  top: 0;
+  right: 0;
+  text-align: right;
+}
+
+a {
+  color: #ff641c;
+}
+
+a:hover {
+  color: #bb4b17;
+}

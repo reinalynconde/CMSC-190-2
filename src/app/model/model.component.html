@@ -1,0 +1,34 @@
+<div class="normal">
+  <div class="ui equal width grid">
+    <div class="column">
+      <div #modelContainer></div>
+
+      <a class="ui blue button" [href]="path" download>
+        Download Generated Model?
+      </a>
+    </div>
+    <div class="ui segment column">
+      <div class="ui stackable four column grid">
+
+          <div class="column"
+          *ngFor="let image of images">
+            <div class="ui compact segment"
+              [@imageState]="image.state"
+              (click)="image.toggleState()"
+            >
+              <img class="ui image" [src]="image.src">
+            </div>
+          </div>
+
+        </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="noModel" class="normal">
+  <h2>Sorry no model was created :(</h2>
+  <br>
+  <h2>But you can still try to upload different images.</h2>
+</div>
+
+<div class="ui orange button" routerLink="/input">TRY AGAIN</div>
