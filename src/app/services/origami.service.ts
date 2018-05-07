@@ -11,7 +11,7 @@ import UploadedImage from '../models/uploaded-image.model'
 
 @Injectable()
 export class OrigamiService {
-  api_url = 'http://localhost:8080';
+  api_url = 'http://34.217.210.201:80';
   origami_url = `${this.api_url}/api/origami`;
   messages: Subject<any>;
   id: String

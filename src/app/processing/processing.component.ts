@@ -24,7 +24,7 @@ export class ProcessingComponent implements OnInit {
 
   constructor(private origamiService: OrigamiService, private router: Router) {
     localStorage.setItem('home', '/processing');
-    this.sendMessage();
+    //this.sendMessage();
     /* var p = 10;
     while(p > 0) {
       console.log("Processing...");
@@ -81,6 +81,7 @@ export class ProcessingComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.sendMessage();
     // this.start_load();
     this.origamiService.messages.subscribe(msg => {
       console.log(msg);
@@ -138,7 +139,7 @@ export class ProcessingComponent implements OnInit {
   }
 
   sendMessage() {
-    "AGAAAIN"
+    console.log("AGAAAIN");
     this.origamiService.sendMsg(localStorage.getItem('now'));
   }
 

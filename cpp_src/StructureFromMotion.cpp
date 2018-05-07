@@ -59,7 +59,6 @@
 #include <utility>
 #include <node.h>
 #include <nan.h>
-#include <sqlite3.h>
 #include <uv.h>
 #include <unistd.h>
 
