@@ -3,6 +3,28 @@
   width: 100% !important;
 }
 
+@media screen and (min-device-width: 1318px)
+{
+  #welcome {
+    font-size: 5em;
+  }
+  
+  #trans {
+    font-size: 3em;
+  }
+}
+
+@media screen and (max-device-width: 1318px)
+{
+  #welcome {
+    font-size: 2em;
+  }
+  
+  #trans {
+    font-size: 1.5em;
+  }
+}
+
 .left,
 .right {
   position: absolute;

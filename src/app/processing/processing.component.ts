@@ -24,32 +24,6 @@ export class ProcessingComponent implements OnInit {
 
   constructor(private origamiService: OrigamiService, private router: Router) {
     localStorage.setItem('home', '/processing');
-    //this.sendMessage();
-    /* var p = 10;
-    while(p > 0) {
-      console.log("Processing...");
-      this.process();
-      --p;
-    } */
-    // this.origamiService.check();
-
-    /* while (!this.all_done) {
-      setTimeout(() => {
-        if(this.ia_val < 100)
-          this.ia_val+=10;
-        else if(this.fe_val < 100)
-          this.fe_val+=10;
-        else if(this.m_val < 100)
-          this.m_val+=10;
-        else if(this.r_val < 100)
-          this.r_val+=10;
-        else if(this.me_val < 100)
-          this.me_val+=10;
-      }, 5000);
-
-      if(this.me_val >= 100)
-        this.all_done = true;
-    } */
   }
 
   commence(): any {
@@ -62,19 +36,6 @@ export class ProcessingComponent implements OnInit {
       })
   }
 
-  process(): any {
-    this.origamiService.process()
-      .subscribe(res => {
-        console.log(res.data);
-        return res.data;
-      })
-      /* .then((err) => {
-        console.log(err);
-      }, (res) => {
-        console.log(res);
-      }); */
-  }
-
   start_load() {
     this.dim_for_load = true;
     setTimeout(() => this.router.navigateByUrl('/model'), 2000);
@@ -82,7 +43,7 @@ export class ProcessingComponent implements OnInit {
 
   ngOnInit() {
     this.sendMessage();
-    // this.start_load();
+
     this.origamiService.messages.subscribe(msg => {
       console.log(msg);
 
@@ -123,9 +84,6 @@ export class ProcessingComponent implements OnInit {
           this.m_val = 100;
           this.reconstruction = "Reconstructing Sparse Point Cloud done!";
           this.r_val = 100;
-          
-          console.log("heeey");
-          this.start_load();
         } else {
           this.matching = "Matching features done!";
           this.m_val = 100;
@@ -134,12 +92,30 @@ export class ProcessingComponent implements OnInit {
         }
       }
 
+      if(msg.step == 5) {
+        if(msg.percent == 100) {
+          this.reconstruction = "Reconstructing Sparse Point Cloud done!";
+          this.r_val = 100;
+
+          this.mesh = "Creating Mesh done!";
+          this.me_val = 100;          
+          console.log("heeey");
+          this.start_load();
+        } else {
+          this.matching = "Matching features done!";
+          this.m_val = 100;
+          this.reconstruction = "Reconstructing Sparse Point Cloud done!";
+          this.r_val = 100;
+          this.mesh = "Creating Mesh: " + msg.progress;
+          this.me_val = msg.percent;
+       }
+      }
+
     }) 
     
   }
 
   sendMessage() {
-    console.log("AGAAAIN");
     this.origamiService.sendMsg(localStorage.getItem('now'));
   }
 

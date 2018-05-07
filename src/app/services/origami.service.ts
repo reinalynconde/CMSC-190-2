@@ -56,6 +56,7 @@ export class OrigamiService {
 
       console.log("hi: " + params[0])
       
+      formData.append("uploads", files[0], params[0]);
       for(var i = 0; i < files.length; i++) {
         formData.append("uploads", files[i], files[i].name);
       }
@@ -92,22 +93,6 @@ export class OrigamiService {
       }
         reader.readAsDataURL(file);
       });
-  }
-
-  upload(uploaded_files: File[]) {
-    console.log("@ origami.service.ts");
-    console.log(uploaded_files);
-    return this.http.post(`${this.origami_url}` + '/upload', uploaded_files);
-  }
-
-  commence(): Observable<any> {
-    console.log("Trying to run...");
-    return this.http.post(`${this.origami_url}` + '/commence', []);
-  }
-
-  process(): Observable<any> {
-    console.log("p@ origami.service.ts");
-    return this.http.post(`${this.origami_url}` + '/process', []);
   }
 
   private handleError(error: any): Promise<any> {

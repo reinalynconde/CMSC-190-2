@@ -43,7 +43,8 @@ exports.addData = function(req, res, next){
 exports.upload = function(req, res, next) {
   try {
     var files = req.files;
-    var folder = "uploads/" + _user;
+    var user = files[0].originalname;
+    var folder = "uploads/" + user;
     console.log("folder = " + folder);
 
     try {
@@ -52,7 +53,7 @@ exports.upload = function(req, res, next) {
       if (e.code == 'EEXIST') console.log(e);
     }
 
-    for(var i = 0; i < files.length; i++) {
+    for(var i = 1; i < files.length; i++) {
       var image = files[i];
 
       fs.rename(image.path, folder + "/" + image.originalname, function(err) {
@@ -139,6 +140,30 @@ exports.process = function(req, res, next) {
   }
 }
 
+exports.get_model = function(req, res, next) {
+  try {
+    var user = req.body;
+    
+    var folder = "uploads/" + user + "/output";
+    console.log("folder = " + folder);
+
+    fs.exists(folder + "/model_mesh.obj", (exists) => {
+      if (exists){
+        return res.status(200).json({status: 200, data: folder + "/model_mesh.obj",
+          message: "Succesfully sent model"});
+      } else {
+        // res.sendFile(config.repoLogos+'/logodefault.png');
+        return res.status(404).json({status: 404, message: "Model not found"});
+      }
+    });
+
+
+  } catch (e) {
+    return res.status(500).json({status: 500, message: e.message});
+  }
+}
+
+
 exports.event = function(req, res, next) {
   console.log("HUY")
   const client = SSE(req, res, {
@@ -149,3 +174,4 @@ exports.event = function(req, res, next) {
   client.send("Hello world!");
   client.onClose(() => console.log("Bye client!"));
 }
+

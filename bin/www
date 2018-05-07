@@ -3,6 +3,7 @@ const delay = require('delay');
 const worker = require("streaming-worker");
 const through = require('through');
 const path = require("path");
+var fs = require('fs');
 const addon = path.join(__dirname, '../build/Release/addon');
 
 /**
@@ -26,19 +27,41 @@ app.set('port', port);
 
 var server = http.createServer(app);
 
+/**
+ * Recursive folder deletion
+ */
+
+function deleteFolderRecursive(path) {
+  if( fs.existsSync(path) ) {
+    fs.readdirSync(path).forEach(function(file,index){
+      var curPath = path + "/" + file;
+      if(fs.lstatSync(curPath).isDirectory()) { // recurse
+        deleteFolderRecursive(curPath);
+      } else { // delete file
+        fs.unlinkSync(curPath);
+      }
+    });
+    fs.rmdirSync(path);
+  }
+};
+
 /** 
  * Add socket.io
  */
 var progress = "";
 var perc;
 var step = "";
+var newjson = {}
 const io = require('socket.io')(server, {
   pingTimeout: 3600000,
   pingInterval: 60000
 });
 
-
 io.on('connection', (socket) => {
+  var has_model = "no";
+  var user;
+  var ind;
+  var out;
   // Log whenever a user connects
   console.log('user connected: ' + socket.id);
 
@@ -46,39 +69,133 @@ io.on('connection', (socket) => {
   socket.on('disconnect', function(reason){
     console.log('user disconnected: ' + socket.id);
     console.log('reason: ' + reason);
+    deleteFolderRecursive(ind);
   });
 
   // When we receive a 'message' event from our client, print out
   // the contents of that message and then echo it back to our client
   // using `io.emit()`
   socket.on('message', (message) => {
-    if(message == "dc")
+    if(message == "dc"){
       console.log(message);
-    else {
+      socket.emit('message', has_model);
+    } else {
       console.log("current user: " + message);
-      var user = message;
+      user = message;
 
-      var ind = "uploads/" + _user + "/";
-      var out = ind + "output";
+      ind = "uploads/" + user + "/";
+      out = ind + "output";
 
       console.log("COMMENCE!!!");
       //basic C++ run:
       const commence = worker(addon, {
         "inputDir": ind,
         "outputDir": out,
-        "user": _user
+        "user": user
       });
 
       commence.from.on('progress', function(sample){
         console.log("----------- Event -----------");
         console.log(JSON.parse(sample));
-        socket.emit('message', JSON.parse(sample));
-        // console.log(socket.id);
+
+        if(JSON.parse(sample).progress == "done") {
+          const { spawn } = require('child_process');
+          const convertToOpenMVS =
+            spawn('/home/joy/Documents/openMVG_Build/Linux-x86_64-RELEASE/openMVG_main_openMVG2openMVS',
+              ["-i", "uploads/"+ user + "/output/sfm_data.bin",
+              "-o", "uploads/" + user + "/output/scene.mvs"]);
+
+          newjson = {
+            "user": user,
+            "progress": "Converting to OpenMVS",
+            "percent": 2,
+            "step": 5
+          }
+
+          socket.emit('message', newjson);
+
+          convertToOpenMVS.stdout.on('data', (data) => {
+            console.log(`stdout: ${data}`);
+          });
+
+          convertToOpenMVS.stderr.on('data', (data) => {
+            console.log(`stderr: ${data}`);
+          });
+
+          convertToOpenMVS.on('close', (code) => {
+            console.log(`child process exited with code ${code}`);
+
+            newjson = {
+              "user": user,
+              "progress": "Densifying Point Cloud",
+              "percent": 33,
+              "step": 5
+            }
+
+            socket.emit('message', newjson);
+
+            const densify =
+              spawn('/home/joy/openMVS_build/bin/DensifyPointCloud',
+                ["-i", "uploads/" + user + "/output/scene.mvs",
+                "-o", "uploads/" + user + "/output/dense"]);
+
+            densify.stdout.on('data', (data) => {
+              console.log(`stdout: ${data}`);
+            });
+
+            densify.stderr.on('data', (data) => {
+              console.log(`stderr: ${data}`);
+            });
+
+            densify.on('close', (code) => {
+              console.log(`child process exited with code ${code}`);
+
+              newjson = {
+                "user": user,
+                "progress": "Adding Mesh",
+                "percent": 66,
+                "step": 5
+              }
+
+              socket.emit('message', newjson);
+
+              const mesh =
+                spawn('/home/joy/openMVS_build/bin/ReconstructMesh',
+                ["-i", "uploads/" + user + "/output/dense.mvs",
+                "-o", "uploads/" + user + "/output/mesh",
+                "--export-type=obj"]);
+
+              mesh.stdout.on('data', (data) => {
+                console.log(`stdout: ${data}`);
+              });
+
+              mesh.stderr.on('data', (data) => {
+                console.log(`stderr: ${data}`);
+              });
+
+              mesh.on('close', (code) => {
+                console.log(`child process exited with code ${code}`);
+
+                if(code == 0)
+                  has_model = "yes";
+
+                newjson = {
+                  "user": user,
+                  "progress": "done",
+                  "percent": 100,
+                  "step": 5
+                }
+
+                socket.emit('message', newjson);
+
+              });
+            });
+          });
+        } else
+          socket.emit('message', JSON.parse(sample));
 
         console.log("-----------------------------");
       });
-
-      // socket.emit('message', {text: "done", step: 4});
     }
 
   });
@@ -150,6 +267,7 @@ function onListening() {
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  console.log("listening..");
   debug('Listening on ' + bind);
+  console.log(bind);
 }
+

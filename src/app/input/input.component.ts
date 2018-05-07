@@ -123,6 +123,14 @@ export class InputComponent implements OnInit {
     this.origamiService.addData(this.in)
       .subscribe((res) => {
         console.log("Data successfully added!");
+
+        var len = this.uploaded.length;
+
+        if(len > 16) len = 16;
+
+        for(var x = 0; x < len; x++) {
+          localStorage.setItem(x + '', this.uploaded[x].name + '');
+        }
         
         this.origamiService.makeFileRequest(this.getUploadUrl(), [id],
           this.files)

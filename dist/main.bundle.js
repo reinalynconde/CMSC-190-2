@@ -1039,7 +1039,7 @@ var ProcessingComponent = /** @class */ (function () {
         this.me_val = 0;
         this.progress = "";
         localStorage.setItem('home', '/processing');
-        this.sendMessage();
+        //this.sendMessage();
         /* var p = 10;
         while(p > 0) {
           console.log("Processing...");
@@ -1093,6 +1093,7 @@ var ProcessingComponent = /** @class */ (function () {
     };
     ProcessingComponent.prototype.ngOnInit = function () {
         var _this = this;
+        this.sendMessage();
         // this.start_load();
         this.origamiService.messages.subscribe(function (msg) {
             console.log(msg);
@@ -1141,7 +1142,7 @@ var ProcessingComponent = /** @class */ (function () {
         });
     };
     ProcessingComponent.prototype.sendMessage = function () {
-        "AGAAAIN";
+        console.log("AGAAAIN");
         this.origamiService.sendMsg(localStorage.getItem('now'));
     };
     ProcessingComponent = __decorate([
@@ -1464,7 +1465,7 @@ var OrigamiService = /** @class */ (function () {
     function OrigamiService(http, ws) {
         this.http = http;
         this.ws = ws;
-        this.api_url = 'http://localhost:8080';
+        this.api_url = 'http://34.217.210.201:80';
         this.origami_url = this.api_url + "/api/origami";
         this.messages = ws
             .connect()
@@ -1643,7 +1644,7 @@ var WebSocketService = /** @class */ (function () {
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 var environment = {
     production: false,
-    ws_url: "http://localhost:8080"
+    ws_url: "http://34.217.210.201:80"
 };
 
 

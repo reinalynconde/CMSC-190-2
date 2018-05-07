@@ -32,7 +32,7 @@ export class AppComponent {
   }
 
   set_samp() {
-    this.router.navigateByUrl('/sample')
+    this.router.navigateByUrl('/sample1')
     this.notHome = false;
     this.samp = true;
     this.home = false;

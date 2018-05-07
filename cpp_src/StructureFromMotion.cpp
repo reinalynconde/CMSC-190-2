@@ -1,10 +1,14 @@
 #include <cereal/archives/json.hpp>
+#include <cereal/cereal.hpp>
+#include <cereal/types/polymorphic.hpp>
+#include <cereal/details/helpers.hpp>
+
 #include "StructureFromMotion.hpp"
 #include "streaming-worker.h"
 #include "sio_client.h"
 #include "sio_message.h"
 
-#include <opencv2/opencv.hpp>
+#include "opencv2/opencv.hpp"
 #include "opencv2/core.hpp"
 #include "opencv2/core/eigen.hpp"
 #include "opencv2/imgproc.hpp"
@@ -14,32 +18,75 @@
 #include "opencv2/xfeatures2d.hpp"
 #include "opencv2/flann/miniflann.hpp"
 
+#include "openMVG/cameras/cameras.hpp"
 #include "openMVG/cameras/Camera_Pinhole.hpp"
+#include "openMVG/cameras/Camera_undistort_image.hpp"
+#include "openMVG/cameras/Camera_Common.hpp"
+#include "openMVG/cameras/Cameras_Common_command_line_helper.hpp"
 #include "openMVG/features/feature.hpp"
+#include "openMVG/features/akaze/image_describer_akaze.hpp"
+#include "openMVG/features/descriptor.hpp"
 #include "openMVG/features/sift/SIFT_Anatomy_Image_Describer.hpp"
+#include "openMVG/features/sift/SIFT_Anatomy_Image_Describer_io.hpp"
 #include "openMVG/image/image_io.hpp"
 #include "openMVG/image/image_concat.hpp"
 #include "openMVG/features/regions_factory_io.hpp"
 #include "openMVG/features/svg_features.hpp"
 #include "openMVG/exif/exif_IO_EasyExif.hpp"
+#include "openMVG/geodesy/geodesy.hpp"
 #include "openMVG/geometry/pose3.hpp"
 #include "openMVG/multiview/solver_fundamental_kernel.hpp"
 #include "openMVG/multiview/solver_homography_kernel.hpp"
 #include "openMVG/multiview/triangulation.hpp"
+#include "openMVG/multiview/essential.hpp"
 #include "openMVG/numeric/eigen_alias_definition.hpp"
 #include "openMVG/matching/regions_matcher.hpp"
 #include "openMVG/matching/svg_matches.hpp"
+#include "openMVG/matching/indMatch.hpp"
+#include "openMVG/matching/indMatch_utils.hpp"
+#include "openMVG/matching_image_collection/Matcher_Regions.hpp"
+#include "openMVG/matching_image_collection/Cascade_Hashing_Matcher_Regions.hpp"
+#include "openMVG/matching_image_collection/GeometricFilter.hpp"
+#include "openMVG/sfm/pipelines/sfm_features_provider.hpp"
+#include "openMVG/sfm/pipelines/sfm_matches_provider.hpp"
+#include "openMVG/sfm/pipelines/sfm_regions_provider.hpp"
+#include "openMVG/sfm/pipelines/sfm_regions_provider_cache.hpp"
+#include "openMVG/matching_image_collection/Geometric_Filter_utils.hpp"
+#include "openMVG/matching_image_collection/F_ACRobust.hpp"
+#include "openMVG/matching_image_collection/E_ACRobust.hpp"
+#include "openMVG/matching_image_collection/H_ACRobust.hpp"
+#include "openMVG/matching_image_collection/Pair_Builder.hpp"
+#include "openMVG/matching/pairwiseAdjacencyDisplay.hpp"
+#include "openMVG/sfm/pipelines/sequential/sequential_SfM.hpp"
 #include "openMVG/sfm/pipelines/sfm_robust_model_estimation.hpp"
 #include "openMVG/sfm/sfm.hpp"
 #include "openMVG/sfm/sfm_data.hpp"
 #include "openMVG/sfm/sfm_data_BA.hpp"
 #include "openMVG/sfm/sfm_data_BA_ceres.hpp"
 #include "openMVG/sfm/sfm_data_io.hpp"
+#include "openMVG/sfm/sfm_data_utils.hpp"
+#include "openMVG/sfm/sfm_view.hpp"
+#include "openMVG/sfm/sfm_view_priors.hpp"
+#include "openMVG/stl/stl.hpp"
 #include "openMVG/robust_estimation/robust_estimator_ACRansac.hpp"
 #include "openMVG/robust_estimation/robust_estimator_ACRansacKernelAdaptator.hpp"
 #include "openMVG/types.hpp"
 
+#include "pcl/point_types.h"
+#include "pcl/point_cloud.h"
+#include "pcl/io/obj_io.h"
+#include "pcl/io/ply_io.h"
+#include "pcl/io/pcd_io.h"
+#include "pcl/kdtree/kdtree_flann.h"
+#include "pcl/features/normal_3d.h"
+#include "pcl/surface/gp3.h"
+
+#define _USE_EIGEN
+#include "InterfaceMVS.h"
+
 #include "third_party/stlplus3/filesystemSimplified/file_system.hpp"
+
+#include "nonFree/sift/SIFT_describer_io.hpp"
 
 #include <ceres/ceres.h>
 #include <ceres/rotation.h>
@@ -61,6 +108,7 @@
 #include <nan.h>
 #include <uv.h>
 #include <unistd.h>
+#include <omp.h>
 
 // #include <iostream>
 #include <chrono>
@@ -75,10 +123,12 @@ using namespace openMVG::image;
 using namespace openMVG::exif;
 using namespace openMVG::features;
 using namespace openMVG::matching;
+using namespace openMVG::robust;
 using namespace openMVG::cameras;
 using namespace openMVG::geometry;
 using namespace openMVG::robust;
 using namespace openMVG::sfm;
+using namespace openMVG::matching_image_collection;
 using namespace std;
 using namespace stlplus;
 // using namespace v8;
@@ -87,22 +137,27 @@ using namespace sio;
 
 using json = nlohmann::json;
 
-SfmData::SfmData(Callback *data, Callback *complete, Callback *error_callback,  v8::Local<v8::Object> & options) : StreamingWorker(data, complete, error_callback) {
+SfmData::SfmData(Callback *data, Callback *complete, Callback *error_callback,
+  v8::Local<v8::Object> & options) : StreamingWorker(data, complete,
+  error_callback) {
 
   if (options->IsObject() ) {
-    v8::Local<v8::Value> in_ = options->Get(New<v8::String>("inputDir").ToLocalChecked());
+    v8::Local<v8::Value> in_ = options->Get(New<v8::String>("inputDir")
+      .ToLocalChecked());
     if ( in_->IsString() ) {
       v8::String::Utf8Value s(in_);
       input_dirr = *s;
     }
 
-    v8::Local<v8::Value> out_ = options->Get(New<v8::String>("outputDir").ToLocalChecked());
+    v8::Local<v8::Value> out_ = options->Get(New<v8::String>("outputDir")
+      .ToLocalChecked());
     if ( out_->IsString() ) {
       v8::String::Utf8Value s(out_);
       output_dir = *s;
     }
 
-    v8::Local<v8::Value> user_ = options->Get(New<v8::String>("user").ToLocalChecked());
+    v8::Local<v8::Value> user_ = options->Get(New<v8::String>("user")
+      .ToLocalChecked());
     if ( user_->IsString() ) {
       v8::String::Utf8Value s(user_);
       uname = *s;
@@ -115,12 +170,244 @@ SfmData::~SfmData() {
 
 }
 
+bool SfmData::create_mesh() {
+  // Load input file into a PointCloud<T> with an appropriate type
+  pcl::PointCloud<pcl::PointXYZ>::Ptr cloud (new pcl::PointCloud<pcl::PointXYZ>);
+  pcl::PCLPointCloud2 cloud_blob;
+  pcl::io::loadPLYFile(output_dir + "/model_sparse.ply", cloud_blob);
+  // pcl::io::loadPCDFile ("bun0.pcd", cloud_blob);
+  pcl::fromPCLPointCloud2 (cloud_blob, *cloud);
+  //* the data should be available in cloud
+
+  // Normal estimation*
+  pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> n;
+  pcl::PointCloud<pcl::Normal>::Ptr normals (new pcl::PointCloud<pcl::Normal>);
+  pcl::search::KdTree<pcl::PointXYZ>::Ptr tree (new pcl::search::KdTree<pcl::PointXYZ>);
+  tree->setInputCloud (cloud);
+  n.setInputCloud (cloud);
+  n.setSearchMethod (tree);
+  n.setKSearch (20);
+  n.compute (*normals);
+  //* normals should not contain the point normals + surface curvatures
+
+  // Concatenate the XYZ and normal fields*
+  pcl::PointCloud<pcl::PointNormal>::Ptr cloud_with_normals (new pcl::PointCloud<pcl::PointNormal>);
+  pcl::concatenateFields (*cloud, *normals, *cloud_with_normals);
+  //* cloud_with_normals = cloud + normals
+
+  // Create search tree*
+  pcl::search::KdTree<pcl::PointNormal>::Ptr tree2 (new pcl::search::KdTree<pcl::PointNormal>);
+  tree2->setInputCloud (cloud_with_normals);
+
+  // Initialize objects
+  pcl::GreedyProjectionTriangulation<pcl::PointNormal> gp3;
+  pcl::PolygonMesh triangles;
+
+  // Set the maximum distance between connected points (maximum edge length)
+  gp3.setSearchRadius (10.0); //0.025
+
+  // Set typical values for the parameters
+  gp3.setMu (2.5);
+  gp3.setMaximumNearestNeighbors (100);
+  gp3.setMaximumSurfaceAngle(M_PI/4); // 45 degrees
+  gp3.setMinimumAngle(M_PI/18); // 10 degrees
+  gp3.setMaximumAngle(2*M_PI/3); // 120 degrees
+  gp3.setNormalConsistency(false);
+
+  // Get result
+  gp3.setInputCloud (cloud_with_normals);
+  gp3.setSearchMethod (tree2);
+  gp3.reconstruct (triangles);
+
+  // Additional vertex information
+  std::vector<int> parts = gp3.getPartIDs();
+  std::vector<int> states = gp3.getPointStates();
+
+  pcl::io::saveOBJFile("src/assets/output_models/" + uname + ".obj", triangles);
+
+  // Finish
+  return (0);
+}
+
+bool SfmData::exportToOpenMVS() {
+  string out = string(output_dir) + "/undistorted";
+    // Create undistorted images directory structure
+  if (!folder_exists(out)) {
+    cout << "Output directory for undistorted images does not exist. Will try to create now..."
+      << endl;
+    if (!folder_create(out)) {
+      cerr << "\nCannot create output directory" << endl;
+      return false;
+    }
+  }
+
+  // Export data :
+  MVS::Interface scene;
+  size_t nPoses(0);
+  const uint32_t nViews((uint32_t)sfm_data.GetViews().size());
+
+  // OpenMVG can have not contiguous index, use a map to create the required OpenMVS contiguous ID index
+  std::map<openMVG::IndexT, uint32_t> map_intrinsic, map_view;
+
+  // define a platform with all the intrinsic group
+  for (const auto& intrinsic: sfm_data.GetIntrinsics())
+  {
+    if (isPinhole(intrinsic.second->getType()))
+    {
+      const Pinhole_Intrinsic * cam = dynamic_cast<const Pinhole_Intrinsic*>(intrinsic.second.get());
+      if (map_intrinsic.count(intrinsic.first) == 0)
+        map_intrinsic.insert(std::make_pair(intrinsic.first, scene.platforms.size()));
+      MVS::Interface::Platform platform;
+      // add the camera
+      MVS::Interface::Platform::Camera camera;
+      camera.K = cam->K();
+      // sub-pose
+      camera.R = Mat3::Identity();
+      camera.C = Vec3::Zero();
+      platform.cameras.push_back(camera);
+      scene.platforms.push_back(platform);
+    }
+  }
+
+  // define images & poses
+  scene.images.reserve(nViews);
+  for (const auto& view : sfm_data.GetViews())
+  {
+    map_view[view.first] = scene.images.size();
+    MVS::Interface::Image image;
+    const std::string srcImage = stlplus::create_filespec(sfm_data.s_root_path, view.second->s_Img_path);
+    image.name = stlplus::create_filespec(output_dir, view.second->s_Img_path);
+    image.platformID = map_intrinsic.at(view.second->id_intrinsic);
+    MVS::Interface::Platform& platform = scene.platforms[image.platformID];
+    image.cameraID = 0;
+    if (!stlplus::is_file(srcImage))
+    {
+      std::cout << "Cannot read the corresponding image: " << srcImage << std::endl;
+      return EXIT_FAILURE;
+    }
+    if (sfm_data.IsPoseAndIntrinsicDefined(view.second.get()) && stlplus::is_file(srcImage))
+    {
+      MVS::Interface::Platform::Pose pose;
+      image.poseID = platform.poses.size();
+      const openMVG::geometry::Pose3 poseMVG(sfm_data.GetPoseOrDie(view.second.get()));
+      pose.R = poseMVG.rotation();
+      pose.C = poseMVG.center();
+      // export undistorted images
+      const openMVG::cameras::IntrinsicBase * cam = sfm_data.GetIntrinsics().at(view.second->id_intrinsic).get();
+      if (cam->have_disto())
+      {
+        // undistort image and save it
+        Image<openMVG::image::RGBColor> imageRGB, imageRGB_ud;
+        ReadImage(srcImage.c_str(), &imageRGB);
+        UndistortImage(imageRGB, cam, imageRGB_ud, BLACK);
+        WriteImage(image.name.c_str(), imageRGB_ud);
+      }
+      else
+      {
+        // just copy image
+        stlplus::file_copy(srcImage, image.name);
+      }
+      platform.poses.push_back(pose);
+      ++nPoses;
+    }
+    else
+    {
+      // image have not valid pose, so set an undefined pose
+      image.poseID = NO_ID;
+      // just copy the image
+      stlplus::file_copy(srcImage, image.name);
+    }
+    scene.images.emplace_back(image);
+  }
+
+  // define structure
+  scene.vertices.reserve(sfm_data.GetLandmarks().size());
+  for (const auto& vertex: sfm_data.GetLandmarks())
+  {
+    const Landmark & landmark = vertex.second;
+    MVS::Interface::Vertex vert;
+    MVS::Interface::Vertex::ViewArr& views = vert.views;
+    for (const auto& observation: landmark.obs)
+    {
+      const auto it(map_view.find(observation.first));
+      if (it != map_view.end()) {
+        MVS::Interface::Vertex::View view;
+        view.imageID = it->second;
+        view.confidence = 0;
+        views.push_back(view);
+      }
+    }
+    if (views.size() < 2)
+      continue;
+    std::sort(
+      views.begin(), views.end(),
+      [] (const MVS::Interface::Vertex::View& view0, const MVS::Interface::Vertex::View& view1)
+      {
+        return view0.imageID < view1.imageID;
+      }
+    );
+    vert.X = landmark.X.cast<float>();
+    scene.vertices.push_back(vert);
+  }
+
+  // normalize camera intrinsics
+  for (size_t p=0; p<scene.platforms.size(); ++p)
+  {
+    MVS::Interface::Platform& platform = scene.platforms[p];
+    for (size_t c=0; c<platform.cameras.size(); ++c) {
+      MVS::Interface::Platform::Camera& camera = platform.cameras[c];
+      // find one image using this camera
+      MVS::Interface::Image* pImage(nullptr);
+      for (MVS::Interface::Image& image: scene.images)
+      {
+        if (image.platformID == p && image.cameraID == c && image.poseID != NO_ID)
+        {
+          pImage = &image;
+          break;
+        }
+      }
+      if (pImage == nullptr)
+      {
+        std::cerr << "error: no image using camera " << c << " of platform " << p << std::endl;
+        continue;
+      }
+      // read image meta-data
+      ImageHeader imageHeader;
+      ReadImageHeader(pImage->name.c_str(), &imageHeader);
+      const double fScale(1.0/std::max(imageHeader.width, imageHeader.height));
+      camera.K(0, 0) *= fScale;
+      camera.K(1, 1) *= fScale;
+      camera.K(0, 2) *= fScale;
+      camera.K(1, 2) *= fScale;
+    }
+  }
+
+  // write OpenMVS data
+  if (!MVS::ARCHIVE::SerializeSave(scene, uname + ".mvs"))
+    return false;
+
+  std::cout
+    << "Scene saved to OpenMVS interface format:\n"
+    << " #platforms: " << scene.platforms.size() << std::endl;
+    for (int i = 0; i < scene.platforms.size(); ++i)
+    {
+      std::cout << "  platform ( " << i << " ) #cameras: " << scene.platforms[i].cameras.size() << std::endl;
+    }
+  std::cout
+    << "  " << scene.images.size() << " images (" << nPoses << " calibrated)\n"
+    << "  " << scene.vertices.size() << " Landmarks\n";
+  return true;
+}
+
 void SfmData::Execute (const AsyncProgressWorker::ExecutionProgress& progress) {
   bool closed = false;
 
   while (!closed) {
-    if(set_dir(progress, input_dirr, output_dir, uname))
+    if(set_dir(progress, input_dirr, output_dir, uname)) {
       reconstruct(progress);
+      // exportToOpenMVS();
+      // create_mesh();
+    }
     
     closed = true;
     send_progress(progress, "done", 100, 4);
@@ -163,6 +450,10 @@ bool SfmData::set_dir(const AsyncProgressWorker::ExecutionProgress& prog, const 
   input_dirr = input_dir;
   output_dir = output_d;
   uname = user;
+
+  sfm_data.s_root_path = input_dirr;
+  Views & views = sfm_data.views;
+  Intrinsics & intrinsics_mvg = sfm_data.intrinsics;
 
   vector<string> imags = folder_files(input_dir);
   sort(imags.begin(), imags.end());
@@ -241,6 +532,19 @@ bool SfmData::set_dir(const AsyncProgressWorker::ExecutionProgress& prog, const 
 
     images.push_back(image);
 
+    //intrinsics for openmvg
+    shared_ptr<IntrinsicBase> intrinsic = make_shared<Pinhole_Intrinsic_Radial_K3>(image.width, image.height, image.focal, image.ppx, image.ppy, 0.0, 0.0, 0.0);
+
+    //view
+    View v(*i, views.size(), views.size(), views.size(), image.width, image.height);
+
+    if(intrinsic == nullptr)
+      v.id_intrinsic = UndefinedIndexT;
+    else
+      intrinsics_mvg[v.id_intrinsic] = intrinsic;
+
+    views[v.id_view] = make_shared<View>(v);
+
     ++c;
 
     progress = to_string((int)c) + string(" out of ") + to_string((int)i_size) + string(" images.");
@@ -258,6 +562,8 @@ bool SfmData::reconstruct(const AsyncProgressWorker::ExecutionProgress& prog) {
       cerr << "Directory is empty" << endl;
       return false;
   }
+
+  bool ok = false;
 
   //init intrinsic data
   Image_data img = images[0]; //basis
@@ -283,8 +589,11 @@ bool SfmData::reconstruct(const AsyncProgressWorker::ExecutionProgress& prog) {
   detect_features(prog);
   //immediately end if there are no matches
   if(!feature_match(prog)) return false;
-  select_initial_pair();
-  add_camera(prog);
+  //immediately end if there is no model
+  if(!inc_sfm()) return false;
+  
+  // select_initial_pair();
+  // add_camera(prog);
 
   cout << "DONE!" << endl;
 
@@ -376,9 +685,57 @@ void SfmData::detect_features(const AsyncProgressWorker::ExecutionProgress& prog
   string progress;
   double percent = 0;
 
+  //use openmvg's image describer
+  const std::string fimage_describer = stlplus::create_filespec(output_dir, "image_describer", "json");
+  unique_ptr<Image_describer> image_describer;
+  image_describer.reset(new SIFT_Image_describer
+        (SIFT_Image_describer::Params(), true));
+
+  std::ofstream stream(fimage_describer.c_str());
+  if (!stream.is_open())
+    return;
+
+  cereal::JSONOutputArchive archive(stream);
+  archive(cereal::make_nvp("image_describer", image_describer));
+  auto regions = image_describer->Allocate();
+  archive(cereal::make_nvp("regions_type", regions));
+
+  Image<uint8_t> imageGray;
+  omp_set_num_threads(omp_get_max_threads());
+
   for(size_t i = 0; i < i_size; i++) {
     cout << "Detecting features of: " << images[i].fname << endl;
+    Views::const_iterator iter = sfm_data.views.begin();
+    cout << "0" << endl;
+    std::advance(iter, i);
+    cout << "a" << endl;
+    const View *view = iter->second.get();
+    
+    cout << "b" << endl;
+    string filename = create_filespec(sfm_data.s_root_path, view->s_Img_path);
+    cout << "c" << endl;
+    string ffeat = create_filespec(output_dir, basename_part(filename), "feat");
+    cout << "d" << endl;
+    string fdesc = create_filespec(output_dir, basename_part(filename), "desc");
 
+    cout << "e" << endl;
+
+    cout << filename << endl;
+    cv::Mat im = imread(filename, CV_LOAD_IMAGE_GRAYSCALE);
+    if(im.empty())
+      continue;
+
+    imageGray.resize(im.cols, im.rows);
+    cv::cv2eigen(im, *(Image<uint8_t>::Base*)&imageGray);
+
+    Image<unsigned char> * mask = nullptr;
+    cout << "f0" << endl;
+    auto regions = image_describer->Describe(imageGray, mask);
+    cout << "f1" << endl;
+    image_describer->Save(regions.get(), ffeat, fdesc);
+    cout << "f2" << endl;
+
+    cout << "f" << endl;
     //sift detector
     KeyPoints v_keypoints;
     cv::Mat m_desc;
@@ -388,6 +745,7 @@ void SfmData::detect_features(const AsyncProgressWorker::ExecutionProgress& prog
     sift->detectAndCompute(images[i].actual_image,
       noArray(), v_keypoints, m_desc);
 
+    cout << "g" << endl;
     //add the detected features to describer
     Describer desc;
     desc.keypoints = v_keypoints;
@@ -406,12 +764,15 @@ void SfmData::detect_features(const AsyncProgressWorker::ExecutionProgress& prog
 
     send_progress(prog, progress, percent, 2);
     std::this_thread::sleep_for(chrono::milliseconds(50));
-  } //end images for loop
+
+  } //end images for loop    
 
 } //detect_features end
 
 bool SfmData::feature_match(const AsyncProgressWorker::ExecutionProgress& prog) {
+  cout << "Start featur match!" << endl;
   size_t i_size = images.size();
+  size_t v_size = sfm_data.GetViews().size();
   bool ok = false;
 
   if(describer.size() == 0)
@@ -422,6 +783,72 @@ bool SfmData::feature_match(const AsyncProgressWorker::ExecutionProgress& prog) 
 
   string progress;
   double percent = 0;
+
+  string fimage_describer = create_filespec(output_dir, "image_describer", "json");
+  std::unique_ptr<Regions> regions_type = Init_region_type_from_file(fimage_describer);
+  cout << "h" << endl;
+  if (!regions_type) {
+    return false;
+  }
+
+  shared_ptr<Regions_Provider> regions_provider = make_shared<Regions_Provider>();
+cout << "i" << endl;
+  if (!regions_provider->load(sfm_data, output_dir, regions_type)) {
+    std::cerr << std::endl << "Invalid regions." << std::endl;
+    return false;
+  }
+
+  PairWiseMatches map_PutativesMatches;
+  vector<string> vec_fileNames;
+  vector<pair<size_t, size_t> > vec_imagesSize;
+  {
+    vec_fileNames.reserve(v_size);
+    vec_imagesSize.reserve(v_size);
+    for (Views::const_iterator iter = sfm_data.GetViews().begin();
+      iter != sfm_data.GetViews().end();
+      iter++)
+    {
+      cout << vec_fileNames.size() << endl;
+     
+      const View * v = iter->second.get();
+      vec_fileNames.push_back(stlplus::create_filespec(sfm_data.s_root_path,
+          v->s_Img_path));
+      vec_imagesSize.push_back( std::make_pair( v->ui_width, v->ui_height) );
+    }
+  }
+
+  cout << "out!" << endl;
+  unique_ptr<Matcher> collectionMatcher;
+  collectionMatcher.reset(new Matcher_Regions(0.8f, ANN_L2));
+
+  // From matching mode compute the pair list that have to be matched:
+  Pair_Set pairs = exhaustivePairs(v_size);
+  // Photometric matching of putative pairs
+  C_Progress_display progresss;
+  collectionMatcher->Match(sfm_data, regions_provider, pairs, map_PutativesMatches, &progresss);
+  cout << "out1" << endl;
+  //geometric filter
+  unique_ptr<ImageCollectionGeometricFilter> filter_ptr(
+    new ImageCollectionGeometricFilter(&sfm_data, regions_provider));
+  
+  if (!Save(map_PutativesMatches, std::string(output_dir + "/matches.putative.bin"))) return false;
+  cout << "out2" << endl;
+  if(!filter_ptr) return false;
+
+  if(map_PutativesMatches.size() == 0){
+    cout << "empty!" << endl;
+    return false;
+  }
+
+  PairWiseMatches geom_matches;
+  filter_ptr->Robust_model_estimation(GeometricFilter_FMatrix_AC(4.0, 2048), map_PutativesMatches, false, 0.6, &progresss);
+  
+  geom_matches = filter_ptr->Get_geometric_matches();
+
+
+  if (!Save(geom_matches, string(output_dir + "/matches.f.bin")))
+    return false;
+
 
   for(size_t i = 0; i < (i_size - 1); i++) {
     for(size_t j = (i + 1); j < i_size; j++) {
@@ -475,6 +902,92 @@ bool SfmData::feature_match(const AsyncProgressWorker::ExecutionProgress& prog) 
 
   return ok;
 } //feature_match end
+
+bool computeIndexFromImageNames(
+  const SfM_Data & sfm_data,
+  const std::pair<std::string,std::string>& initialPairName,
+  Pair& initialPairIndex)
+{
+  if (initialPairName.first == initialPairName.second)
+  {
+    std::cerr << "\nInvalid image names. You cannot use the same image to initialize a pair." << std::endl;
+    return false;
+  }
+
+  initialPairIndex = Pair(UndefinedIndexT, UndefinedIndexT);
+
+  /// List views filenames and find the one that correspond to the user ones:
+  for (Views::const_iterator it = sfm_data.GetViews().begin();
+    it != sfm_data.GetViews().end(); ++it)
+  {
+    const View * v = it->second.get();
+    const std::string filename = stlplus::filename_part(v->s_Img_path);
+    if (filename == initialPairName.first)
+    {
+      initialPairIndex.first = v->id_view;
+    }
+    else{
+      if (filename == initialPairName.second)
+      {
+        initialPairIndex.second = v->id_view;
+      }
+    }
+  }
+  return (initialPairIndex.first != UndefinedIndexT &&
+      initialPairIndex.second != UndefinedIndexT);
+}
+
+bool SfmData::inc_sfm() {
+  const string fimage_describer = create_filespec(output_dir, "image_describer", "json");
+  unique_ptr<Regions> regions_type = Init_region_type_from_file(fimage_describer);
+  if(!regions_type) return false;
+
+  const cameras::Intrinsic_Parameter_Type refinement_opts =
+    cameras::StringTo_Intrinsic_Parameter_Type("ADJUST_ALL");
+
+  // Features reading
+  shared_ptr<Features_Provider> feats_provider = make_shared<Features_Provider>();
+  if(!feats_provider->load(sfm_data, output_dir, regions_type)) 
+    return false;
+
+  // Matches reading
+  shared_ptr<Matches_Provider> matches_provider = make_shared<Matches_Provider>();
+  if(!(matches_provider->load(sfm_data, stlplus::create_filespec(output_dir, "matches.f.bin"))) )
+    return false;
+
+  SequentialSfMReconstructionEngine sfmEngine(sfm_data, output_dir);
+
+   // Configure the features_provider & the matches_provider
+  sfmEngine.SetFeaturesProvider(feats_provider.get());
+  sfmEngine.SetMatchesProvider(matches_provider.get());
+
+  // Configure reconstruction parameters
+  sfmEngine.Set_Intrinsics_Refinement_Type(refinement_opts);
+  sfmEngine.SetUnknownCameraType(EINTRINSIC(PINHOLE_CAMERA_RADIAL3));
+  sfmEngine.Set_Use_Motion_Prior(false);
+
+  pair<string, string> init_pair = select_initial_pair();
+  Pair init_pair_ind;
+  if(!computeIndexFromImageNames(sfm_data, init_pair, init_pair_ind))
+    return false;
+  sfmEngine.setInitialPair(init_pair_ind);
+
+  if(sfmEngine.Process()) {
+    //-- Export to disk computed scene (data & visualizable results)
+    cout << "...Export SfM_Data to disk." << endl;
+    Save(sfmEngine.Get_SfM_Data(),
+      stlplus::create_filespec(output_dir, "sfm_data", ".bin"),
+      ESfM_Data(ALL));
+
+    Save(sfmEngine.Get_SfM_Data(),
+      create_filespec(output_dir, "cloud_and_poses", ".ply"),
+      ESfM_Data(ALL));
+
+    return true;
+  }
+
+  return false;
+}
 
 
 map<float, APair> SfmData::rank_matches() {
@@ -656,7 +1169,7 @@ void SfmData::adj_bundle() {
 
 } //adj_bundle end
 
-void SfmData::select_initial_pair() {
+pair<string, string> SfmData::select_initial_pair() {
   cout << "Select initial pair" << endl;
 
   //rank matches by homography inliers ratio
@@ -799,6 +1312,8 @@ void SfmData::select_initial_pair() {
     poses[j] = pose_right;
 
     //add these views to done and good vectors
+    images[i].position = i;
+    images[j].position = j;
     done_v.insert(i);
     done_v.insert(j);
     good_v.insert(i);
@@ -806,9 +1321,13 @@ void SfmData::select_initial_pair() {
 
     adj_bundle();
 
-    break;
+    pair<string, string> initialPairString(images[i].fname, images[j].fname);
+
+    return initialPairString;
   } // end of for loop on h_inliers
 
+  pair<string, string> initialPairString(images[0].fname, images[1].fname);
+  return initialPairString;
 } //select_initial_pair end
 
 Image2D3Ds SfmData::match_2D_3D() {
@@ -892,6 +1411,7 @@ void SfmData::add_camera(const AsyncProgressWorker::ExecutionProgress& prog) {
     cout << "Adding " << bestView << " to existing "
       << cv::Mat(vector<int>(good_v.begin(), good_v.end())).t() << endl;
 
+    images[bestView].position = bestView;
     done_v.insert(bestView);
     cout << "hey " << done_v.size() << endl;
     //recover the new view camera pose
@@ -1185,3 +1705,4 @@ StreamingWorker * create_worker(Callback *data
 }
 
 NODE_MODULE(addon, StreamWorkerWrapper::Init)
+

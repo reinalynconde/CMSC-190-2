@@ -14,6 +14,7 @@
 #include "openMVG/matching/regions_matcher.hpp"
 #include "openMVG/sfm/sfm_data.hpp"
 #include "openMVG/sfm/sfm_data_io.hpp"
+#include "openMVG/sfm/sfm_data_utils.hpp"
 
 #include "third_party/stlplus3/filesystemSimplified/file_system.hpp"
 
@@ -41,6 +42,7 @@ using namespace cv;
 using namespace openMVG;
 using namespace openMVG::features;
 using namespace openMVG::matching;
+using namespace openMVG::sfm;
 using namespace std;
 
 // namespace SFM {
@@ -53,6 +55,7 @@ using namespace std;
     int width, height;
     float focal, ppx, ppy;
     string fname;
+    int position;
   };
 
   struct Describer {
@@ -148,11 +151,14 @@ using namespace std;
       Image2D3Ds match_2D_3D();
       void detect_features(const AsyncProgressWorker::ExecutionProgress& prog);
       bool feature_match(const AsyncProgressWorker::ExecutionProgress& prog);
-      void select_initial_pair();
+      pair<string, string> select_initial_pair();
       void adj_bundle();
       void add_camera(const AsyncProgressWorker::ExecutionProgress& prog);
       void merge_cloud(const PointCloud &cloud);
       void send_progress(const AsyncProgressWorker::ExecutionProgress& progress, string message, double percent, int step);
+      bool exportToOpenMVS();
+      bool create_mesh();
+      bool inc_sfm();
 
       vector<Image_data> images;
       vector<Describer> describer;
@@ -164,6 +170,7 @@ using namespace std;
       PointCloud cloud;
       string output_dir;
       string input_dirr;
+      SfM_Data sfm_data;
   };
 
   class connection_listener {

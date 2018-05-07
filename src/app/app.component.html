@@ -11,9 +11,6 @@
     <a class="item" suiTabHeader="abt" (click)="set_abt()">
       About
     </a>
-    <a class="item" suiTabHeader="contact" (click)="set_contact()">
-      Contact
-    </a>
   </div>
 
   <div suiTabContent="home">
@@ -33,14 +30,4 @@
       <router-outlet></router-outlet>
     </div>
   </div>
-
-  <div suiTabContent="contact">
-    <div class="normal" *ngIf="contact">
-      <router-outlet></router-outlet>
-    </div>
-  </div>
 </sui-tabset>
-
-<!-- <ng-template #home>
-  <router-outlet></router-outlet>
-</ng-template> -->

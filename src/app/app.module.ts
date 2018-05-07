@@ -21,23 +21,11 @@ import { OrigamiService } from './services/origami.service';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { WebSocketService } from './services/web-socket.service';
 import { CustExtBrowserXhr } from './services/cust-ext-browser-xhr';
-import { SampleComponentComponent } from './sample-component/sample-component.component';
-import { SampleComponent } from './sample/sample.component';
 import { AboutComponent } from './about/about.component';
-import { ContactComponent } from './contact/contact.component';
+import { Sample1Component } from './sample1/sample1.component';
+import { Sample2Component } from './sample2/sample2.component';
+import { Sample3Component } from './sample3/sample3.component';
 
-/*const appRoutes: Routes = [
-  {
-    path: '/',
-    component: AppComponent,
-    data: { title: 'Origami' }
-  },
-  { path: '',
-    redirectTo: '/',
-    pathMatch: 'full'
-  }
-];
-*/
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,10 +33,10 @@ import { ContactComponent } from './contact/contact.component';
     InputComponent,
     ProcessingComponent,
     ModelComponent,
-    SampleComponentComponent,
-    SampleComponent,
     AboutComponent,
-    ContactComponent
+    Sample1Component,
+    Sample2Component,
+    Sample3Component
   ],
   imports: [
     CommonModule,
@@ -57,11 +45,7 @@ import { ContactComponent } from './contact/contact.component';
     HttpClientModule,
     SuiModule,
     AppRoutingModule,
-    FormsModule/*,
-    RouterModule.forRoot(
-      appRoutes,
-      { enableTracing: true } // <-- debugging purposes only
-    )*/
+    FormsModule
   ],
   providers: [HttpClientModule, InputService, OrigamiService, WebSocketService,
     {provide: BrowserXhr, useClass: CustExtBrowserXhr},

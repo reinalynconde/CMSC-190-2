@@ -1,0 +1,34 @@
+<div class="normal">
+  <div class="ui equal width grid">
+    <div class="column">
+      <div #modelContainer></div>
+      
+      <button class="ui left labeled icon button" routerLink="/sample2">
+        <i class="left arrow icon"></i>
+        Sample 2
+      </button>
+      <a class="ui blue button" href="assets/samples/shell/shell.obj" download>
+        Download Sample #3?
+      </a>
+      <button class="ui right labeled icon button" routerLink="/sample1">
+        <i class="right arrow icon"></i>
+        Sample 1
+      </button>
+    </div>
+    <div class="ui segment column">
+      <div class="ui stackable four column grid">
+
+          <div class="column"
+          *ngFor="let image of images">
+            <div class="ui compact segment"
+              [@imageState]="image.state"
+              (click)="image.toggleState()"
+            >
+              <img class="ui image" [src]="image.src">
+            </div>
+          </div>
+
+        </div>
+    </div>
+  </div>
+</div>

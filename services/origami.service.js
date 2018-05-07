@@ -1,5 +1,6 @@
 // Gettign the Newly created Mongoose Model we just created 
 var Origami = require('../models/origami.model');
+var fs = require('fs');
 
 // Saving the context of this module inside the _the variable
 _this = this;
