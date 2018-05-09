@@ -120,7 +120,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "/* You can add global styles to this file, and also import other style files */\nbody {\n\tbackground: #fff !important;\n}\ncanvas {\n  z-index: -100000000000000000;\n  position: absolute;\n  left: 50%;\n  top: 50%;\n  -webkit-transform: translate(-50%, -50%);\n  transform: translate(-50%, -50%);\n}\n.centervh {\n  position: absolute;\n  left: 50%;\n  top: 50%;\n  -webkit-transform: translate(-50%, -50%);\n  transform: translate(-50%, -50%);\n}\n.transparent {\n  background: rgba(252, 176, 148, 0) !important;\n}\n.normal {\n  padding: 15px;\n}\n.site-header {\n  height: 1em;\n  background-color: #63ffb6;\n}", ""]);
+exports.push([module.i, "/* You can add global styles to this file, and also import other style files */\nbody {\n\tbackground: #fff !important;\n}\ncanvas {\n  z-index: -100000000000000000;\n  position: absolute;\n  left: 50%;\n  top: 50%;\n  -webkit-transform: translate(-50%, -50%);\n  transform: translate(-50%, -50%);\n}\n.centervh {\n  position: absolute;\n  left: 50%;\n  top: 50%;\n  -webkit-transform: translate(-50%, -50%);\n  transform: translate(-50%, -50%);\n}\n.transparent {\n  background: rgba(252, 176, 148, 0) !important;\n}\n.normal {\n  padding: 15px;\n}\n.site-header {\n  height: 1em;\n  background-color: #63ffb6;\n}\n", ""]);
 
 // exports
 

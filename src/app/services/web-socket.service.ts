@@ -21,12 +21,12 @@ export class WebSocketService {
     // from our socket.io server.
     let observable = new Observable(observer => {
         this.socket.on('message', (data) => {
-          console.log("Received message from Websocket Server")
+          //console.log("Received message from Websocket Server")
           observer.next(data);
         })
         
         this.socket.on('ping', (data) => {
-          console.log("Received message from Websocket Server")
+          //console.log("Received message from Websocket Server")
           this.socket.emit('pong', "pong");
         })
 
@@ -41,7 +41,7 @@ export class WebSocketService {
     // socket server whenever the `next()` method is called.
     let observer = {
         next: (data: Object) => {
-          console.log("sup");
+          //console.log("sup");
           this.socket.emit('message', data);//JSON.stringify(data));
         },
     };

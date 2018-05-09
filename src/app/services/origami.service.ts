@@ -11,7 +11,7 @@ import UploadedImage from '../models/uploaded-image.model'
 
 @Injectable()
 export class OrigamiService {
-  api_url = 'http://34.217.210.201:80';
+  api_url = 'http://18.236.181.139:80';
   origami_url = `${this.api_url}/api/origami`;
   messages: Subject<any>;
   id: String
@@ -20,13 +20,13 @@ export class OrigamiService {
     this.messages = <Subject<any>>ws
       .connect()
       .map((res: any): any => {
-        console.log(res);
+        //console.log(res);
         return res;
       })
   }
 
   sendMsg(msg) {
-    console.log("ah pota");
+    //console.log("ah pota");
     this.messages.next(msg);
     this.id = msg;
   }
@@ -38,14 +38,14 @@ export class OrigamiService {
   getOrigami(): Observable<OrigamiInput> {
     return this.http.get(this.origami_url)
       .map(res => {
-        console.log(res["data"]);
+        //console.log(res["data"]);
         return res["data"].docs as OrigamiInput;
       })
   }
 
   addData(input: OrigamiInput): Observable<any> {
     //returns the observable of http post request
-    console.log("at"+ input.id +": " + input.focal_length + " " + input.sensor_size);
+    //console.log("at"+ input.id +": " + input.focal_length + " " + input.sensor_size);
     return this.http.post(`${this.origami_url}/add`, input);
   }
 
@@ -54,7 +54,7 @@ export class OrigamiService {
       var formData: any = new FormData();
       var xhr = new XMLHttpRequest();
 
-      console.log("hi: " + params[0])
+      //console.log("hi: " + params[0])
       
       formData.append("uploads", files[0], params[0]);
       for(var i = 0; i < files.length; i++) {

@@ -101,7 +101,7 @@ io.on('connection', (socket) => {
         if(JSON.parse(sample).progress == "done") {
           const { spawn } = require('child_process');
           const convertToOpenMVS =
-            spawn('/home/joy/Documents/openMVG_Build/Linux-x86_64-RELEASE/openMVG_main_openMVG2openMVS',
+            spawn('/home/ubuntu/lib/openMVG_Build/Linux-x86_64-RELEASE/openMVG_main_openMVG2openMVS',
               ["-i", "uploads/"+ user + "/output/sfm_data.bin",
               "-o", "uploads/" + user + "/output/scene.mvs"]);
 
@@ -135,7 +135,7 @@ io.on('connection', (socket) => {
             socket.emit('message', newjson);
 
             const densify =
-              spawn('/home/joy/openMVS_build/bin/DensifyPointCloud',
+              spawn('/home/ubuntu/lib/openMVS_build/bin/DensifyPointCloud',
                 ["-i", "uploads/" + user + "/output/scene.mvs",
                 "-o", "uploads/" + user + "/output/dense"]);
 
@@ -160,7 +160,7 @@ io.on('connection', (socket) => {
               socket.emit('message', newjson);
 
               const mesh =
-                spawn('/home/joy/openMVS_build/bin/ReconstructMesh',
+                spawn('/home/ubuntu/lib/openMVS_build/bin/ReconstructMesh',
                 ["-i", "uploads/" + user + "/output/dense.mvs",
                 "-o", "uploads/" + user + "/output/mesh",
                 "--export-type=obj"]);

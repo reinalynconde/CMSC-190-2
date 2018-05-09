@@ -26,16 +26,6 @@ export class ProcessingComponent implements OnInit {
     localStorage.setItem('home', '/processing');
   }
 
-  commence(): any {
-    this.origamiService.commence()
-      .subscribe(res => {
-        console.log(res.data);
-        if(res.data == "ok")
-          // this.sendMessage();
-          console.log("ayyy");
-      })
-  }
-
   start_load() {
     this.dim_for_load = true;
     setTimeout(() => this.router.navigateByUrl('/model'), 2000);
@@ -45,7 +35,7 @@ export class ProcessingComponent implements OnInit {
     this.sendMessage();
 
     this.origamiService.messages.subscribe(msg => {
-      console.log(msg);
+      //console.log(msg);
 
       if(msg.step == 1) {
         this.image_analysis = "Image analysis: " + msg.progress;
@@ -99,7 +89,7 @@ export class ProcessingComponent implements OnInit {
 
           this.mesh = "Creating Mesh done!";
           this.me_val = 100;          
-          console.log("heeey");
+          //console.log("heeey");
           this.start_load();
         } else {
           this.matching = "Matching features done!";

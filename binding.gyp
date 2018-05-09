@@ -43,7 +43,8 @@
           "-L/home/ubuntu/origami/socket.io/boost_install/lib",
           "-Wl,-rpath,/home/ubuntu/origami/socket.io/boost_install/lib",
           "-L/usr/local/lib",
-          "-L/home/ubuntu/lib/openMVG_Build/openMVG_install/lib",
+          "-L/usr/lib",
+	  "-L/home/ubuntu/lib/openMVG_Build/openMVG_install/lib",
           "-Wl,-rpath,/home/ubuntu/lib/openMVG_Build/openMVG_install/lib"
         ]
       },

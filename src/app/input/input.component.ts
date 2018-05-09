@@ -9,7 +9,6 @@ import {
   animate,
   transition
 } from '@angular/animations';
-// import { ViewChild } from '@angular/core';
 
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/delay';
@@ -66,12 +65,7 @@ export class InputComponent implements OnInit {
       })
   }
 
-  removeImage() {
-    // console.log(this);
-  }
-
   fileChangeEvent(fileInput: any){
-    console.log("Detected change!");
     this.dim_for_add = true;
 
     this.filesToUpload = <Array<File>> fileInput.target.files;
@@ -82,11 +76,10 @@ export class InputComponent implements OnInit {
     }
 
     var len = this.filesToUpload.length;
-    console.log(len);
     for(var j = 0; j < len; j++) {
       this.origamiService.readURL(len, this.filesToUpload[j], this.uploaded)
         .then((res) => {
-          console.log(res);
+          //console.log(res);
           if(res == false){
             this.dim_for_add = false;
 
@@ -94,13 +87,13 @@ export class InputComponent implements OnInit {
               if(this.files.indexOf(this.uploaded[i].file) === -1)
                 this.files.push(this.uploaded[i].file);
             }
-            console.log("u = " + this.uploaded.length);
-            console.log("f = " + this.files.length);
+            //console.log("u = " + this.uploaded.length);
+            //console.log("f = " + this.files.length);
 
             document.getElementById("up").removeAttribute("disabled");
             document.getElementById("can").removeAttribute("disabled");
           }
-          console.log(this.dim_for_add);
+          //console.log(this.dim_for_add);
         }, (err) => {
           console.log(err);
         });
@@ -115,14 +108,14 @@ export class InputComponent implements OnInit {
       + date.getMilliseconds();
 
     localStorage.setItem('now', id);
-    console.log("at input.component.ts " + this.in);
+    //console.log("at input.component.ts " + this.in);
     this.in.focal_length = this.focal_length;
     this.in.sensor_size = this.sensor_size;
     this.in.id = id;
 
     this.origamiService.addData(this.in)
       .subscribe((res) => {
-        console.log("Data successfully added!");
+        //console.log("Data successfully added!");
 
         var len = this.uploaded.length;
 
@@ -137,12 +130,12 @@ export class InputComponent implements OnInit {
           .then((err) => {
             console.log(err);
             this.dim_for_load = false;
-            console.log(":(");
+            //console.log(":(");
           }, (res) => {
             console.log(res);
             this.input_page = false;
             this.dim_for_load = false;
-            console.log(this.dim_for_load);
+            //console.log(this.dim_for_load);
             this.router.navigateByUrl('/processing');
           });
       });
@@ -157,8 +150,8 @@ export class InputComponent implements OnInit {
       this.files.splice(index2, 1);
     }
 
-    console.log("u = " + this.uploaded.length);
-    console.log("f = " + this.files.length);
+    //console.log("u = " + this.uploaded.length);
+    //console.log("f = " + this.files.length);
   }
 
   removeAll() {

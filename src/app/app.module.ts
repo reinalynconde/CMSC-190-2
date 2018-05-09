@@ -10,8 +10,6 @@ import { FormsModule } from '@angular/forms';
 import { SuiModule } from 'ng2-semantic-ui';
 import { AppRoutingModule } from './app-routing.module';
 
-import { InputService } from './input.service';
-
 import { AppComponent } from './app.component';
 import { LandComponent } from './land/land.component';
 import { InputComponent } from './input/input.component';
@@ -47,7 +45,7 @@ import { Sample3Component } from './sample3/sample3.component';
     AppRoutingModule,
     FormsModule
   ],
-  providers: [HttpClientModule, InputService, OrigamiService, WebSocketService,
+  providers: [HttpClientModule, OrigamiService, WebSocketService,
     {provide: BrowserXhr, useClass: CustExtBrowserXhr},
     {provide: LocationStrategy, useClass: HashLocationStrategy}
   ],

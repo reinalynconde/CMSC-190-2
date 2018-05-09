@@ -52,8 +52,9 @@ export class Sample3Component implements OnInit {
   private controls: any;
   private controller: any;
   private r: number;
-  private images: Array<Image> = [];
+  public images: Array<Image> = [];
   private files: Array<any> = [];
+  public isLoading = true;
 
   constructor(private render: Renderer2, private origamiService: OrigamiService) {
     this.path = "assets/samples/shell/shell.obj";
@@ -156,6 +157,7 @@ export class Sample3Component implements OnInit {
       geometry.scale.y = 20;
       geometry.scale.z = 20;
       this.scene.add(geometry);
+      this.isLoading = false;
     })
 
     //request animation

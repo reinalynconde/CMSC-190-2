@@ -23,7 +23,6 @@ import 'rxjs/add/operator/delay';
 
 import Image from '../models/image.model';
 import { OrigamiService } from '../services/origami.service';
->>>>>>> 0076c31d07d5baadac2aa6461bb19265061a6b5a
 
 @Component({
   selector: 'app-model',
@@ -46,15 +45,16 @@ export class ModelComponent implements OnInit {
   //assets/samples/obj
   @ViewChild("modelContainer") rendererContainer: ElementRef;
   @Input()
-  private path:string;
+  public path:string;
   private scene: Scene;
   private camera: PerspectiveCamera;
   private renderer: WebGLRenderer;
   private controls: any;
   private controller: any;
   private r: number;
-  private images: Array<Image> = [];
+  public images: Array<Image> = [];
   private files: Array<any> = [];
+  public isLoading = true;
 
   noModel = false;
 
@@ -78,8 +78,10 @@ export class ModelComponent implements OnInit {
   }
 
   ngAfterViewInit(): void {
-    if(!this.noModel)
+    if(!this.noModel){
       this.init3D();
+      this.isLoading = false;
+    }
   }
 
   getImages(path) {
