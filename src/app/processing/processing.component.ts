@@ -21,6 +21,7 @@ export class ProcessingComponent implements OnInit {
   r_val = 0;
   me_val = 0;
   progress = "";
+  ongoing = false;
 
   constructor(private origamiService: OrigamiService, private router: Router) {
     localStorage.setItem('home', '/processing');
@@ -54,6 +55,9 @@ export class ProcessingComponent implements OnInit {
     // this.start_load();
     this.origamiService.messages.subscribe(msg => {
       console.log(msg);
+
+      if(msg == "ongoing")
+        this.ongoing = true;
 
       if(msg.step == 1) {
         this.image_analysis = "Image analysis: " + msg.progress;

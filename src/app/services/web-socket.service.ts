@@ -42,7 +42,9 @@ export class WebSocketService {
     let observer = {
         next: (data: Object) => {
           console.log("sup");
-          this.socket.emit('message', data);//JSON.stringify(data));
+          if(data == "signout")
+            this.socket.disconnect();
+          else this.socket.emit('message', data);//JSON.stringify(data));
         },
     };
 

@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService, GoogleLoginProvider } from "angular5-social-login";
+import { OrigamiService } from "./services/origami.service";
 
 @Component({
   selector: 'app-root',
@@ -13,7 +15,7 @@ export class AppComponent {
   contact: Boolean;
   notHome: Boolean;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private socialAuthService: AuthService, private origamiService: OrigamiService) {
     localStorage.setItem('home', '/home');
     this.set_home();
 
@@ -56,6 +58,12 @@ export class AppComponent {
     this.samp = false;
     this.abt = false;
     this.home = false;
+  }
+
+  signOut() {
+    this.socialAuthService.signOut();
+    this.origamiService.sendMsg("signout");
+    this.router.navigateByUrl('/home');
   }
 
   title = 'app';

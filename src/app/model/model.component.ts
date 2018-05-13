@@ -1,10 +1,12 @@
 import { Component, ViewChild, ElementRef, OnInit, AfterViewInit, Renderer2, Input } from '@angular/core';
+import { saveAs } from 'file-saver';
 import * as THREE from 'three';
 var OrbitControls = require('three-orbit-controls')(THREE)
 var OBJLoader = require('three-obj-loader')(THREE)
 var TrackballControls = require('three-trackballcontrols')
 // var DragControls = require('three-dragcontrols')
 var loader = new THREE.OBJLoader()
+var path;
 
 import Scene = THREE.Scene;
 import Mesh = THREE.Mesh;
@@ -45,7 +47,7 @@ export class ModelComponent implements OnInit {
   //assets/samples/obj
   @ViewChild("modelContainer") rendererContainer: ElementRef;
   @Input()
-  private path:string;
+  // private path:string;
   private scene: Scene;
   private camera: PerspectiveCamera;
   private renderer: WebGLRenderer;
@@ -54,21 +56,37 @@ export class ModelComponent implements OnInit {
   private r: number;
   private images: Array<Image> = [];
   private files: Array<any> = [];
+  public loading: Boolean = true;
 
   noModel = false;
 
   constructor(private render: Renderer2, private origamiService: OrigamiService) {
     localStorage.setItem('home', '/model');
     this.origamiService.sendMsg("dc");
-    this.path = localStorage.getItem('now') + "/output/mesh.obj";
-    this.images = this.getImages(localStorage.getItem('now') + "/output/");
+    // this.path = localStorage.getItem('now') + "/output/mesh.obj";
+    // this.images = this.getImages(localStorage.getItem('now') + "/output/");
     this.r = 20;
   }
 
   ngOnInit(): void {
     this.origamiService.messages.subscribe(msg => {
+      console.log("msg = " + msg);
       if(msg == "no")
         this.noModel = true;
+      else {
+        console.log("BBBBBBB" + localStorage.getItem('now'));
+        this.getModel();
+      	//this.origamiService.getModel(localStorage.getItem('now'), localStorage.getItem('token'))
+          //.subscribe(data => {
+            //console.log("fetching: ", data);
+            //path = data;
+            //console.log('path');
+          //}, err => {
+           // console.log('download error:', err.message);
+         // }, () => {
+            //console.log('Completed file download.')
+          //})
+      }
     })
     //add listener for the resize of the window - will resize the renderer to fit the window
     let global = this.render.listen('window', 'resize', (evt) => {
@@ -77,8 +95,30 @@ export class ModelComponent implements OnInit {
   }
 
   ngAfterViewInit(): void {
-    if(!this.noModel)
-    this.init3D();
+    if(this.noModel == false)
+      this.init3D();
+  }
+
+  download() {
+    var id = localStorage.getItem('now');
+    this.origamiService.downloadFile(id)
+    .subscribe(
+      data => saveAs(data, "mesh.obj"),
+      error => console.log(error)
+    );  
+  }
+
+  getModel() {
+    var id = localStorage.getItem('now');
+    this.origamiService.downloadFile(id)
+    .subscribe(
+      data => {
+        path = URL.createObjectURL(data);
+        console.log(path);
+        this.loading = false;
+        //this.init3D(path);
+      }
+    );
   }
 
   getImages(path) {
@@ -132,8 +172,8 @@ export class ModelComponent implements OnInit {
       polygonOffsetFactor: 1, // positive value pushes polygon further away
       polygonOffsetUnits: 1
     } );
-
-    loader.load(this.path, geometry => {
+    console.log("init3d: " + path);
+    loader.load(path, geometry => {
       geometry.traverse(child => {
         if(child instanceof THREE.Mesh) {
           child.material = material

@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="!ongoing">
   <sui-progress class="ui indicating progress" [value]="ia_val" [showProgress]=true [maximum]=100 [precision]=0>
     {{image_analysis}} {{progress}}
   </sui-progress>
@@ -21,10 +21,17 @@
 
   <div class="ui center aligned segment">
     <h3>This will take a while...</h3>
-    <h3>Please be patient and do not click on other tabs in Origami because you might lose your progress.</h3>
+    <h3>Do not close this tab to keep your progress.</h3>
+    <!--<h3>You can wait for it to finish, or sign out now and just revisit the site later.</h3>-->
     <h3>Thank you!</h3>
   </div>
 
+</div>
+
+<div *ngIf="ongoing" class="ui segment center aligned">
+  <h2>Your model is being reconstructed.</h2>
+  <br>
+  <h2>Kindly visit at a later time.</h2>
 </div>
 
 <sui-dimmer class="inverted page" [(isDimmed)]="dim_for_load">

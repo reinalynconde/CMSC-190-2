@@ -1,4 +1,7 @@
 import { Component, ViewChild, ElementRef, AfterViewInit, OnInit, Renderer2, Input } from '@angular/core';
+import { AuthService, GoogleLoginProvider } from "angular5-social-login";
+import { Router } from '@angular/router';
+import { OrigamiService } from '../services/origami.service';
 import * as THREE from 'three';var OrbitControls = require('three-orbit-controls')(THREE)
 var OBJLoader = require('three-obj-loader')(THREE)
 var TrackballControls = require('three-trackballcontrols')
@@ -38,7 +41,7 @@ export class LandComponent implements AfterViewInit {
     this.init3D();
   }
 
-  constructor(private render: Renderer2){
+  constructor( private router: Router, private render: Renderer2, private socialAuthService: AuthService, private origamiService: OrigamiService ){
     localStorage.setItem('home', '/model');
     this.path = "assets/webgl/origami.obj";
     this.r = 20;
@@ -107,6 +110,11 @@ export class LandComponent implements AfterViewInit {
 
   start(): void {
     this.notStart = false;
+    /*var date = new Date();
+    var id = "" + date.getMonth() + date.getDate() + date.getFullYear()
+          + date.getHours() + date.getMinutes() + date.getSeconds()
+          + date.getMilliseconds();
+    localStorage.setItem('now', id);*/
   }
 
   resize() {
@@ -131,5 +139,41 @@ export class LandComponent implements AfterViewInit {
     this.renderer.setSize( window.innerWidth, window.innerHeight );
     this.controller.update();
     // this.controls.update();
+  }
+
+  public signOut() {
+    this.socialAuthService.signOut();
+  }
+
+  public signinWithGoogle () {
+    let socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
+    var date = new Date();
+    var id = "" + date.getMonth() + date.getDate() + date.getFullYear()
+          + date.getHours() + date.getMinutes() + date.getSeconds()
+          + date.getMilliseconds();
+
+    this.socialAuthService.signIn(socialPlatformProvider).then(
+      (userData) => { //on success
+        //this will return user data from google. What you need is a user token which you will send it to the server
+        this.origamiService.sendToRestApiMethod(userData.idToken, userData.email, id)
+        .subscribe(res => {
+          //login was successful
+          //save the token that you got from your REST API in your preferred location i.e.$
+          localStorage.setItem('token', userData.idToken);
+          localStorage.setItem('now', id);
+          localStorage.setItem('email', userData.email);
+          console.log("login successful ");
+
+          if(res.message == 'ongoing') {
+            this.router.navigateByUrl('/processing');
+          } else if(res.message == 'done') {
+            this.router.navigateByUrl('/model');
+          } else this.router.navigateByUrl('/input');
+        }, err => {
+          //login was unsuccessful
+          //show an error message
+          console.log("error logging in");
+      });
+    });
   }
 }

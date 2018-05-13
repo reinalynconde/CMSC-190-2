@@ -2,8 +2,9 @@
   
   <div class="ui tertiary inverted yellow segment">
     <div class="tips">
+      <h4>Uploading will take a while. Please be patient and wait for it to finish.</h4>
       <label class="fileContainer">
-        <input type="file" (change)="fileChangeEvent($event)" accept="image/jpg, image/png" placeholder="Upload file..." multiple />
+        <input type="file" (change)="fileChangeEvent($event)" accept="image/*" placeholder="Upload file..." multiple />
         <div class="ui teal button">Browse</div>
         {{uploaded.length}} images selected.
       </label>
@@ -43,9 +44,13 @@
   </div>
 </div>
 
-<sui-dimmer class="inverted page" [(isDimmed)]="dim_for_load">
+<sui-dimmer class="inverted" [(isDimmed)]="dim_for_load">
   <h2 class="ui header">
-    <div class="ui text loader">Uploading...</div>
+    <div class="ui text loader">
+      <span>Uploading...</span>
+      <br>
+      <span>Please wait.</span>
+    </div>
   </h2>
 </sui-dimmer>
 

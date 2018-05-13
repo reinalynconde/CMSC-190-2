@@ -1,7 +1,7 @@
 import OrigamiInput from '../models/origami.model';
 import { Observable, Subject } from 'rxjs/Rx';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { Response } from '@angular/http';
+import { Http, HttpModule, Headers, RequestOptions, Response, ResponseContentType } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { WebSocketService } from './web-socket.service';
 
@@ -11,12 +11,12 @@ import UploadedImage from '../models/uploaded-image.model'
 
 @Injectable()
 export class OrigamiService {
-  api_url = 'http://localhost:8080';
+  api_url = 'http://18.236.181.139:80';
   origami_url = `${this.api_url}/api/origami`;
   messages: Subject<any>;
   id: String
 
-  constructor(private http: HttpClient, private ws: WebSocketService) {
+  constructor(private http: HttpClient, private ws: WebSocketService, private httplang: Http) {
     this.messages = <Subject<any>>ws
       .connect()
       .map((res: any): any => {
@@ -41,6 +41,23 @@ export class OrigamiService {
         console.log(res["data"]);
         return res["data"].docs as OrigamiInput;
       })
+  }
+
+  getModel(id, token) {
+    let header = new HttpHeaders({
+      'Content-Type': 'application/octet-stream'
+    });
+    return this.http.get(`${this.origami_url}/get_model/${id}`, {'headers': header})
+      .map((res) => console.log(res));
+  }
+
+  downloadFile(id_: String) {
+    var body = {id: id_};
+
+    return this.http.post(`${this.origami_url}/get_model`, body, {
+      responseType: 'blob',
+      headers: new HttpHeaders().append('Content-Type','application/json')
+    });
   }
 
   addData(input: OrigamiInput): Observable<any> {
@@ -109,6 +126,10 @@ export class OrigamiService {
   process(): Observable<any> {
     console.log("p@ origami.service.ts");
     return this.http.post(`${this.origami_url}/process`, []);
+  }
+
+  sendToRestApiMethod(token: string, email: string, id: string): any {
+    return this.http.post(`${this.origami_url}/signin`, {'token': token, 'id': id, 'email': email});
   }
 
   private handleError(error: any): Promise<any> {

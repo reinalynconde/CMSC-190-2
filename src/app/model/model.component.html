@@ -1,34 +1,31 @@
-<div class="normal">
-  <div class="ui equal width grid">
-    <div class="column">
-      <div #modelContainer></div>
+<div *ngIf="!noModel">
+  <div class="ui center aligned segment">
+    <iframe height="420px" width="715px" src="http://masc.cs.gmu.edu/objviewerframe.html?width=700&height=400&dropable=1"></iframe> 
+    <br>
+    <a href="http://masc.cs.gmu.edu/wiki/ObjViewer">G.Viewer - Online 3D Model Viewer</a>
+    <br>
+    <h4>To view the model, download it first, and then drag and drop it on the black canvas. </h4>
+    <button class="ui blue button" (click)="download()">
+      Download Model
+    </button>
 
-      <a class="ui blue button" [href]="path" download>
-        Download Generated Model?
-      </a>
-    </div>
-    <div class="ui segment column">
-      <div class="ui stackable four column grid">
-
-          <div class="column"
-          *ngFor="let image of images">
-            <div class="ui compact segment"
-              [@imageState]="image.state"
-              (click)="image.toggleState()"
-            >
-              <img class="ui image" [src]="image.src">
-            </div>
-          </div>
-
-        </div>
-    </div>
+    <div class="ui orange button" routerLink="/input">TRY AGAIN</div>
   </div>
 </div>
 
-<div *ngIf="noModel" class="normal">
-  <h2>Sorry no model was created :(</h2>
-  <br>
-  <h2>But you can still try to upload different images.</h2>
+<div *ngIf="noModel">
+  <div class="ui center aligned segment">
+    <h3>No model was created.</h3>
+    <h3>But you can still try again</h3>
+    <h3>Thank you!</h3>
+    <div class="ui orange button" routerLink="/input">TRY AGAIN</div>
+  </div>
 </div>
 
-<div class="ui orange button" routerLink="/input">TRY AGAIN</div>
+<sui-dimmer class="page" [(isDimmed)]="loading">
+  <h2 class="ui inverted icon header">
+     <i class="download icon"></i>
+     To view the model, download it first, and then drag and drop it on the black canvas
+  </h2>
+  <h4> Click anywhere to proceed to the page. </h4>
+</sui-dimmer>

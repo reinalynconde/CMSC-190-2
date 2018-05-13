@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  ws_url: `http://localhost:8080`
+  ws_url: `http://18.236.181.139:80`
 };

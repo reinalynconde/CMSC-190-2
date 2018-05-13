@@ -34,24 +34,25 @@ CFLAGS_CC_Debug := \
 	-std=gnu++0x
 
 INCS_Debug := \
-	-I/home/joy/.node-gyp/6.14.1/include/node \
-	-I/home/joy/.node-gyp/6.14.1/src \
-	-I/home/joy/.node-gyp/6.14.1/deps/uv/include \
-	-I/home/joy/.node-gyp/6.14.1/deps/v8/include \
+	-I/home/ubuntu/.node-gyp/6.14.2/include/node \
+	-I/home/ubuntu/.node-gyp/6.14.2/src \
+	-I/home/ubuntu/.node-gyp/6.14.2/deps/uv/include \
+	-I/home/ubuntu/.node-gyp/6.14.2/deps/v8/include \
 	-I$(srcdir)/node_modules/nan \
 	-I$(srcdir)/node_modules/streaming-worker-sdk \
-	-I/usr/include/opencv2 \
-	-I/usr/include/pcl-1.7 \
-	-I/home/joy/Documents/openMVG_Build/openMVG_install/include \
-	-I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG_dependencies \
-	-I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG_dependencies/cereal/include \
-	-I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen \
-	-I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG \
-	-I/home/joy/Documents/sp/cpp_src \
-	-I/home/joy/Documents/sp/socket.io/socket.io-client-cpp/src \
-	-I/home/joy/Documents/sp/socket.io/socket.io-client-cpp/lib/rapidjson/include \
-	-I/home/joy/Documents/sp/socket.io/socket.io-client-cpp/lib/websocketpp \
-	-I/home/joy/Documents/sp/socket.io/boost_install/include
+	-I/usr/include \
+	-I/eigen3 \
+	-I/home/ubuntu/lib/openMVG_Build/openMVG_install/include \
+	-I/home/ubuntu/lib/openMVG_Build/openMVG_install/include/openMVG_dependencies \
+	-I/home/ubuntu/lib/openMVG_Build/openMVG_install/include/openMVG_dependencies/cereal/include \
+	-I/home/ubuntu/lib/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen \
+	-I/home/ubuntu/lib/openMVG_Build/openMVG_install/include/openMVG/third_party/flann/src/cpp \
+	-I/home/ubuntu/lib/openMVG_Build/openMVG_install/include/openMVG \
+	-I/home/ubuntu/origami/cpp_src \
+	-I/home/ubuntu/origami/socket.io/socket.io-client-cpp/src \
+	-I/home/ubuntu/origami/socket.io/socket.io-client-cpp/lib/rapidjson/include \
+	-I/home/ubuntu/origami/socket.io/socket.io-client-cpp/lib/websocketpp \
+	-I/home/ubuntu/origami/socket.io/boost_install/include
 
 DEFS_Release := \
 	'-DNODE_GYP_MODULE_NAME=addon' \
@@ -83,24 +84,25 @@ CFLAGS_CC_Release := \
 	-std=gnu++0x
 
 INCS_Release := \
-	-I/home/joy/.node-gyp/6.14.1/include/node \
-	-I/home/joy/.node-gyp/6.14.1/src \
-	-I/home/joy/.node-gyp/6.14.1/deps/uv/include \
-	-I/home/joy/.node-gyp/6.14.1/deps/v8/include \
+	-I/home/ubuntu/.node-gyp/6.14.2/include/node \
+	-I/home/ubuntu/.node-gyp/6.14.2/src \
+	-I/home/ubuntu/.node-gyp/6.14.2/deps/uv/include \
+	-I/home/ubuntu/.node-gyp/6.14.2/deps/v8/include \
 	-I$(srcdir)/node_modules/nan \
 	-I$(srcdir)/node_modules/streaming-worker-sdk \
-	-I/usr/include/opencv2 \
-	-I/usr/include/pcl-1.7 \
-	-I/home/joy/Documents/openMVG_Build/openMVG_install/include \
-	-I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG_dependencies \
-	-I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG_dependencies/cereal/include \
-	-I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen \
-	-I/home/joy/Documents/openMVG_Build/openMVG_install/include/openMVG \
-	-I/home/joy/Documents/sp/cpp_src \
-	-I/home/joy/Documents/sp/socket.io/socket.io-client-cpp/src \
-	-I/home/joy/Documents/sp/socket.io/socket.io-client-cpp/lib/rapidjson/include \
-	-I/home/joy/Documents/sp/socket.io/socket.io-client-cpp/lib/websocketpp \
-	-I/home/joy/Documents/sp/socket.io/boost_install/include
+	-I/usr/include \
+	-I/eigen3 \
+	-I/home/ubuntu/lib/openMVG_Build/openMVG_install/include \
+	-I/home/ubuntu/lib/openMVG_Build/openMVG_install/include/openMVG_dependencies \
+	-I/home/ubuntu/lib/openMVG_Build/openMVG_install/include/openMVG_dependencies/cereal/include \
+	-I/home/ubuntu/lib/openMVG_Build/openMVG_install/include/openMVG/third_party/eigen \
+	-I/home/ubuntu/lib/openMVG_Build/openMVG_install/include/openMVG/third_party/flann/src/cpp \
+	-I/home/ubuntu/lib/openMVG_Build/openMVG_install/include/openMVG \
+	-I/home/ubuntu/origami/cpp_src \
+	-I/home/ubuntu/origami/socket.io/socket.io-client-cpp/src \
+	-I/home/ubuntu/origami/socket.io/socket.io-client-cpp/lib/rapidjson/include \
+	-I/home/ubuntu/origami/socket.io/socket.io-client-cpp/lib/websocketpp \
+	-I/home/ubuntu/origami/socket.io/boost_install/include
 
 OBJS := \
 	$(obj).target/$(TARGET)/cpp_src/StructureFromMotion.o \
@@ -135,39 +137,34 @@ LDFLAGS_Debug := \
 	-pthread \
 	-rdynamic \
 	-m64 \
-	-L/home/joy/Documents/sp/socket.io/socket.io-client-cpp/build/lib/Release \
-	-Wl,-rpath,/home/joy/Documents/sp/socket.io/socket.io-client-cpp/build/lib/Release \
-	-L/home/joy/Documents/sp/socket.io/boost_install/lib \
-	-Wl,-rpath,/home/joy/Documents/sp/socket.io/boost_install/lib \
+	-L/home/ubuntu/origami/socket.io/socket.io-client-cpp/build/lib/Release \
+	-Wl,-rpath,/home/ubuntu/origami/socket.io/socket.io-client-cpp/build/lib/Release \
+	-L/home/ubuntu/origami/socket.io/boost_install/lib \
+	-Wl,-rpath,/home/ubuntu/origami/socket.io/boost_install/lib \
 	-L/usr/local/lib \
-	-L/usr/lib \
-	-L/home/joy/Documents/openMVG_Build/openMVG_install/lib \
-	-Wl,-rpath,/home/joy/Documents/openMVG_Build/openMVG_install/lib
+	-L/home/ubuntu/lib/openMVG_Build/openMVG_install/lib \
+	-Wl,-rpath,/home/ubuntu/lib/openMVG_Build/openMVG_install/lib
 
 LDFLAGS_Release := \
 	-pthread \
 	-rdynamic \
 	-m64 \
-	-L/home/joy/Documents/sp/socket.io/socket.io-client-cpp/build/lib/Release \
-	-Wl,-rpath,/home/joy/Documents/sp/socket.io/socket.io-client-cpp/build/lib/Release \
-	-L/home/joy/Documents/sp/socket.io/boost_install/lib \
-	-Wl,-rpath,/home/joy/Documents/sp/socket.io/boost_install/lib \
+	-L/home/ubuntu/origami/socket.io/socket.io-client-cpp/build/lib/Release \
+	-Wl,-rpath,/home/ubuntu/origami/socket.io/socket.io-client-cpp/build/lib/Release \
+	-L/home/ubuntu/origami/socket.io/boost_install/lib \
+	-Wl,-rpath,/home/ubuntu/origami/socket.io/boost_install/lib \
 	-L/usr/local/lib \
-	-L/usr/lib \
-	-L/home/joy/Documents/openMVG_Build/openMVG_install/lib \
-	-Wl,-rpath,/home/joy/Documents/openMVG_Build/openMVG_install/lib
+	-L/home/ubuntu/lib/openMVG_Build/openMVG_install/lib \
+	-Wl,-rpath,/home/ubuntu/lib/openMVG_Build/openMVG_install/lib
 
 LIBS := \
 	-lopencv_calib3d \
 	-lopencv_core \
-	-lopencv_contrib \
 	-lopencv_features2d \
 	-lopencv_flann \
-	-lopencv_gpu \
 	-lopencv_highgui \
 	-lopencv_imgproc \
 	-lopencv_imgcodecs \
-	-lopencv_legacy \
 	-lopencv_ml \
 	-lopencv_objdetect \
 	-lopencv_xfeatures2d \
@@ -185,39 +182,11 @@ LIBS := \
 	-lstlplus \
 	-lvlsift \
 	-leasyexif \
-	-lceres \
-	-lcxsparse \
-	-lfast \
-	-llib_clp \
-	-llib_CoinUtils \
-	-llib_Osi \
-	-llib_OsiClpSolver \
-	-lopenMVG_linearProgramming \
-	-lopenMVG_numeric \
-	-lsqlite3 \
 	-lboost_date_time \
 	-lboost_random \
 	-lboost_system \
 	-lsioclient \
-	-lpcl_apps \
-	-lpcl_common \
-	-lpcl_features \
-	-lpcl_filters \
-	-lpcl_io_ply \
-	-lpcl_io \
-	-lpcl_kdtree \
-	-lpcl_keypoints \
-	-lpcl_octree \
-	-lpcl_outofcore \
-	-lpcl_people \
-	-lpcl_recognition \
-	-lpcl_registration \
-	-lpcl_sample_consensus \
-	-lpcl_search \
-	-lpcl_segmentation \
-	-lpcl_surface \
-	-lpcl_tracking \
-	-lpcl_visualization
+	-lsqlite3
 
 $(obj).target/addon.node: GYP_LDFLAGS := $(LDFLAGS_$(BUILDTYPE))
 $(obj).target/addon.node: LIBS := $(LIBS)

@@ -72,15 +72,6 @@
 #include "openMVG/robust_estimation/robust_estimator_ACRansacKernelAdaptator.hpp"
 #include "openMVG/types.hpp"
 
-#include "pcl/point_types.h"
-#include "pcl/point_cloud.h"
-#include "pcl/io/obj_io.h"
-#include "pcl/io/ply_io.h"
-#include "pcl/io/pcd_io.h"
-#include "pcl/kdtree/kdtree_flann.h"
-#include "pcl/features/normal_3d.h"
-#include "pcl/surface/gp3.h"
-
 #define _USE_EIGEN
 #include "InterfaceMVS.h"
 
@@ -171,63 +162,15 @@ SfmData::~SfmData() {
 
 }
 
-bool SfmData::create_mesh() {
-  // Load input file into a PointCloud<T> with an appropriate type
-  pcl::PointCloud<pcl::PointXYZ>::Ptr cloud (new pcl::PointCloud<pcl::PointXYZ>);
-  pcl::PCLPointCloud2 cloud_blob;
-  pcl::io::loadPLYFile(output_dir + "/model_sparse.ply", cloud_blob);
-  // pcl::io::loadPCDFile ("bun0.pcd", cloud_blob);
-  pcl::fromPCLPointCloud2 (cloud_blob, *cloud);
-  //* the data should be available in cloud
-
-  // Normal estimation*
-  pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> n;
-  pcl::PointCloud<pcl::Normal>::Ptr normals (new pcl::PointCloud<pcl::Normal>);
-  pcl::search::KdTree<pcl::PointXYZ>::Ptr tree (new pcl::search::KdTree<pcl::PointXYZ>);
-  tree->setInputCloud (cloud);
-  n.setInputCloud (cloud);
-  n.setSearchMethod (tree);
-  n.setKSearch (20);
-  n.compute (*normals);
-  //* normals should not contain the point normals + surface curvatures
-
-  // Concatenate the XYZ and normal fields*
-  pcl::PointCloud<pcl::PointNormal>::Ptr cloud_with_normals (new pcl::PointCloud<pcl::PointNormal>);
-  pcl::concatenateFields (*cloud, *normals, *cloud_with_normals);
-  //* cloud_with_normals = cloud + normals
-
-  // Create search tree*
-  pcl::search::KdTree<pcl::PointNormal>::Ptr tree2 (new pcl::search::KdTree<pcl::PointNormal>);
-  tree2->setInputCloud (cloud_with_normals);
-
-  // Initialize objects
-  pcl::GreedyProjectionTriangulation<pcl::PointNormal> gp3;
-  pcl::PolygonMesh triangles;
-
-  // Set the maximum distance between connected points (maximum edge length)
-  gp3.setSearchRadius (10.0); //0.025
-
-  // Set typical values for the parameters
-  gp3.setMu (2.5);
-  gp3.setMaximumNearestNeighbors (100);
-  gp3.setMaximumSurfaceAngle(M_PI/4); // 45 degrees
-  gp3.setMinimumAngle(M_PI/18); // 10 degrees
-  gp3.setMaximumAngle(2*M_PI/3); // 120 degrees
-  gp3.setNormalConsistency(false);
-
-  // Get result
-  gp3.setInputCloud (cloud_with_normals);
-  gp3.setSearchMethod (tree2);
-  gp3.reconstruct (triangles);
-
-  // Additional vertex information
-  std::vector<int> parts = gp3.getPartIDs();
-  std::vector<int> states = gp3.getPointStates();
-
-  pcl::io::saveOBJFile("src/assets/output_models/" + uname + ".obj", triangles);
-
-  // Finish
-  return (0);
+static int callback_sql(void *data, int argc, char **argv, char **azColName){
+  int i;
+  fprintf(stderr, "%s: ", (const char*)data);
+  
+  for(i = 0; i<argc; i++) {
+      printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
+  }
+  printf("\n");
+  return 0;
 }
 
 bool SfmData::exportToOpenMVS() {
@@ -412,6 +355,35 @@ void SfmData::Execute (const AsyncProgressWorker::ExecutionProgress& progress) {
     
     closed = true;
     send_progress(progress, "done", 100, 4);
+
+    /*sqlite3 *db;
+    char *zErrMsg = 0;
+    int rc;
+    // char *sql;
+    const char* data = "Callback function called";
+
+    rc = sqlite3_open("db/origami.db", &db);
+    
+    if( rc ) {
+        fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
+        return;
+    } else {
+        fprintf(stderr, "Opened database successfully\n");
+    }
+
+    
+    string sql_query = "UPDATE progress set progress = 'done', percent = '100', step = '4' where user = '" + uname + "';";
+
+    rc = sqlite3_exec(db, sql_query.c_str(), callback_sql, (void*)data, &zErrMsg);
+    
+    if( rc != SQLITE_OK ) {
+        fprintf(stderr, "SQL error: %s\n", zErrMsg);
+        sqlite3_free(zErrMsg);
+        return;
+    } else {
+        fprintf(stdout, "Operation done successfully\n");
+    }
+    sqlite3_close(db);*/
   }
 
 }
@@ -552,7 +524,47 @@ bool SfmData::set_dir(const AsyncProgressWorker::ExecutionProgress& prog, const 
     percent = c / (double)i_size * 100;
     
     send_progress(prog, progress, percent, 1);
+
+    /*sqlite3 *db;
+    char *zErrMsg = 0;
+    int rc;
+    // char *sql;
+    const char* data = "Callback function called";
+
+    // Open database 
+    rc = sqlite3_open("db/origami.db", &db);
+    
+    if( rc ) {
+        fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
+        return false;
+    } else {
+        fprintf(stderr, "Opened database successfully\n");
+    }
+
+    // Create merged SQL statement 
+    cout << progress << endl;
+    string sql_query = "UPDATE progress set progress = '" +
+      progress + "', percent = '" + percent + "', step = '1' where user = '" + uname + "';";
+
+    // Execute SQL statement 
+    rc = sqlite3_exec(db, sql_query.c_str(), callback_sql, (void*)data, &zErrMsg);
+    
+    if( rc != SQLITE_OK ) {
+        fprintf(stderr, "SQL error: %s\n", zErrMsg);
+        sqlite3_free(zErrMsg);
+        return false;
+    } else {
+        fprintf(stdout, "Operation done successfully\n");
+    }
+    sqlite3_close(db);*/
     std::this_thread::sleep_for(chrono::milliseconds(50));
+  }
+
+  // Store SfM_Data views & intrinsic data
+  if (!Save(sfm_data,
+    stlplus::create_filespec(output_dir, "sfm_data.json").c_str(),
+    ESfM_Data(VIEWS|INTRINSICS))) {
+    return false;
   }
 
   return true;
@@ -591,7 +603,7 @@ bool SfmData::reconstruct(const AsyncProgressWorker::ExecutionProgress& prog) {
   //immediately end if there are no matches
   if(!feature_match(prog)) return false;
   //immediately end if there is no model
-  if(!inc_sfm()) return false;
+  //if(!inc_sfm()) return false;
   
   // select_initial_pair();
   // add_camera(prog);
@@ -764,6 +776,39 @@ void SfmData::detect_features(const AsyncProgressWorker::ExecutionProgress& prog
     percent = (double)i / (double)i_size * 100;
 
     send_progress(prog, progress, percent, 2);
+
+    /*sqlite3 *db;
+    char *zErrMsg = 0;
+    int rc;
+    // char *sql;
+    const char* data = "Callback function called";
+
+    // Open database 
+    rc = sqlite3_open("db/origami.db", &db);
+    
+    if( rc ) {
+        fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
+        return;
+    } else {
+        fprintf(stderr, "Opened database successfully\n");
+    }
+
+    / Create merged SQL statement
+    cout << progress << endl;
+    string sql_query = "UPDATE progress set progress = '" +
+      progress + "', percent = '" + percent + "', step = '2' where user = '" + uname + "';";
+
+    // Execute SQL statement 
+    rc = sqlite3_exec(db, sql_query.c_str(), callback_sql, (void*)data, &zErrMsg);
+    
+    if( rc != SQLITE_OK ) {
+        fprintf(stderr, "SQL error: %s\n", zErrMsg);
+        sqlite3_free(zErrMsg);
+        return;
+    } else {
+        fprintf(stdout, "Operation done successfully\n");
+    }
+    sqlite3_close(db);*/
     std::this_thread::sleep_for(chrono::milliseconds(50));
 
   } //end images for loop    
@@ -826,7 +871,7 @@ cout << "i" << endl;
   Pair_Set pairs = exhaustivePairs(v_size);
   // Photometric matching of putative pairs
   C_Progress_display progresss;
-  collectionMatcher->Match(sfm_data, regions_provider, pairs, map_PutativesMatches, &progresss);
+  collectionMatcher->Match(regions_provider, pairs, map_PutativesMatches, &progresss);
   cout << "out1" << endl;
   //geometric filter
   unique_ptr<ImageCollectionGeometricFilter> filter_ptr(
@@ -893,11 +938,44 @@ cout << "i" << endl;
         ok = true;
 
       progress = to_string((int)i) + string(" and ") + to_string((int)j);
-      percent = c / total * 100;
+      percent = c / total * 200;
       
       send_progress(prog, progress, percent, 3);
-      std::this_thread::sleep_for(chrono::milliseconds(50));
 
+      /*sqlite3 *db;
+      char *zErrMsg = 0;
+      int rc;
+      // char *sql;
+      const char* data = "Callback function called";
+
+      // Open database 
+      rc = sqlite3_open("db/origami.db", &db);
+      
+      if( rc ) {
+          fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
+          return false;
+      } else {
+          fprintf(stderr, "Opened database successfully\n");
+      }
+
+      // Create merged SQL statement
+      cout << progress << endl;
+      string sql_query = "UPDATE progress set progress = '" +
+        progress + "', percent = '" + percent + "', step = '3' where user = '" + uname + "';";
+
+      // Execute SQL statement
+      rc = sqlite3_exec(db, sql_query.c_str(), callback_sql, (void*)data, &zErrMsg);
+      
+      if( rc != SQLITE_OK ) {
+          fprintf(stderr, "SQL error: %s\n", zErrMsg);
+          sqlite3_free(zErrMsg);
+          return false;
+      } else {
+          fprintf(stdout, "Operation done successfully\n");
+      }
+      sqlite3_close(db);*/
+      std::this_thread::sleep_for(chrono::milliseconds(50));
+      if(percent >= 90) cout << "last?" << endl;
     } //end of inner images for loop
   } //end of outer images for loop
 
@@ -939,6 +1017,7 @@ bool computeIndexFromImageNames(
 }
 
 bool SfmData::inc_sfm() {
+  cout << "start incr" << endl;
   const string fimage_describer = create_filespec(output_dir, "image_describer", "json");
   unique_ptr<Regions> regions_type = Init_region_type_from_file(fimage_describer);
   if(!regions_type) return false;
@@ -955,7 +1034,7 @@ bool SfmData::inc_sfm() {
   shared_ptr<Matches_Provider> matches_provider = make_shared<Matches_Provider>();
   if(!(matches_provider->load(sfm_data, stlplus::create_filespec(output_dir, "matches.f.bin"))) )
     return false;
-
+  cout <<"ennnn" << endl;
   SequentialSfMReconstructionEngine sfmEngine(sfm_data, output_dir);
 
    // Configure the features_provider & the matches_provider
@@ -969,10 +1048,11 @@ bool SfmData::inc_sfm() {
 
   pair<string, string> init_pair = select_initial_pair();
   Pair init_pair_ind;
+  cout << "before compute" << endl;
   if(!computeIndexFromImageNames(sfm_data, init_pair, init_pair_ind))
     return false;
   sfmEngine.setInitialPair(init_pair_ind);
-
+  cout << "after set" << endl;
   if(sfmEngine.Process()) {
     //-- Export to disk computed scene (data & visualizable results)
     cout << "...Export SfM_Data to disk." << endl;
@@ -1259,12 +1339,12 @@ pair<string, string> SfmData::select_initial_pair() {
     //undistortPoints() used to normalize points
     undistortPoints(left_view.points,  norm_left, intrinsics.K, cv::Mat());
     undistortPoints(right_view.points, norm_right, intrinsics.K, cv::Mat());
-
+    cout << "after undistort" << endl;
     cv::Mat points3dHomogeneous;
     //reconstruct points in homogeneous coordinates.
     triangulatePoints(pose_left, pose_right, norm_left, norm_right,
       points3dHomogeneous);
-
+    cout << "after homo" << endl;
     cv::Mat points3d;
     //get points in points3dHomogeneous
     convertPointsFromHomogeneous(points3dHomogeneous.t(), points3d);
@@ -1293,7 +1373,7 @@ pair<string, string> SfmData::select_initial_pair() {
           norm(proj_on_right[k] - right_view.points[k]) > 10.0) {
           continue;
       }
-
+      
       Point3D p;
       p.p = Point3f(points3d.at<float>(k, 0),
                     points3d.at<float>(k, 1),
@@ -1305,6 +1385,7 @@ pair<string, string> SfmData::select_initial_pair() {
       //add p to point cloud
       point_cloud.push_back(p);
     } //end of for loop on points3d.rows
+    cout << "after loop" << endl;
 
     cloud = point_cloud;
 
@@ -1320,13 +1401,14 @@ pair<string, string> SfmData::select_initial_pair() {
     good_v.insert(i);
     good_v.insert(j);
 
-    adj_bundle();
+    //adj_bundle();
+    cout << "after adj" << endl;
 
     pair<string, string> initialPairString(images[i].fname, images[j].fname);
-
+    cout << "si end" << endl;
     return initialPairString;
   } // end of for loop on h_inliers
-
+  cout << "select init pair end"<< endl;
   pair<string, string> initialPairString(images[0].fname, images[1].fname);
   return initialPairString;
 } //select_initial_pair end
@@ -1611,6 +1693,39 @@ void SfmData::add_camera(const AsyncProgressWorker::ExecutionProgress& prog) {
       percent = (double)done_v.size() / (double)images.size() * 100;
 
       send_progress(prog, progress, percent, 4);
+
+      /*sqlite3 *db;
+      char *zErrMsg = 0;
+      int rc;
+      // char *sql;
+      const char* data = "Callback function called";
+
+      // Open database 
+      rc = sqlite3_open("db/origami.db", &db);
+      
+      if( rc ) {
+          fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
+          return;
+      } else {
+          fprintf(stderr, "Opened database successfully\n");
+      }
+
+      // Create merged SQL statement 
+      cout << progress << endl;
+      string sql_query = "UPDATE progress set progress = '" +
+        progress + "', percent = '" + percent + "', step = '4' where user = '" + uname + "';";
+
+      // Execute SQL statement 
+      rc = sqlite3_exec(db, sql_query.c_str(), callback_sql, (void*)data, &zErrMsg);
+      
+      if( rc != SQLITE_OK ) {
+          fprintf(stderr, "SQL error: %s\n", zErrMsg);
+          sqlite3_free(zErrMsg);
+          return;
+      } else {
+          fprintf(stdout, "Operation done successfully\n");
+      }
+      sqlite3_close(db);*/
       std::this_thread::sleep_for(chrono::milliseconds(50));
     }
 
@@ -1706,3 +1821,4 @@ StreamingWorker * create_worker(Callback *data
 }
 
 NODE_MODULE(addon, StreamWorkerWrapper::Init)
+

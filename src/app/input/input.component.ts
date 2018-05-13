@@ -49,9 +49,7 @@ export class InputComponent implements OnInit {
   public uploaded: Array<UploadedImage> = [];
 
   constructor(private origamiService: OrigamiService, private router: Router) {
-    localStorage.setItem('home', '/input');
-
-    
+    localStorage.setItem('home', '/input');    
   }
 
   getUploadUrl() {
@@ -109,16 +107,16 @@ export class InputComponent implements OnInit {
 
   upload() {
     this.dim_for_load = true;
-    var date = new Date();
-    var id = "id:" + date.getMonth() + date.getDate() + date.getFullYear()
-      + date.getHours() + date.getMinutes() + date.getSeconds()
-      + date.getMilliseconds();
 
+    var date = new Date();
+    var id = "" + date.getMonth() + date.getDate() + date.getFullYear()
+          + date.getHours() + date.getMinutes() + date.getSeconds()
+          + date.getMilliseconds();
     localStorage.setItem('now', id);
-    console.log("at input.component.ts " + this.in);
+
     this.in.focal_length = this.focal_length;
     this.in.sensor_size = this.sensor_size;
-    this.in.id = id;
+    this.in.id = localStorage.getItem('now');
 
     this.origamiService.addData(this.in)
       .subscribe((res) => {
@@ -131,8 +129,8 @@ export class InputComponent implements OnInit {
         for(var x = 0; x < len; x++) {
           localStorage.setItem(x + '', this.uploaded[x].name + '');
         }
-        
-        this.origamiService.makeFileRequest(this.getUploadUrl(), [id],
+        console.log("here");
+        this.origamiService.makeFileRequest(this.getUploadUrl(), [this.in.id + ''],
           this.files)
           .then((err) => {
             console.log(err);

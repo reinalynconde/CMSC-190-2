@@ -2,7 +2,7 @@ var OrigamiService = require('../services/origami.service');
 var fs = require('fs');
 const delay = require('delay');
 const stream = require('stream');
-
+const sqlite3 = require('sqlite3').verbose();
 const worker = require("streaming-worker");
 const through = require('through');
 const path = require("path");
@@ -44,25 +44,110 @@ exports.upload = function(req, res, next) {
   try {
     var files = req.files;
     var user = files[0].originalname;
-    var folder = "uploads/" + user;
-    console.log("folder = " + folder);
+    var dir = user;
 
-    try {
-      fs.mkdirSync(folder);
-    } catch(e) {
-      if (e.code == 'EEXIST') console.log(e);
-    }
+    /*var db = new sqlite3.Database('db/origami.db', sqlite3.OPEN_READWRITE,
+      (err) => {
+        if(err) {
+          return console.log("Error has occured!\n" + err.message);
+        }
 
-    for(var i = 1; i < files.length; i++) {
-      var image = files[i];
+        console.log("Connected to the database");
+    });
 
-      fs.rename(image.path, folder + "/" + image.originalname, function(err) {
-        if (err) res.status(400).json({status: 400, message: "Upload failed"});
-      });
-    }
 
-    res.status(201).json({status: 201, message: "Succesfully uploaded images"});
+    db.get(`SELECT user FROM progress WHERE email = ?`, [user], (err, row) => {
+      if (err) {
+          db.close();
+          return console.error(err.message);
+      }
+      if(row){
+          console.log(row);
+          dir = row.user;
+          db.close();*/
+          var folder = "uploads/" + dir;
+          console.log("folder = " + folder);
 
+        try {
+          fs.mkdirSync(folder);
+        } catch(e) {
+          if (e.code == 'EEXIST') console.log(e);
+        }
+
+       for(var i = 1; i < files.length; i++) {
+        var image = files[i];
+
+        fs.rename(image.path, folder + "/" + image.originalname, function(err) {
+           if (err) return console.log("Upload failed");
+          });
+        }
+
+        res.status(201).json({status: 201, message: "Succesfully uploaded images"});
+      //}
+    //});
+
+  } catch (e) {
+    return res.status(400).json({status: 400, message: e.message});
+  }
+}
+
+exports.getModel = function(req, res, next) {
+  try {
+    var user = req.body.id;
+    console.log("DDDD" + user);
+
+    var filePath = path.join(__dirname, '../uploads/' + user + '/output/mesh.obj');
+    res.sendFile(filePath);
+
+  } catch (e) {
+    return res.status(400).json({status: 400, message: e.message});
+  }
+}
+
+exports.signin = function(req, res, next) {
+  try{
+    var msg = '';
+    var email = req.body.email;
+    /*var db = new sqlite3.Database('db/origami.db', sqlite3.OPEN_READWRITE,
+      (err) => {
+        if(err) {
+          return console.log("Error has occured!\n" + err.message);
+        }
+
+        console.log("Connected to the database");
+    });
+
+    db.get(`SELECT * FROM progress WHERE email = ?`, [email], (err, row) => {
+       if (err) {
+          db.close();
+          return console.error(err.message);
+       }
+
+       if(!row) {
+         db.run(`INSERT INTO progress(user, email) VALUES (?, ?)`, [req.body.id, email],
+         function(err) {
+           if(err) {
+             db.close();
+             return console.log(err.message);
+           }
+
+           console.log('User has been added!');
+         });
+       } else {
+         if(row.progress != "done" && row.step > 0 && row.step < 6)
+           msg = 'ongoing'
+         else if(row.progress == "done") {
+           db.run(`UPDATE progress SET user = ?, step = '0' WHERE email = ?`, [req.body.id, email], function(err) {
+             if(err) return console.log(err.message);
+             console.log('Row reset');
+           })
+         } else msg = row.progress;
+       }
+    });
+
+    db.close();*/
+
+    return res.status(201).json({status: 201, message: msg});
   } catch (e) {
     return res.status(400).json({status: 400, message: e.message});
   }
@@ -147,10 +232,11 @@ exports.get_model = function(req, res, next) {
     var folder = "uploads/" + user + "/output";
     console.log("folder = " + folder);
 
-    fs.exists(folder + "/model_mesh.obj", (exists) => {
+    fs.exists(folder + "/mesh.obj", (exists) => {
       if (exists){
-        return res.status(200).json({status: 200, data: folder + "/model_mesh.obj",
-          message: "Succesfully sent model"});
+        //return res.status(200).json({status: 200, data: folder + "/model_mesh.obj",
+          //message: "Succesfully sent model"});
+        res.download(folder, 'mesh.obj');
       } else {
         // res.sendFile(config.repoLogos+'/logodefault.png');
         return res.status(404).json({status: 404, message: "Model not found"});
@@ -174,3 +260,4 @@ exports.event = function(req, res, next) {
   client.send("Hello world!");
   client.onClose(() => console.log("Bye client!"));
 }
+

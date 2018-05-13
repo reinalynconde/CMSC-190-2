@@ -11,6 +11,7 @@ var OrigamiController = require('../../controllers/origami.controller');
 // Map each API to the Controller FUnctions
 
 router.get('/', OrigamiController.getOrigami);
+//router.get('/get_model/:id', OrigamiController.getModel);
 
 router.post('/add', OrigamiController.addData);
 router.post('/upload', multer({dest: '../../uploads'}).array("uploads"),
@@ -18,6 +19,8 @@ router.post('/upload', multer({dest: '../../uploads'}).array("uploads"),
 router.post('/process', OrigamiController.process);
 router.post('/commence', OrigamiController.commence);
 router.post('/events', OrigamiController.event);
+router.post('/get_model/', OrigamiController.getModel);
+router.post('/signin', OrigamiController.signin);
 /*
 router.post('/', ToDoController.createTodo)
 

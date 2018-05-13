@@ -1,0 +1,34 @@
+<div>
+  <sui-progress class="ui indicating progress" [value]="ia_val" [showProgress]=true [maximum]=100 [precision]=0>
+    {{image_analysis}} {{progress}}
+  </sui-progress>
+
+  <sui-progress class="ui indicating progress" [value]="fe_val" [showProgress]=true [maximum]=100 [precision]=0>
+    {{feature_extraction}}
+  </sui-progress>
+
+  <sui-progress class="ui indicating progress" [value]="m_val" [showProgress]=true [maximum]=100 [precision]=0>
+    {{matching}}
+  </sui-progress>
+
+  <sui-progress class="ui indicating progress" [value]="r_val" [showProgress]=true [maximum]=100 [precision]=0>
+    {{reconstruction}}
+  </sui-progress>
+
+  <sui-progress class="ui indicating progress" [value]="me_val" [showProgress]=true [maximum]=100 [precision]=0>
+    {{mesh}}
+  </sui-progress>
+
+  <div class="ui center aligned segment">
+    <h3>This will take a while...</h3>
+    <h3>You may now sign out and just revisit the site later.</h3>
+    <h3>Thank you!</h3>
+  </div>
+
+</div>
+
+<sui-dimmer class="inverted page" [(isDimmed)]="dim_for_load">
+  <h2 class="ui header">
+    <div class="ui text loader">Finishing up...</div>
+  </h2>
+</sui-dimmer>

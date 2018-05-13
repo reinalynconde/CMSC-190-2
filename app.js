@@ -8,23 +8,6 @@ const multer = require("multer");
 const fs = require('fs');
 const cors = require('cors');
 
-var originsWhitelist = [
-  'http://localhost:4200',  //dev
-  'http:127.0.0.1:4200',
-  'http:192.168.1.7:4200',
-  'http:192.168.43.136:4200',
-  'http://www.hehe.com' //prod
-]
-
-var cors_opt = {
-  origin: function(origin, callback) {
-    console.log(origin);
-    var isWhitelisted = originsWhitelist.indexOf(origin) !== -1;
-    callback(null, isWhitelisted);
-  },
-  credentials: true
-}
-
 var index = require('./routes/api/origami.route');//'./routes/index');
 var users = require('./routes/users');
 
@@ -53,23 +36,11 @@ app.get('/*', function(req,res) {
     res.sendFile(path.join(__dirname+'/dist/index.html'));
 });
 
-// app.use(cors(cors_opt));
-app.use(function(req, res, next) {
-  /*console.log("ASDASDASDASD");
-  var allowedOrigins = [
-    'http://localhost:4200',  //dev
-    'http://127.0.0.1:4200',
-    'http://192.168.1.7:4200',
-    'http://192.168.43.136:4200',
-    'http://www.hehe.com' //prod
-  ];
 
-  var origin = req.headers.origin;
-  if(allowedOrigins.indexOf(origin) > -1){
-    console.log(origin);
-  }
-  res.setHeader('Access-Control-Allow-Origin', origin);*/
-  res.header("Access-Control-Allow-Origin", "http://localhost:4200");
+app.use(function(req, res, next) {
+  console.log("usiiing");
+  
+  res.header("Access-Control-Allow-Origin", "http://18.236.181.139.xip.io");
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
   res.header("Access-Control-Allow-Credentials", true);
   res.header("Access-Control-Allow-Headers", "Content-Type");
